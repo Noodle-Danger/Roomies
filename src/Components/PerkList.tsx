@@ -9,6 +9,11 @@ function PerkList() {
     const [_allRoomies, setAllRoomies] = useState([]);
     const [allRoomiesMap, setAllRoomiesMap] = useState([]);
 
+/**
+ * Gets all users and saves to AllRoomies and AllRoomiesMap state
+ *
+ * @return  
+ */
     const getUser = async() => {
         try {
             const result = await apiFetch.getUsers();
@@ -20,16 +25,34 @@ function PerkList() {
         } 
     }
 
+/**
+ * Console log a string
+ *
+ * @return  
+ */
     const handleDelete = () => {
         console.log ('DELELE')
         // console.log ("This is the ID; ", this.id)
     }
  
 
+/**
+ * Upon render, gets all users.
+ *
+ * @return  
+ */
     useEffect(() => {
         getUser();
     }, [] );
 
+
+/**
+ * Creates new roommate and updates all user states.
+ *
+ * @param givenName: string  
+ * @param givenEmail: string  
+ * @return  
+ */
     const submitRoomie = (givenName: string, givenEmail: string) => {
 
         apiFetch.createUser(givenName, givenEmail);
@@ -67,7 +90,7 @@ function PerkList() {
                     className="font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200" 
                     placeholder="Perk..."
                     onChange = {(event) => {
-                        setRoomieName(event.target.value);
+                        setRoomieName(event.target.value); // whenever user types, state updates
                     }}
                 />
                 {/* <input 

@@ -8,8 +8,14 @@ interface apiRequests {
 }
 
 const apiFetch: any | apiRequests = {};
+/**
+ * Creates a new user.
+ *
+ * @param {string} username
+ * @param {string} email
+ * @return {JSON}
+ */
 
-//createUser
 apiFetch.createUser = async (username: string, email: string) => {
   try {
     const response = await fetch("http://localhost:8080/api/createUser", {
@@ -35,7 +41,13 @@ apiFetch.createUser = async (username: string, email: string) => {
   }
 };
 
-//deleteUser
+/**
+ * Deletes an existing user.
+ *
+ * @param id
+ * @return
+ */
+
 apiFetch.deleteUser = async (id: string) => {
   try {
     const response = await fetch(`http://localhost:8080/api/deleteUser/${id}`, {
@@ -56,7 +68,12 @@ apiFetch.deleteUser = async (id: string) => {
   }
 };
 
-//getUser (all)
+/**
+ * Returns all users.
+ *
+ * @return
+ */
+
 apiFetch.getUsers = async () => {
   try {
     const response = await fetch("http://localhost:8080/api/getUser"); //url of endpoint
@@ -76,7 +93,14 @@ apiFetch.getUsers = async () => {
   }
 }; //!double check that deletion is successful
 
-//createChore
+/**
+ * Creates new chore.
+ *
+ * @param {string} task_name
+ * @param {string} type
+ * @return
+ */
+
 apiFetch.createChore = async (task_name: string, type: string) => {
   try {
     const response = await fetch("http://localhost:8080/api/createChore", {
@@ -148,7 +172,12 @@ apiFetch.createChore = async (task_name: string, type: string) => {
 //     }
 // };
 
-//deleteChore
+/**
+ * Deletes a chore.
+ *
+ * @param id
+ * @return
+ */
 apiFetch.deleteChore = async (id: string) => {
   try {
     const response = await fetch(
@@ -170,7 +199,12 @@ apiFetch.deleteChore = async (id: string) => {
   }
 };
 
-//getChore (all)
+/**
+ * Returns all chores.
+ *
+ * @return {JSON}
+ */
+
 apiFetch.getChores = async () => {
   try {
     const response = await fetch("http://localhost:8080/api/getChores"); //url of endpoint
