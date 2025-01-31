@@ -6,10 +6,10 @@ function ChoreWheel() {
     const [rotation, setRotation] = useState(0);
   
     useEffect(() => {
-        let startTime;
+        let startTime : number;
         const duration = 1000; // 5 seconds
 
-        const animate = (timestamp) => {
+        const animate = (timestamp :number) => {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
 

@@ -1,8 +1,8 @@
-import apiFetch from '../apiFetch.js';
+import apiFetch from '../apiFetch';
 import { useState, useEffect } from 'react';
 
 
-function Household() {
+function PerkList() {
 
     const [roomieName, setRoomieName] = useState('');
     const [roomieEmail, setRoomieEmail] = useState('');
@@ -18,7 +18,7 @@ function Household() {
         try {
             const result = await apiFetch.getUsers();
             setAllRoomiesMap(result)
-            const userArr = result.map((user) => user.username);
+            const userArr = result.map((user :any ) => user.username);
             setAllRoomies(userArr);
         } catch (err) {
             console.error("This is the Household useEffect error: ", err);
@@ -32,7 +32,7 @@ function Household() {
  */
     const handleDelete = () => {
         console.log ('DELELE')
-        console.log ("This is the ID; ", this.id)
+        // console.log ("This is the ID; ", this.id)
     }
  
 
@@ -83,24 +83,24 @@ function Household() {
 
     return (
         <div className="p-2 m-4 h-fit" id="Household">
-            <h1 className="font-display text-sky-900">Your Household</h1>
-            <div className="flex">
+            <h1 className="font-display text-sky-900">Perks List</h1>
+            <div className="flex gap-2">
                 <input 
                     style={inputStyle} 
                     className="font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200" 
-                    placeholder="Roomie Name..."
+                    placeholder="Perk..."
                     onChange = {(event) => {
                         setRoomieName(event.target.value); // whenever user types, state updates
                     }}
                 />
-                <input 
+                {/* <input 
                     style={inputStyle} 
                     className="font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200" 
                     placeholder="Roomie Email..."
                     onChange = {(event) => {
                         setRoomieEmail(event.target.value);
                     }}
-                />
+                /> */}
                 <button 
                     className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-2"
                     style={{
@@ -137,9 +137,9 @@ function Household() {
                     onClick={() => {
                         submitRoomie(roomieName, roomieEmail);
                     }}
-                >Submit</button>
+                >Add Perk</button>
             </div>
-            
+            {/* DIV FOR SPACING */}
             <div className="m-6"></div>
             {allRoomiesMap.map((name) => (
                 <div key={name} className="flex">
@@ -194,4 +194,4 @@ function Household() {
     );
 }
 
-export default Household;
+export default PerkList;

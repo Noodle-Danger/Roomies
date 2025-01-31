@@ -1,15 +1,11 @@
-// import { useState } from 'react';
 import './App.css';
-
-import Interface from './Components/Interface.tsx';
-import ChoreWheel from './Components/ChoreWheel.tsx';
+import MainLeft from './Components/Layout/MainLeft.tsx';
+import MainRight from './Components/Layout/MainRight.tsx';
 
 
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
-    <>
       <div id="App" className="p-2 m-4 h-screen w-auto border-white rounded-[50px] " style={{
           boxShadow: `
             0 10px 25px -3px rgba(0, 0, 0, 0.3),
@@ -20,11 +16,10 @@ function App() {
         }}>
       <h1 className="text-4xl font-bold font-display text-sky-900 ">ROOMIES</h1>
         <div id="Sub" className='flex h-full'>
-          <Interface />
-          <ChoreWheel />
-        </div>
+          <MainLeft />
+          <MainRight />
+          </div>
       </div>
-    </>
   )
 }
 
