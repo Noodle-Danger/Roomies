@@ -1,9 +1,11 @@
+import React from 'react';
 import apiFetch from '../apiFetch.js';
 import { useState, useEffect } from 'react';
 
 
 
 function ChoreList() {
+    const [error, setError] = useState('');
 
     const [choreName, setChoreName] = useState('');
     const [choreType, setChoreType] = useState('');
@@ -27,6 +29,7 @@ function ChoreList() {
             const choresArr = result.map((chore) => chore.task_name)
             setAllChores(choresArr);
         } catch (err) {
+            setError('This is the getChore error');
             console.error("This is the ChoreList useEffect error: ", err);
         }
     }
@@ -61,8 +64,9 @@ function ChoreList() {
     // const chores = ["Take Out Trash", "Clean Dishes", "Clean Bathroom", "Clean Floors"];
 
     return (
-        <div className="p-2 m-4 h-fit" id="Household">
+        <div className="p-2 m-4 h-fit" data-testid="chore-1" id="Household">
             <h1 className="font-display text-sky-900">Chore List</h1>
+            {error && <div data-testid="error-message">{error}</div>}
             <div className="flex gap-2">
                 <input 
                     style={inputStyle} 
