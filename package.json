@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "serve": "nodemon ./server/server.js",
-    "start": "concurrently \"npm run serve\" \"npm run dev\"",
+    "start": "concurrently \"npm install\" \"npm run serve\" \"npm run dev\"",
     "test": "jest"
   },
   "dependencies": {
