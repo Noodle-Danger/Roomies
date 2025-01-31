@@ -1,10 +1,14 @@
 const apiFetch = {};
 
-
-//createUser 
+/**
+ * Creates a new user.
+ *
+ * @param {string} username
+ * @param {string} email  
+ * @return {JSON}
+ */
 apiFetch.createUser = async(username, email) => {
     try {
-
         const response = await fetch('http://localhost:8080/api/createUser', {
             method: 'POST',
             headers: {
@@ -17,20 +21,24 @@ apiFetch.createUser = async(username, email) => {
         });
 
         if (!response.ok){
-            throw new Error(`Error in creating user: ${response.status}`)
+            throw new Error(`Error in creating user: ${response.status}`);
         }
 
         const data = await response.json();
         console.log('Here is the created user: ', data);
         return data;
 
-
     } catch(err){
-        console.error("This is the error: ", err)
+        console.error("This is the error: ", err);
     };
 };
 
-//deleteUser
+/**
+ * Deletes an existing user.
+ *
+ * @param id  
+ * @return  
+ */
 apiFetch.deleteUser = async(id) => {
     try {
         const response = await fetch(`http://localhost:8080/api/deleteUser/${id}`, { //!check id proper syntax
@@ -39,13 +47,12 @@ apiFetch.deleteUser = async(id) => {
         });
 
         if (!response.ok){
-            throw new Error('Error in deleting user: ', response.error)
+            throw new Error('Error in deleting user: ', response.error);
         }
 
         const data = await response.json();
-        console.log('This is the deleted user: ', data)
+        console.log('This is the deleted user: ', data);
         return data;
-
 
     } catch(err){
         console.error("THIS IS THE ERROR: ", err);
@@ -54,20 +61,22 @@ apiFetch.deleteUser = async(id) => {
 };
 
 
-//getUser (all)
+/**
+ * Returns all users.
+ *
+ * @return  
+ */
 apiFetch.getUsers = async() => {
     try {
-    
-        const response = await fetch('http://localhost:8080/api/getUser'); //url of endpoint
+        const response = await fetch('http://localhost:8080/api/getUser');
 
         if (!response.ok){
             throw new Error(`Failed to get users: ${response.status}`);
         }
 
-        const data = await response.json(); //parse response to JSON
-        // console.log('This is the data: ', data);
-        const userArr = data.map((user) => user.username)
-        console.log('userArr in APIFetch: ' , userArr)
+        const data = await response.json();
+        const userArr = data.map((user) => user.username);
+        console.log('userArr in APIFetch: ' , userArr);
         
         return userArr;
 
@@ -77,7 +86,14 @@ apiFetch.getUsers = async() => {
     };
 }; //!double check that deletion is successful
 
-//createChore
+
+/**
+ * Creates new chore.
+ *
+ * @param {string} task_name  
+ * @param {string} type  
+ * @return  
+ */
 apiFetch.createChore = async(task_name, type) => {
     try {
         const response = await fetch('http://localhost:8080/api/createChore', {
@@ -92,7 +108,7 @@ apiFetch.createChore = async(task_name, type) => {
         });
 
         if (!response.ok){
-            throw new Error('Error in creating a chore: ', response.status)
+            throw new Error('Error in creating a chore: ', response.status);
         }
 
         const data = await response.json()
@@ -100,7 +116,7 @@ apiFetch.createChore = async(task_name, type) => {
         return data;
 
     } catch(err){
-        console.error("This is the error, ", err)
+        console.error("This is the error, ", err);
     }
 };
 
@@ -118,10 +134,6 @@ apiFetch.createChore = async(task_name, type) => {
 //        try {
 
 //        } catch {
-       
-       
-       
-       
        
        
 //         //where's your special little function huh
@@ -155,7 +167,13 @@ apiFetch.createChore = async(task_name, type) => {
 //     }
 // };
 
-//deleteChore
+
+/**
+ * Deletes a chore.
+ *
+ * @param id  
+ * @return  
+ */
 apiFetch.deleteChore = async(id) => {
     try {
         const response = await fetch(`http://localhost:8080/api/deleteChore/${id}`, {
@@ -176,25 +194,23 @@ apiFetch.deleteChore = async(id) => {
     }
 }
 
-//getChore (all)
+
+/**
+ * Returns all chores.
+ *
+ * @return {JSON}
+ */
 apiFetch.getChores = async() => {
     try {
-    
-        const response = await fetch('http://localhost:8080/api/getChores'); //url of endpoint
+        const response = await fetch('http://localhost:8080/api/getChores'); 
 
-        if (!response.ok){
-            throw new Error(`Failed to get chores: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Failed to get chores: ${response.status}`);
 
-        const data = await response.json(); //parse response to JSON
-        // const choresArr = data.map((chore) => chore.task_name)
-        // console.log('Here are all the chores', data);
+        const data = await response.json(); 
         return data;
-    
 
     } catch(err){
         console.error("This is the getChore error: ", err);
-
     };
 }
 
