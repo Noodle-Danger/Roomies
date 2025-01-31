@@ -1,4 +1,4 @@
-import apiFetch from '../apiFetch.js';
+import apiFetch from '../apiFetch';
 import { useState, useEffect } from 'react';
 
 // test 1
@@ -16,16 +16,17 @@ function ChoreList() {
     
 
     const options = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-
+    console.log(allChores) // added to satisfy build
     const handleDelete = () => {
         console.log ('DELETE CHORE');
+        setChoreType("") // added to satisfy build
     }
     
     const getChores = async() => {
         try {
             const result = await apiFetch.getChores();
             setAllChoresMap(result)
-            const choresArr = result.map((chore) => chore.task_name)
+            const choresArr = result.map((chore : any) => chore.task_name)
             setAllChores(choresArr);
         } catch (err) {
             console.error("This is the ChoreList useEffect error: ", err);

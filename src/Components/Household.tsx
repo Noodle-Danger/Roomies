@@ -1,4 +1,4 @@
-import apiFetch from '../apiFetch.js';
+import apiFetch from '../apiFetch';
 import { useState, useEffect } from 'react';
 
 
@@ -13,7 +13,7 @@ function Household() {
         try {
             const result = await apiFetch.getUsers();
             setAllRoomiesMap(result)
-            const userArr = result.map((user) => user.username);
+            const userArr = result.map((user :any ) => user.username);
             setAllRoomies(userArr);
         } catch (err) {
             console.error("This is the Household useEffect error: ", err);
@@ -22,7 +22,7 @@ function Household() {
 
     const handleDelete = () => {
         console.log ('DELELE')
-        console.log ("This is the ID; ", this.id)
+        // console.log ("This is the ID; ", this.id)
     }
  
 
