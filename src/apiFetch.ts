@@ -180,12 +180,9 @@ apiFetch.createChore = async (task_name: string, type: string) => {
  */
 apiFetch.deleteChore = async (id: string) => {
   try {
-    const response = await fetch(
-      `http://localhost:8080/api/chores/${id}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`http://localhost:8080/api/chores/${id}`, {
+      method: "DELETE",
+    });
 
     if (!response.ok) {
       throw new Error(`Error in deleting chore: ${response.status}`);
@@ -219,6 +216,23 @@ apiFetch.getChores = async () => {
     return data;
   } catch (err) {
     console.error("This is the getChore error: ", err);
+  }
+};
+
+apiFetch.getPerks = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/api/perks"); //url of endpoint
+
+    if (!response.ok) {
+      throw new Error(`Failed to get perks: ${response.status}`);
+    }
+
+    const data = await response.json(); //parse response to JSON
+    // const choresArr = data.map((chore) => chore.task_name)
+    // console.log('Here are all the chores', data);
+    return data;
+  } catch (err) {
+    console.error("This is the getPerks error: ", err);
   }
 };
 

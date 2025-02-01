@@ -1,5 +1,5 @@
 import apiFetch from "../apiFetch";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useGlobalContext from "../hooks/useGlobalContext";
 
 

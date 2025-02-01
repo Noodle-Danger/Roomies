@@ -1,9 +1,12 @@
+import useGlobalContext from '../hooks/useGlobalContext'
 import apiFetch from '../apiFetch';
 import { useState, useEffect } from 'react';
 
 
 function PerkList() {
-
+    const {state} = useGlobalContext()
+    const {perks} = state
+    console.log('COMMENT FROM PERKLIST: ', state)
     // const [roomieName, setRoomieName] = useState('');
     // const [roomieEmail, setRoomieEmail] = useState('');
     const [_allRoomies, setAllRoomies] = useState([]);
@@ -142,7 +145,7 @@ function PerkList() {
             </div>
             {/* DIV FOR SPACING */}
             <div className="m-6"></div>
-            {allRoomiesMap.map((name) => (
+            {perks.map((name) => (
                 <div key={name} className="flex">
                     <input 
                         style={viewItemStyle} 

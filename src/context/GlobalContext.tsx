@@ -77,6 +77,10 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
       console.log(action.payload.chores);
       const updatedChores = action.payload.chores;
       return { ...state, chores: updatedChores };
+
+    case ActionTypes.GET_PERKS:
+      const updatedPerks = action.payload.perks;
+      return { ...state, perks: updatedPerks };
     default:
       return state;
   }
@@ -104,7 +108,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     // invoke fetch functions then dispatch actions to reducer
     const getChores = async () => {
-      console.log("running fetch from context");
       const chores = await apiFetch.getChores();
       if (chores) {
         dispatch({
@@ -114,7 +117,17 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       return;
     };
+    const getPerks = async () => {
+        const perks = await apiFetch.getPerks();
+        if (perks) {
+          dispatch({
+            type: ActionTypes.GET_PERKS,
+            payload: { parks: perks },
+          });
+        }
+    }
     getChores();
+    getPerks()
   }, []);
 
   return (
