@@ -18,7 +18,7 @@ const apiFetch: any | apiRequests = {};
 
 apiFetch.createUser = async (username: string, email: string) => {
   try {
-    const response = await fetch("http://localhost:8080/api/createUser", {
+    const response = await fetch("http://localhost:8080/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ apiFetch.createUser = async (username: string, email: string) => {
 
 apiFetch.deleteUser = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/deleteUser/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/users/${id}`, {
       //!check id proper syntax
       //!possibly pass in username instead s
       method: "DELETE",
@@ -76,7 +76,7 @@ apiFetch.deleteUser = async (id: string) => {
 
 apiFetch.getUsers = async () => {
   try {
-    const response = await fetch("http://localhost:8080/api/getUser"); //url of endpoint
+    const response = await fetch("http://localhost:8080/api/users"); //url of endpoint
 
     if (!response.ok) {
       throw new Error(`Failed to get users: ${response.status}`);
@@ -103,7 +103,7 @@ apiFetch.getUsers = async () => {
 
 apiFetch.createChore = async (task_name: string, type: string) => {
   try {
-    const response = await fetch("http://localhost:8080/api/createChore", {
+    const response = await fetch("http://localhost:8080/api/chores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -181,7 +181,7 @@ apiFetch.createChore = async (task_name: string, type: string) => {
 apiFetch.deleteChore = async (id: string) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/deleteChore/${id}`,
+      `http://localhost:8080/api/chores/${id}`,
       {
         method: "DELETE",
       }
@@ -207,7 +207,7 @@ apiFetch.deleteChore = async (id: string) => {
 
 apiFetch.getChores = async () => {
   try {
-    const response = await fetch("http://localhost:8080/api/getChores"); //url of endpoint
+    const response = await fetch("http://localhost:8080/api/chores"); //url of endpoint
 
     if (!response.ok) {
       throw new Error(`Failed to get chores: ${response.status}`);
