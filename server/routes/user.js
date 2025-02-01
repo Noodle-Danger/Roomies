@@ -4,7 +4,7 @@ import userController from '../controllers/userController.js'
 const userRouter = express.Router();
 
 // Get all users
-userRouter.get('/', roomiesController.getUsers, (req, res) => {
+userRouter.get('/', userController.getUsers, (req, res) => {
     res.status(200).json(res.locals.users);
 });
 

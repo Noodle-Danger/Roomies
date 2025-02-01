@@ -9,7 +9,7 @@ const apiFetch = {};
  */
 apiFetch.createUser = async(username, email) => {
     try {
-        const response = await fetch('http://localhost:8080/api/createUser', {
+        const response = await fetch('http://localhost:8080/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ apiFetch.createUser = async(username, email) => {
  */
 apiFetch.deleteUser = async(id) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/deleteUser/${id}`, { //!check id proper syntax
+        const response = await fetch(`http://localhost:8080/api/users/${id}`, { //!check id proper syntax
         //!possibly pass in username instead s
             method: 'DELETE'
         });
@@ -68,7 +68,7 @@ apiFetch.deleteUser = async(id) => {
  */
 apiFetch.getUsers = async() => {
     try {
-        const response = await fetch('http://localhost:8080/api/getUser');
+        const response = await fetch('http://localhost:8080/api/users');
 
         if (!response.ok){
             throw new Error(`Failed to get users: ${response.status}`);
@@ -96,7 +96,7 @@ apiFetch.getUsers = async() => {
  */
 apiFetch.createChore = async(task_name, type) => {
     try {
-        const response = await fetch('http://localhost:8080/api/createChore', {
+        const response = await fetch('http://localhost:8080/api/chores', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -176,7 +176,7 @@ apiFetch.createChore = async(task_name, type) => {
  */
 apiFetch.deleteChore = async(id) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/deleteChore/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/chores/${id}`, {
             method: 'DELETE'
         });
 
@@ -202,7 +202,7 @@ apiFetch.deleteChore = async(id) => {
  */
 apiFetch.getChores = async() => {
     try {
-        const response = await fetch('http://localhost:8080/api/getChores'); 
+        const response = await fetch('http://localhost:8080/api/chores'); 
 
         if (!response.ok) throw new Error(`Failed to get chores: ${response.status}`);
 
