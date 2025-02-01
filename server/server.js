@@ -4,8 +4,12 @@ import path from 'path';
 
 //require express
 import express from 'express';
+// Steven: Down to delete or re-factor comments
+import path from 'path'; // provides utilities for working with file and directory paths
+import express from 'express';
+import apiRouter from './routes/api.js';
+import { fileURLToPath } from 'url'; //* build the dirname manually due to es6 restrictions
 
-//create an app instance of express
 const app = express();
 
 import apiRouter from './routes/api.js'; //importing RESTful routes from routes folder
@@ -19,20 +23,17 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//* global middleware functions
-
 //cors acceptance middleware???
 //?check if need to install cors, don't think so because react and express are running on the same port 3000??
 //! install CORS, make sure its saved
 import cors from 'cors';
-
 app.use(cors());
 
 //json parser middleware
 app.use(express.json()); //deciphers text into readable json body
 
 //urlencoded middleware
-app.use(express.urlencoded({ extended: true })); //recognizes incoming request object into readable strings and arrays
+app.use(express.urlencoded()); //recognizes incoming request object into readable strings and arrays
 
 //^^^^ NEED FOR POST AND PUT REQUESTS //-https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
 
