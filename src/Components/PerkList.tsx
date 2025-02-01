@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 
 function PerkList() {
 
-    const [roomieName, setRoomieName] = useState('');
-    const [roomieEmail, setRoomieEmail] = useState('');
+    // const [roomieName, setRoomieName] = useState('');
+    // const [roomieEmail, setRoomieEmail] = useState('');
     const [_allRoomies, setAllRoomies] = useState([]);
     const [allRoomiesMap, setAllRoomiesMap] = useState([]);
 
@@ -53,13 +53,13 @@ function PerkList() {
  * @param givenEmail: string  
  * @return  
  */
-    const submitRoomie = (givenName: string, givenEmail: string) => {
+    // const submitRoomie = (givenName: string, givenEmail: string) => {
 
-        apiFetch.createUser(givenName, givenEmail);
+    //     apiFetch.createUser(givenName, givenEmail);
 
-        getUser();
+    //     getUser();
 
-    }
+    // }
 
 
     const inputStyle = {
@@ -90,7 +90,8 @@ function PerkList() {
                     className="font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200" 
                     placeholder="Perk..."
                     onChange = {(event) => {
-                        setRoomieName(event.target.value); // whenever user types, state updates
+                        // setRoomieName(event.target.value); // whenever user types, state updates
+                        console.log(event)
                     }}
                 />
                 {/* <input 
@@ -135,7 +136,7 @@ function PerkList() {
                         e.currentTarget.style.transform = 'none';
                     }}
                     onClick={() => {
-                        submitRoomie(roomieName, roomieEmail);
+                        // submitRoomie(roomieName, roomieEmail);
                     }}
                 >Add Perk</button>
             </div>

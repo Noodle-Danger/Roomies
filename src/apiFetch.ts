@@ -85,7 +85,7 @@ apiFetch.getUsers = async () => {
     const data = await response.json(); //parse response to JSON
     // console.log('This is the data: ', data);
     const userArr = data.map((user: any) => user.username);
-    console.log("userArr in APIFetch: ", userArr);
+    // console.log("userArr in APIFetch: ", userArr);
 
     return userArr;
   } catch (err) {

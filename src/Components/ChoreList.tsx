@@ -1,41 +1,43 @@
-import React from 'react';
 import apiFetch from "../apiFetch";
 import { useState, useEffect } from "react";
+import useGlobalContext from "../hooks/useGlobalContext";
 
-// test 1
-// test 2
 
 function ChoreList() {
-    const [error, setError] = useState('');
+  // destructure state from context 
+  const {state} = useGlobalContext()
+  const {chores} = state
+
+  const [error, setError] = useState("");
   const [choreName, setChoreName] = useState("");
   const [choreType, setChoreType] = useState("");
-  const [allChores, setAllChores] = useState([]);
-  const [allChoresMap, setAllChoresMap] = useState([]);
+  // const [allChores, setAllChores] = useState([]);
+  // const [allChoresMap, setAllChoresMap] = useState([]);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedChoreType, setSelectedChoreType] = useState("Daily");
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [selectedChoreType, setSelectedChoreType] = useState("Daily");
+  // const options = ["Daily", "Weekly", "Monthly", "Yearly"];
 
-  const options = ["Daily", "Weekly", "Monthly", "Yearly"];
-  console.log(allChores); // added to satisfy build
+  // console.log(allChores); // added to satisfy build
   const handleDelete = () => {
     console.log("DELETE CHORE");
     setChoreType(""); // added to satisfy build
   };
 
-  const getChores = async () => {
-    try {
-      const result = await apiFetch.getChores();
-      setAllChoresMap(result);
-      const choresArr = result.map((chore: any) => chore.task_name);
-      setAllChores(choresArr);
-    } catch (err) {
-            setError('This is the getChore error');
-      console.error("This is the ChoreList useEffect error: ", err);
-    }
-  };
-  useEffect(() => {
-    getChores();
-  }, []);
+  // const getChores = async () => {
+  //   try {
+  //     const result = await apiFetch.getChores();
+  //     setAllChoresMap(result);
+  //     const choresArr = result.map((chore: any) => chore.task_name);
+  //     setAllChores(choresArr);
+  //   } catch (err) {
+  //     setError("This is the getChore error");
+  //     console.error("This is the ChoreList useEffect error: ", err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getChores();
+  // }, []);
 
   const submitChore = (givenTitle: string, givenType: string) => {
     apiFetch.createChore(givenTitle, givenType);
@@ -64,7 +66,7 @@ function ChoreList() {
   return (
     <div className="p-2 m-4 h-fit" data-testid="chore-1" id="Household">
       <h1 className="font-display text-sky-900">Chore List</h1>
-            {error && <div data-testid="error-message">{error}</div>}
+      {error && <div data-testid="error-message">{error}</div>}
       <div className="flex gap-2">
         <input
           style={inputStyle}
@@ -118,7 +120,7 @@ function ChoreList() {
       </div>
       {/* DIV FOR SPACING */}
       <div className="m-6"></div>
-      {allChoresMap.map((element) => (
+      {chores.map((element) => (
         <div key={element["id"]} className="flex">
           <input
             style={viewItemStyle}
