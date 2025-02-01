@@ -3,18 +3,25 @@ import choresController from '../controllers/choresController.js'
 
 const choresRouter = express.Router();
 
-choresRouter.post('/createChore', 
-    choresController.createChore, (req, res) => res.status(200).json(res.locals.newChore)
-)
+// Get all chores
+choresRouter.get('/', choresController.getChores, (req, res) => {
+    res.status(200).json(res.locals.chores);
+});
 
-choresRouter.put('/assignChore',
-    choresController.assignChore, (req, res) => res.status(200).json(res.locals.assignedChore)
-)
+// Create a chore
+choresRouter.post('/', choresController.createChore, (req, res) => {
+    res.status(200).json(res.locals.newChore);
+});
 
-choresRouter.delete('/deleteChore/:id',
-    choresController.deleteChore, (req, res) => res.status(200).json(res.locals.deletedChore))
+// UPDATE: Complete a chore
+choresRouter.put('/', choresController.assignChore, (req, res) => {
+    res.status(200).json(res.locals.assignedChore);
+});
 
-choresRouter.get('/getChores',
-    choresController.getChores, (req, res) => res.status(200).json(res.locals.chores))
+// Delete a chore
+choresRouter.delete('/:id', choresController.deleteChore, (req, res) => {
+    res.status(200).json(res.locals.deletedChore)
+});
+
 
 export default choresRouter;
