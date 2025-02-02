@@ -14,14 +14,14 @@ choresRouter.post('/', choresController.createChore, (req, res) => {
 });
 
 // UPDATE: Complete a chore
-choresRouter.put('/', choresController.assignChore, (req, res) => {
-    res.status(200).json(res.locals.assignedChore);
+choresRouter.put('/', choresController.completeChore, (req, res) => {
+    res.status(200).json(res.locals.completeChore);
 });
 
 // Delete a chore
-choresRouter.delete('/:id', choresController.deleteChore, (req, res) => {
-    res.status(200).json(res.locals.deletedChore)
-});
+// choresRouter.delete('/:id', choresController.deleteChore, (req, res) => {
+//     res.status(200).json(res.locals.deletedChore)
+// });
 
 
 export default choresRouter;
