@@ -20,15 +20,15 @@ const viewItemStyle = {
 };
 
 interface ChoreRowProps {
-  key: number;
+  id: number;
   name: string;
   tokens: number;
 }
 
-const ChoreRow = ({ key, name, tokens }: ChoreRowProps) => {
+const ChoreRow = ({ id, name, tokens }: ChoreRowProps) => {
   return (
-    <div>
-      <div key={key} className="flex">
+    <div key={id}>
+      <div className="flex">
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"

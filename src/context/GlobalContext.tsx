@@ -1,7 +1,7 @@
 // import react hooks
 import React, { createContext, useReducer, useEffect } from "react";
 // import custom hooks
-import apiFetch from "../apiFetch";
+import { getChores, createChore } from "../actions/choreActions";
 // define dispatch ACTION TYPES and type definitions
 
 // define APPLICATION STATE and type definitions
@@ -50,14 +50,14 @@ const ActionTypes: GlobalContextActionTypes = {
  * APPLICATION STATE
  */
 interface GlobalState {
-  userId: number;
+  user_id: number;
   chores: any[];
   perks: any[];
   userPerks: any[];
 }
 
 const initialState: GlobalState = {
-  userId: 1,
+  user_id: 1,
   chores: [],
   perks: [],
   userPerks: [],
@@ -74,13 +74,13 @@ interface DispatchAction {
 const reducer = (state: GlobalState, action: DispatchAction) => {
   switch (action.type) {
     case ActionTypes.GET_CHORES:
-      console.log(action.payload.chores);
-      const updatedChores = action.payload.chores;
-      return { ...state, chores: updatedChores };
-    
-      case ActionTypes.CREATE_CHORE:
-      console.log(action.payload.chore);
-      const newChore = action.payload.chore;
+      console.log("CHORES", action.payload.chores);
+      const incommingChores = action.payload.chores;
+      return { ...state, chores: incommingChores };
+
+    case ActionTypes.CREATE_CHORE:
+      console.log("NEW CHORE:", action.payload);
+      const newChore = action.payload;
       return { ...state, chores: [...state.chores, newChore] };
 
     case ActionTypes.GET_PERKS:
@@ -111,29 +111,8 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // populate state on initial render
   useEffect(() => {
-    // invoke fetch functions then dispatch actions to reducer
-    const getChores = async () => {
-      const chores = await apiFetch.getChores();
-      if (chores) {
-        dispatch({
-          type: ActionTypes.GET_CHORES,
-          payload: { chores: chores },
-        });
-      }
-      return;
-    };
-    const getPerks = async () => {
-        const perks = await apiFetch.getPerks();
-        if (perks) {
-          dispatch({
-            type: ActionTypes.GET_PERKS,
-            payload: { parks: perks },
-          });
-        }
-    }
-    getChores();
-    getPerks()
-  }, []);
+    getChores()(dispatch);
+  }, [dispatch]);
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
