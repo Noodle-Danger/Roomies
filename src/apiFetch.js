@@ -211,6 +211,7 @@ apiFetch.getChores = async() => {
 
     } catch(err){
         console.error("This is the getChore error: ", err);
+        throw err;
     };
 }
 

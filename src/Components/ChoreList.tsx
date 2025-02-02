@@ -1,25 +1,30 @@
 import React from 'react';
-import apiFetch from "../apiFetch";
-import { useState, useEffect } from "react";
+import apiFetch from '../apiFetch';
+import { useState, useEffect } from 'react';
 
 // test 1
 // test 2
+interface Chore {
+    id: number;
+    task_name: string;
+    type: string;
+  }
 
 function ChoreList() {
-    const [error, setError] = useState('');
-  const [choreName, setChoreName] = useState("");
-  const [choreType, setChoreType] = useState("");
-  const [allChores, setAllChores] = useState([]);
-  const [allChoresMap, setAllChoresMap] = useState([]);
+  const [error, setError] = useState<string | null>(null);
+  const [choreName, setChoreName] = useState('');
+  const [choreType, setChoreType] = useState('');
+  const [allChores, setAllChores] = useState<string[]>([]);
+  const [allChoresMap, setAllChoresMap] = useState<Chore[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedChoreType, setSelectedChoreType] = useState("Daily");
+  const [selectedChoreType, setSelectedChoreType] = useState('Daily');
 
-  const options = ["Daily", "Weekly", "Monthly", "Yearly"];
+  const options = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   console.log(allChores); // added to satisfy build
   const handleDelete = () => {
-    console.log("DELETE CHORE");
-    setChoreType(""); // added to satisfy build
+    console.log('DELETE CHORE');
+    setChoreType(''); // added to satisfy build
   };
 
   const getChores = async () => {
@@ -29,8 +34,8 @@ function ChoreList() {
       const choresArr = result.map((chore: any) => chore.task_name);
       setAllChores(choresArr);
     } catch (err) {
-            setError('This is the getChore error');
-      console.error("This is the ChoreList useEffect error: ", err);
+      setError('This is the getChore error');
+      console.error('This is the ChoreList useEffect error: ', err);
     }
   };
   useEffect(() => {
@@ -40,6 +45,10 @@ function ChoreList() {
   const submitChore = (givenTitle: string, givenType: string) => {
     apiFetch.createChore(givenTitle, givenType);
   };
+
+  if (error) {
+    return <div data-testid="error-message">{error}</div>
+  }
 
   const inputStyle = {
     boxShadow: `
@@ -64,7 +73,7 @@ function ChoreList() {
   return (
     <div className="p-2 m-4 h-fit" data-testid="chore-1" id="Household">
       <h1 className="font-display text-sky-900">Chore List</h1>
-            {error && <div data-testid="error-message">{error}</div>}
+      {/* {error && <div data-testid="error-message">{error}</div>} */}
       <div className="flex gap-2">
         <input
           style={inputStyle}
@@ -84,12 +93,12 @@ function ChoreList() {
                         0 20px 25px -5px rgba(0, 0, 0, 0.2),
                         inset 0 2px 2px rgba(255, 255, 255, 0.95)
                         `,
-            transition: "all 0.1s ease-in-out",
+            transition: 'all 0.1s ease-in-out',
           }}
           onMouseDown={(e) => {
             e.currentTarget.style.boxShadow =
-              "inset 0 2px 4px rgba(0, 0, 0, 0.2)";
-            e.currentTarget.style.transform = "translateY(2px)";
+              'inset 0 2px 4px rgba(0, 0, 0, 0.2)';
+            e.currentTarget.style.transform = 'translateY(2px)';
           }}
           onMouseUp={(e) => {
             e.currentTarget.style.boxShadow = `
@@ -98,7 +107,7 @@ function ChoreList() {
                         0 20px 25px -5px rgba(0, 0, 0, 0.2),
                         inset 0 2px 2px rgba(255, 255, 255, 0.95)
                         `;
-            e.currentTarget.style.transform = "none";
+            e.currentTarget.style.transform = 'none';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.boxShadow = `
@@ -107,7 +116,7 @@ function ChoreList() {
                         0 20px 25px -5px rgba(0, 0, 0, 0.2),
                         inset 0 2px 2px rgba(255, 255, 255, 0.95)
                         `;
-            e.currentTarget.style.transform = "none";
+            e.currentTarget.style.transform = 'none';
           }}
           onClick={() => {
             submitChore(choreName, choreType);
@@ -119,11 +128,11 @@ function ChoreList() {
       {/* DIV FOR SPACING */}
       <div className="m-6"></div>
       {allChoresMap.map((element) => (
-        <div key={element["id"]} className="flex">
+        <div key={element['id']} className="flex">
           <input
             style={viewItemStyle}
             className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-            value={element["task_name"]}
+            value={element['task_name']}
             readOnly
           />
           <button
@@ -135,12 +144,12 @@ function ChoreList() {
                             0 20px 25px -5px rgba(0, 0, 0, 0.2),
                             inset 0 2px 2px rgba(255, 255, 255, 0.95)
                             `,
-              transition: "all 0.1s ease-in-out",
+              transition: 'all 0.1s ease-in-out',
             }}
             onMouseDown={(e) => {
               e.currentTarget.style.boxShadow =
-                "inset 0 2px 4px rgba(0, 0, 0, 0.2)";
-              e.currentTarget.style.transform = "translateY(2px)";
+                'inset 0 2px 4px rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.transform = 'translateY(2px)';
             }}
             onMouseUp={(e) => {
               e.currentTarget.style.boxShadow = `
@@ -149,7 +158,7 @@ function ChoreList() {
                             0 20px 25px -5px rgba(0, 0, 0, 0.2),
                             inset 0 2px 2px rgba(255, 255, 255, 0.95)
                             `;
-              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.transform = 'none';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.boxShadow = `
@@ -158,7 +167,7 @@ function ChoreList() {
                             0 20px 25px -5px rgba(0, 0, 0, 0.2),
                             inset 0 2px 2px rgba(255, 255, 255, 0.95)
                             `;
-              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.transform = 'none';
             }}
             onClick={handleDelete}
           >
