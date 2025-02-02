@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "serve": "nodemon ./server/server.js",
     "start": "concurrently \"npm install\" \"npm run serve\" \"npm run dev\"",
-    "test": "jest"
+    "test": "jest",
+    "db": "dotenv -e .env -- psql $PG_URI"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
@@ -30,11 +31,13 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "babel-jest": "^29.7.0",
     "concurrently": "^9.1.2",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
