@@ -1,46 +1,27 @@
-import React from 'react';
-import apiFetch from '../apiFetch';
-import { useState, useEffect } from 'react';
+import apiFetch from "../apiFetch";
+import { useState } from "react";
+import useGlobalContext from "../hooks/useGlobalContext";
 
-// test 1
-// test 2
-interface Chore {
+function ChoreList() {
+  // destructure state from context
+  const { state } = useGlobalContext();
+  const { chores } = state;
+
+  interface Chore {
     id: number;
     task_name: string;
     type: string;
   }
 
-function ChoreList() {
-  const [error, setError] = useState<string | null>(null);
+
+  let error;
   const [choreName, setChoreName] = useState('');
   const [choreType, setChoreType] = useState('');
-  const [allChores, setAllChores] = useState<string[]>([]);
-  const [allChoresMap, setAllChoresMap] = useState<Chore[]>([]);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedChoreType, setSelectedChoreType] = useState('Daily');
-
-  const options = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-  console.log(allChores); // added to satisfy build
   const handleDelete = () => {
     console.log('DELETE CHORE');
     setChoreType(''); // added to satisfy build
   };
-
-  const getChores = async () => {
-    try {
-      const result = await apiFetch.getChores();
-      setAllChoresMap(result);
-      const choresArr = result.map((chore: any) => chore.task_name);
-      setAllChores(choresArr);
-    } catch (err) {
-      setError('This is the getChore error');
-      console.error('This is the ChoreList useEffect error: ', err);
-    }
-  };
-  useEffect(() => {
-    getChores();
-  }, []);
 
   const submitChore = (givenTitle: string, givenType: string) => {
     apiFetch.createChore(givenTitle, givenType);
@@ -67,8 +48,6 @@ function ChoreList() {
         inset 0 2px 2px rgba(255, 255, 255, 0.95)
         `,
   };
-
-  // const chores = ["Take Out Trash", "Clean Dishes", "Clean Bathroom", "Clean Floors"];
 
   return (
     <div className="p-2 m-4 h-fit" data-testid="chore-1" id="Household">
@@ -127,8 +106,8 @@ function ChoreList() {
       </div>
       {/* DIV FOR SPACING */}
       <div className="m-6"></div>
-      {allChoresMap.map((element) => (
-        <div key={element['id']} className="flex">
+      {chores.map((element) => (
+        <div key={element["id"]} className="flex">
           <input
             style={viewItemStyle}
             className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
