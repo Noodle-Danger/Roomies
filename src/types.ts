@@ -8,4 +8,10 @@ interface Chore {
     created_at: string;
   }
 
-  export type { Chore };
+  interface ChoreSubmitData {
+    user_id: number;
+    task_name: string;
+    tokens: number;
+  }
+
+  export type { Chore, ChoreSubmitData };
