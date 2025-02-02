@@ -57,7 +57,7 @@ interface GlobalState {
 }
 
 const initialState: GlobalState = {
-  userId: 456,
+  userId: 1,
   chores: [],
   perks: [],
   userPerks: [],
@@ -77,6 +77,11 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
       console.log(action.payload.chores);
       const updatedChores = action.payload.chores;
       return { ...state, chores: updatedChores };
+    
+      case ActionTypes.CREATE_CHORE:
+      console.log(action.payload.chore);
+      const newChore = action.payload.chore;
+      return { ...state, chores: [...state.chores, newChore] };
 
     case ActionTypes.GET_PERKS:
       const updatedPerks = action.payload.perks;
@@ -142,4 +147,4 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 // export the ActionTypes for use in other components
 // export custom types for use in other components
 
-export { GlobalProvider, GlobalContext };
+export { GlobalProvider, GlobalContext, ActionTypes };
