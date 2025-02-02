@@ -3,61 +3,11 @@ import useGlobalContext from "../hooks/useGlobalContext";
 function PerkList() {
   const { state } = useGlobalContext();
   const { perks } = state;
-  console.log("COMMENT FROM PERKLIST: ", state);
-  // const [roomieName, setRoomieName] = useState('');
-  // const [roomieEmail, setRoomieEmail] = useState('');
-  // const [_allRoomies, setAllRoomies] = useState([]);
-  // const [allRoomiesMap, setAllRoomiesMap] = useState([]);
 
-  /**
-   * Gets all users and saves to AllRoomies and AllRoomiesMap state
-   *
-   * @return
-   */
-  // const getUser = async() => {
-  //     try {
-  //         const result = await apiFetch.getUsers();
-  //         setAllRoomiesMap(result)
-  //         const userArr = result.map((user :any ) => user.username);
-  //         setAllRoomies(userArr);
-  //     } catch (err) {
-  //         console.error("This is the Household useEffect error: ", err);
-  //     }
-  // }
 
-  /**
-   * Console log a string
-   *
-   * @return
-   */
-  const handleDelete = () => {
-    console.log("DELELE");
-    // console.log ("This is the ID; ", this.id)
-  };
-
-  /**
-   * Upon render, gets all users.
-   *
-   * @return
-   */
-  // useEffect(() => {
-  //     getUser();
-  // }, [] );
-
-  /**
-   * Creates new roommate and updates all user states.
-   *
-   * @param givenName: string
-   * @param givenEmail: string
-   * @return
-   */
-  // const submitRoomie = (givenName: string, givenEmail: string) => {
-
-  //     apiFetch.createUser(givenName, givenEmail);
-
-  //     getUser();
-
-  // }
+/*
+* STYLING
+*/
 
   const inputStyle = {
     boxShadow: `
@@ -133,7 +83,6 @@ function PerkList() {
             e.currentTarget.style.transform = "none";
           }}
           onClick={() => {
-            // submitRoomie(roomieName, roomieEmail);
           }}
         >
           Add Perk
@@ -183,7 +132,6 @@ function PerkList() {
                             `;
               e.currentTarget.style.transform = "none";
             }}
-            onClick={handleDelete}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
