@@ -1,4 +1,3 @@
-import { ChoreSubmitData } from "./types";
 interface apiRequests {
   // USERS
   createUser: (username: string, email: string) => Promise<any>;
@@ -9,15 +8,13 @@ interface apiRequests {
   deleteChore: (id: string) => Promise<any>;
   getChores: () => Promise<any>;
   // PERKS
-  getPerks: () => Promise<any>;
+  getPerks: () => Promise<any>
 }
-
-const API_URL = "http://localhost:8080/api";
 
 const apiFetch: any | apiRequests = {};
 /*
- * USERS
- */
+* USERS
+*/
 /**
  * Creates a new user.
  *
@@ -104,26 +101,28 @@ apiFetch.getUsers = async () => {
 }; //!double check that deletion is successful
 
 /*
- * CHORES
- */
+* CHORES
+*/
 
 /**
  * Creates new chore.
  *
- * @param {number} user_id
  * @param {string} task_name
- * @param {number} tokens
+ * @param {string} type
  * @return
  */
 
-apiFetch.createChore = async (choreData: ChoreSubmitData) => {
+apiFetch.createChore = async (task_name: string, type: string) => {
   try {
-    const response = await fetch(`${API_URL}/chores`, {
+    const response = await fetch("http://localhost:8080/api/chores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(choreData),
+      body: JSON.stringify({
+        task_name,
+        type,
+      }),
     });
 
     if (!response.ok) {
@@ -170,14 +169,15 @@ apiFetch.deleteChore = async (id: string) => {
 
 apiFetch.getChores = async () => {
   try {
-    const response = await fetch(`${API_URL}/chores`); //url of endpoint
+    const response = await fetch("http://localhost:8080/api/chores"); //url of endpoint
 
     if (!response.ok) {
       throw new Error(`Failed to get chores: ${response.status}`);
     }
 
     const data = await response.json(); //parse response to JSON
-
+    // const choresArr = data.map((chore) => chore.task_name)
+    // console.log('Here are all the chores', data);
     return data;
   } catch (err) {
     console.error("This is the getChore error: ", err);
@@ -185,8 +185,8 @@ apiFetch.getChores = async () => {
 };
 
 /*
- * PERKS
- */
+* PERKS
+*/
 
 apiFetch.getPerks = async () => {
   try {
