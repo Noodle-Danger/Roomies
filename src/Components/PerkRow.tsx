@@ -21,7 +21,6 @@ interface PerkRowProps {
 }
 
 const PerkRow = ({ id, name, qty, tokens }: PerkRowProps) => {
-    console.log({id, name, qty, tokens})
   return (
     <div key={id}>
       <div className="flex">

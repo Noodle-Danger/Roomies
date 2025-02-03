@@ -1,4 +1,4 @@
-import { ChoreSubmitData } from "./types";
+import { ChoreSubmitData, PerkSubmitData } from "./types";
 interface apiRequests {
   // USERS
   createUser: (username: string, email: string) => Promise<any>;
@@ -9,6 +9,7 @@ interface apiRequests {
   deleteChore: (id: string) => Promise<any>;
   getChores: () => Promise<any>;
   // PERKS
+  createPerk: () => Promise<any>;
   getPerks: () => Promise<any>;
 }
 
@@ -188,9 +189,30 @@ apiFetch.getChores = async () => {
  * PERKS
  */
 
+apiFetch.createPerk = async (perkData: PerkSubmitData) => {
+  try {
+    const response = await fetch(`${API_URL}/perks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(perkData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error in creating a chore: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("ERROR: createPerk", err);
+  }
+};
+
 apiFetch.getPerks = async () => {
   try {
-    const response = await fetch("http://localhost:8080/api/perks"); //url of endpoint
+    const response = await fetch(`${API_URL}/perks`); //url of endpoint
 
     if (!response.ok) {
       throw new Error(`Failed to get perks: ${response.status}`);

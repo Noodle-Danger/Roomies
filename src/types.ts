@@ -21,6 +21,7 @@ interface Chore {
       tokens: number;
       qty_initial: number;
       qty_remaining: number
+      created_at: string;
     }
 
     interface PerkSubmitData {

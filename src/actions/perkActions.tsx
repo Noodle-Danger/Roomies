@@ -17,10 +17,8 @@ const getPerks = () => {
 
 const createPerk = (perkData: PerkSubmitData) => {
   return async (dispatch: React.Dispatch<any>) => {
-    console.log("PERK DATA", perkData);
     const newPerk = await apiFetch.createPerk(perkData);
     if (newPerk) {
-      console.log("NEW CHORE", newPerk);
       dispatch({
         type: ActionTypes.CREATE_PERK,
         payload: newPerk,
