@@ -1,5 +1,5 @@
 import useGlobalContext from "../hooks/useGlobalContext";
-import { createChore } from "../actions/choreActions";
+import { createPerk } from "../actions/perkActions";
 import { useState } from "react"; // to manage local component state
 
 const PerkInput = () => {
@@ -12,11 +12,19 @@ const PerkInput = () => {
             `,
   };
 
+  const { dispatch } = useGlobalContext();
+
   const [perkName, setPerkName] = useState("");
   const [perkQty, setPerkQty] = useState("");
   const [tokens, setTokens] = useState("");
 
   const addPerk = () => {
+    const perkData = {
+      perk_name: perkName,
+      tokens: Number(tokens),
+      qty: Number(perkQty),
+    };
+    createPerk(perkData)(dispatch);
     setPerkName("");
     setPerkQty("");
     setTokens("");
