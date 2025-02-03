@@ -43,3 +43,14 @@ interface Chore {
     "created_at": "2025-01-28T06:00:00.000Z"
 }
 */
+
+/* PERK
+{
+    "id": 1,
+    "perk_name": "Free Coffee",
+    "tokens": 10,
+    "qty_initial": 50,
+    "qty_remaining": 45,
+    "created_at": "2025-02-02T23:52:24.636Z"
+}
+*/

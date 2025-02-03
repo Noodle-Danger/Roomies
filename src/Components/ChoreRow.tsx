@@ -63,7 +63,8 @@ const ChoreRow = ({ id, name, tokens }: ChoreRowProps) => {
                             `;
             e.currentTarget.style.transform = "none";
           }}
-        > Mark Complete
+        >
+          Mark Complete
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

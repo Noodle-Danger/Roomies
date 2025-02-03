@@ -18,7 +18,9 @@ function PerkList() {
 
       <div className="m-6"></div>
 
-      {perks && perks.length > 0 && perks.map((perk) => <PerkRow />)}
+      {perks &&
+        perks.length > 0 &&
+        perks.map((perk) => <PerkRow id={perk.id} name={perk.perk_name} qty={perk.qty_remaining} tokens={perk.tokens} />)}
     </div>
   );
 }

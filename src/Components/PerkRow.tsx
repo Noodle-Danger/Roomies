@@ -13,12 +13,30 @@ const viewItemStyle = {
 /*
  * TYPE DEFINITIONS
  */
-interface PerkRowPros {}
+interface PerkRowProps {
+  id: number;
+  name: string;
+  qty: number;
+  tokens: number;
+}
 
-const PerkRow = ({}: PerkRowPros) => {
+const PerkRow = ({ id, name, qty, tokens }: PerkRowProps) => {
+    console.log({id, name, qty, tokens})
   return (
-    <div>
-      <div key={name} className="flex">
+    <div key={id}>
+      <div className="flex">
+        <input
+          style={viewItemStyle}
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          value={qty}
+          readOnly
+        />
+        <input
+          style={viewItemStyle}
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          value={tokens}
+          readOnly
+        />
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
