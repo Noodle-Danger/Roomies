@@ -1,15 +1,3 @@
-/*
-{
-    "id": 10,
-    "task_name": "Mow lawn",
-    "tokens": 10,
-    "user_id": 2,
-    "is_complete": false,
-    "due_date": "2025-02-10T06:00:00.000Z",
-    "created_at": "2025-01-28T06:00:00.000Z"
-}
-*/
-
 const viewItemStyle = {
   boxShadow: `
         0 10px 25px -3px rgba(0, 0, 0, 0.1),
