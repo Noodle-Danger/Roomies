@@ -1,7 +1,9 @@
 // import react hooks
 import React, { createContext, useReducer, useEffect } from "react";
+import * as types from "../types";
 // import custom hooks
-import apiFetch from "../apiFetch";
+import { getChores } from "../actions/choreActions";
+import { getPerks } from "../actions/perkActions";
 // define dispatch ACTION TYPES and type definitions
 
 // define APPLICATION STATE and type definitions
@@ -50,14 +52,14 @@ const ActionTypes: GlobalContextActionTypes = {
  * APPLICATION STATE
  */
 interface GlobalState {
-  userId: number;
-  chores: any[];
-  perks: any[];
+  user_id: number;
+  chores: types.Chore[];
+  perks: types.Perk[];
   userPerks: any[];
 }
 
 const initialState: GlobalState = {
-  userId: 456,
+  user_id: 1,
   chores: [],
   perks: [],
   userPerks: [],
@@ -74,13 +76,26 @@ interface DispatchAction {
 const reducer = (state: GlobalState, action: DispatchAction) => {
   switch (action.type) {
     case ActionTypes.GET_CHORES:
-      console.log(action.payload.chores);
-      const updatedChores = action.payload.chores;
-      return { ...state, chores: updatedChores };
+      console.log("CHORES", action.payload.chores);
+      const fetchedChores = action.payload.chores;
+      return { ...state, chores: fetchedChores };
+
+    case ActionTypes.CREATE_CHORE:
+      console.log("NEW CHORE:", action.payload);
+      const newChore = action.payload;
+      return { ...state, chores: [...state.chores, newChore] };
 
     case ActionTypes.GET_PERKS:
-      const updatedPerks = action.payload.perks;
-      return { ...state, perks: updatedPerks };
+      console.log("PERKS:", action.payload.perks);
+      const fetchedPerks = action.payload.perks;
+      return { ...state, perks: fetchedPerks };
+
+    case ActionTypes.CREATE_PERK:
+      console.log("NEW PERK:", action.payload);
+      //! server response is an array. can it be single object?
+      const [newPerk] = action.payload;
+      return { ...state, perks: [...state.perks, newPerk] };
+
     default:
       return state;
   }
@@ -106,29 +121,9 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // populate state on initial render
   useEffect(() => {
-    // invoke fetch functions then dispatch actions to reducer
-    const getChores = async () => {
-      const chores = await apiFetch.getChores();
-      if (chores) {
-        dispatch({
-          type: ActionTypes.GET_CHORES,
-          payload: { chores: chores },
-        });
-      }
-      return;
-    };
-    const getPerks = async () => {
-        const perks = await apiFetch.getPerks();
-        if (perks) {
-          dispatch({
-            type: ActionTypes.GET_PERKS,
-            payload: { parks: perks },
-          });
-        }
-    }
-    getChores();
-    getPerks()
-  }, []);
+    getChores()(dispatch);
+    getPerks()(dispatch);
+  }, [dispatch]);
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
@@ -142,4 +137,4 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 // export the ActionTypes for use in other components
 // export custom types for use in other components
 
-export { GlobalProvider, GlobalContext };
+export { GlobalProvider, GlobalContext, ActionTypes };

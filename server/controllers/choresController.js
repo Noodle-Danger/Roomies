@@ -1,4 +1,4 @@
-import pool from '../models/roomiesModels.js'
+import pool from '../models/roomiesModels.js';
 const choresController = {};
 
 
