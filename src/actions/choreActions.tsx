@@ -6,10 +6,11 @@ import { ActionTypes } from "../context/GlobalContext";
 const getChores = () => {
   return async (dispatch: React.Dispatch<any>) => {
     const chores = await apiFetch.getChores();
+    console.log("CHORES", chores);
     if (chores) {
       dispatch({
         type: ActionTypes.GET_CHORES,
-        payload: { chores },
+        payload: chores,
       });
     }
   };
