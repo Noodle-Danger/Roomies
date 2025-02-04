@@ -39,6 +39,8 @@ perksController.getPerks = async (req, res, next) => {
 perksController.addPerk = async (req, res, next) => {
     const { perk_name, tokens, qty } = req.body;
 
+    if (!perk_name | !tokens | !qty) return res.status(400).json({error: "Missing input"});
+
     const query = `
     INSERT INTO perks (perk_name, tokens, qty_initial, qty_remaining, id) 
     VALUES ($1, $2, $3, $3, ((SELECT MAX(id) FROM perks) + 1)) 
