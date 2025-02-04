@@ -1,5 +1,5 @@
 
-import ChoreList from '../ChoreList.tsx';
+import ChoreList2 from '../ChoreList2.tsx';
 
 function MainLeft() {
 
@@ -11,7 +11,7 @@ function MainLeft() {
             <h1 
             className='text-2xl font-display font-semibold text-sky-900'
             >#CHORE LIST#</h1>
-               <ChoreList />
+               <ChoreList2 />
             </div>
         </>
     )
