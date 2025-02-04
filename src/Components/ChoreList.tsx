@@ -1,6 +1,7 @@
 import useGlobalContext from "../hooks/useGlobalContext";
 import ChoreInput from "./ChoreInput";
 import ChoreRow from "./ChoreRow"; // display component for chore data
+import UserWrapper from "./UserWrapper";
 
 function ChoreList() {
   let error;
@@ -33,6 +34,8 @@ function ChoreList() {
             tokens={chore.tokens}
           />
         ))}
+
+        <UserWrapper />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import useGlobalContext from "../hooks/useGlobalContext";
 import PerkInput from "./PerkInput";
 import PerkRow from "./PerkRow";
-
 function PerkList() {
   const { state } = useGlobalContext();
   const { perks } = state;
