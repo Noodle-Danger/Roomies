@@ -14,6 +14,7 @@ const UserInfo = ({ name, balance }: UserInfoProps) => {
         <h1 className="text-2xl font-display font-semibold text-sky-900">
           #USER INFO#
         </h1>
+        <div className="font-display font-semibold text-sky-900">#AVATAR# </div>
         <div className="font-display font-semibold text-sky-900">
           Username: {name}
         </div>

@@ -8,6 +8,7 @@ interface apiRequests {
   // USERS
   createUser: (username: string, email: string) => Promise<any>;
   getUsers: () => Promise<any>;
+  getUserPerks: () => Promise<any>;
   // CHORES
   createChore: (choreData: CreateChoreData) => Promise<any>;
   completeChore: (choreData: CompleteChoreData) => Promise<any>;
@@ -57,6 +58,19 @@ const apiFetch: apiRequests = {
       return data;
     } catch (err) {
       console.error("This is the getUser error: ", err);
+    }
+  },
+  getUserPerks: async () => {
+    try {
+      console.log("fetching user perks...");
+      const response = await fetch(`${API_URL}/userPerks`);
+      if (!response.ok) {
+        throw new Error(`Failed to get users: ${response.status}`);
+      }
+      const data = response.json();
+      console.log("FETCHED USER PERKS: ", data);
+    } catch (err) {
+      console.log("ERROR: GETUSERPERKS API", err);
     }
   },
   createChore: async (choreData) => {
@@ -136,7 +150,26 @@ const apiFetch: apiRequests = {
       console.error("ERROR: createPerk", err);
     }
   },
-  purchasePerk: async () => {},
+  purchasePerk: async (perkData) => {
+    try {
+      const response = await fetch(`${API_URL}/perks`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(perkData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to get perks: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("PURCHASED PERK:", data);
+      return data;
+    } catch (err) {
+      console.error("ERROR: PURCHASE PERK: ", err);
+    }
+  },
   getPerks: async () => {
     try {
       const response = await fetch(`${API_URL}/perks`); //url of endpoint

@@ -10,7 +10,7 @@ import { ActionTypes } from "../context/GlobalContext";
 const getUser = () => {
   return async (dispatch: React.Dispatch<any>) => {
     const users = await apiFetch.getUsers();
-    const user = users[0]
+    const user = users[0];
     // console.log("USERS", users);
     if (user) {
       dispatch({
@@ -21,4 +21,16 @@ const getUser = () => {
   };
 };
 
-export { getUser };
+const getUserPerks = () => {
+  return async (dispatch: React.Dispatch<any>) => {
+    const userPerks = await apiFetch.getUserPerks();
+    if (userPerks) {
+      dispatch({
+        type: ActionTypes.GET_USER_PERKS,
+        payload: userPerks,
+      });
+    }
+  };
+};
+
+export { getUser, getUserPerks };

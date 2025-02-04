@@ -1,7 +1,6 @@
 import useGlobalContext from "../hooks/useGlobalContext";
-import { markChoreComplete } from "../actions/choreActions";
-import { CompleteChoreData } from "../types";
-
+import { purchasePerk } from "../actions/perkActions";
+import { PurchasePerkData } from "../types";
 
 /*
  * STYLING
@@ -19,17 +18,28 @@ const viewItemStyle = {
  * TYPE DEFINITIONS
  */
 interface PerkRowProps {
-  id: number;
-  name: string;
+  perkId: number;
+  perkName: string;
   qty: number;
   tokens: number;
 }
 
-const PerkRow = ({ id, name, qty, tokens }: PerkRowProps) => {
+const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
+  const { state, dispatch } = useGlobalContext();
+  const { id: userId, tokens: userTokens } = state.userInfo;
 
+  const buyPerk = () => {
+    const requestData = {
+      perk_id: perkId,
+      user_id: userId,
+      user_tokens: userTokens,
+      perk_tokens: tokens,
+    };
+    purchasePerk(requestData)(dispatch);
+  };
 
   return (
-    <div key={id}>
+    <div key={perkId}>
       <div className="flex">
         <input
           style={viewItemStyle}
@@ -46,10 +56,13 @@ const PerkRow = ({ id, name, qty, tokens }: PerkRowProps) => {
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-          value={name}
+          value={perkName}
           readOnly
         />
         <button
+          onClick={() => {
+            buyPerk();
+          }}
           className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center flex"
           style={{
             boxShadow: `

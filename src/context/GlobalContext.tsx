@@ -2,7 +2,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import * as types from "../types";
 // import custom hooks
-import { getUser } from "../actions/userActions";
+import { getUser, getUserPerks } from "../actions/userActions";
 import { getChores } from "../actions/choreActions";
 import { getPerks } from "../actions/perkActions";
 // define dispatch ACTION TYPES and type definitions
@@ -43,12 +43,12 @@ interface GlobalContextActionTypes {
 const ActionTypes: GlobalContextActionTypes = {
   GET_USER: "GET_USER",
   GET_CHORES: "GET_CHORES",
+  GET_USER_PERKS: "GET_USER_PERKS",
+  GET_PERKS: "GET_PERKS",
   CREATE_CHORE: "CREATE_CHORE",
   COMPLETE_CHORE: "COMPLETE_CHORE",
-  GET_PERKS: "GET_PERKS",
   CREATE_PERK: "CREATE_PERK",
   PURCHASE_PERK: "PURCHASE_PERK",
-  GET_USER_PERKS: "GET_USER_PERKS",
 };
 
 /*
@@ -97,6 +97,16 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
       const fetchedChores = action.payload;
       return { ...state, chores: fetchedChores };
 
+    case ActionTypes.GET_PERKS:
+      //   console.log("FETCHED PERKS:", action.payload.perks);
+      const fetchedPerks = action.payload;
+      return { ...state, perks: fetchedPerks };
+
+    case ActionTypes.GET_USER_PERKS:
+      const fetchedUserPerks = action.payload;
+      console.log(fetchedUserPerks);
+      return { ...state };
+
     case ActionTypes.CREATE_CHORE:
       console.log("CREATED CHORE:", action.payload);
       const newChore = action.payload;
@@ -114,11 +124,6 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
         userInventory: updatedChoreHistory,
       };
 
-    case ActionTypes.GET_PERKS:
-      //   console.log("FETCHED PERKS:", action.payload.perks);
-      const fetchedPerks = action.payload;
-      return { ...state, perks: fetchedPerks };
-
     case ActionTypes.CREATE_PERK:
       console.log("CREATED PERK:", action.payload);
       const [newPerk] = action.payload;
@@ -126,8 +131,12 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
 
     case ActionTypes.PURCHASE_PERK:
       console.log("PURCHASED PERK:", action.payload);
-      const [purchasedPerk] = action.payload;
-      return { ...state, perks: [...state.perks, newPerk] };
+      const purchasedPerk = action.payload;
+      const updatedUserPerks = {
+        ...state.userInventory,
+        userPerks: [...state.userInventory.userPerks, purchasedPerk],
+      };
+      return { ...state, userInventory: updatedUserPerks };
 
     default:
       return state;
@@ -155,6 +164,7 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   // populate state on initial render
   useEffect(() => {
     getUser()(dispatch);
+    getUserPerks()(dispatch);
     getChores()(dispatch);
     getPerks()(dispatch);
   }, [dispatch]);

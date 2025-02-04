@@ -23,8 +23,8 @@ function PerkList() {
         perks.map((perk) => (
           <PerkRow
             key={perk.id}
-            id={perk.id}
-            name={perk.perk_name}
+            perkId={perk.id}
+            perkName={perk.perk_name}
             qty={perk.qty_remaining}
             tokens={perk.tokens}
           />
