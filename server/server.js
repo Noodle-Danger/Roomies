@@ -5,7 +5,7 @@ import apiRouter from './routes/api.js';
 import { fileURLToPath } from 'url'; //* build the dirname manually due to es6 restrictions
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080; // ✅ Use Railway's assigned port
 const __filename = fileURLToPath(import.meta.url); //*recreate dirname for ES6 modules
 const __dirname = path.dirname(__filename);
 
@@ -22,6 +22,10 @@ app.use(express.static(path.resolve(__dirname, '../src/assets'))); // geneeratin
 
 //---------------------------------- Custom Routes ----------------------------------------------------//
 app.use('/api', apiRouter);
+
+app.get('/debug-env', (req, res) => {
+  res.send(`DATABASE_URL: ${process.env.PG_URI}`);
+});
 
 //---------------------------------- Standard Routes ----------------------------------------------------//
 app.use((req, res) =>
