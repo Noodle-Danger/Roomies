@@ -23,10 +23,6 @@ app.use(express.static(path.resolve(__dirname, '../src/assets'))); // geneeratin
 //---------------------------------- Custom Routes ----------------------------------------------------//
 app.use('/api', apiRouter);
 
-app.get('/debug-env', (req, res) => {
-  res.send(`DATABASE_URL: ${process.env.PG_URI}`);
-});
-
 //---------------------------------- Standard Routes ----------------------------------------------------//
 app.use((req, res) =>
   res.status(404).send('This is not the page you\re looking for.')
