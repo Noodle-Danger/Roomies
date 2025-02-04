@@ -6,7 +6,7 @@ import { ActionTypes } from "../context/GlobalContext";
 const getChores = () => {
   return async (dispatch: React.Dispatch<any>) => {
     const chores = await apiFetch.getChores();
-    console.log("CHORES", chores);
+    // console.log("CHORES", chores);
     if (chores) {
       dispatch({
         type: ActionTypes.GET_CHORES,
@@ -18,10 +18,10 @@ const getChores = () => {
 
 const createChore = (choreData: CreateChoreData) => {
   return async (dispatch: React.Dispatch<any>) => {
-    console.log("CHORE DATA", choreData);
+    // console.log("CHORE DATA", choreData);
     const newChore = await apiFetch.createChore(choreData);
     if (newChore) {
-      console.log("NEW CHORE", newChore);
+      //   console.log("NEW CHORE", newChore);
       dispatch({
         type: ActionTypes.CREATE_CHORE,
         payload: newChore,
@@ -33,7 +33,7 @@ const createChore = (choreData: CreateChoreData) => {
 const markChoreComplete = (choreData: CompleteChoreData) => {
   return async (dispatch: React.Dispatch<any>) => {
     const completedChore = await apiFetch.completeChore(choreData);
-    console.log("COMPLETED CHORE", completedChore);
+    // console.log("COMPLETED CHORE", completedChore);
     if (completedChore) {
       dispatch({
         type: ActionTypes.COMPLETE_CHORE,

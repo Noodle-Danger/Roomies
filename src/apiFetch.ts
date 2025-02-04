@@ -55,6 +55,8 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json(); //parse response to JSON
+      console.log("FETCHED USERS:", data);
+
       return data;
     } catch (err) {
       console.error("This is the getUser error: ", err);
@@ -88,7 +90,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("This is the new chore (data): ", data);
+      console.log("CREATED CHORE: ", data);
       return data;
     } catch (err) {
       console.error("This is the error, ", err);
@@ -109,7 +111,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("This is the completed chore: ", data);
+      console.log("COMPLETED CHORE: ", data);
       return data;
     } catch (err) {
       console.error("THIS IS THE ERROR: ", err);
@@ -124,6 +126,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json(); //parse response to JSON
+      console.log("FETCHED CHORES:", data);
 
       return data;
     } catch (err) {
@@ -145,6 +148,8 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
+      console.log("CREATED PERK:", data);
+
       return data;
     } catch (err) {
       console.error("ERROR: createPerk", err);
@@ -177,10 +182,8 @@ const apiFetch: apiRequests = {
       if (!response.ok) {
         throw new Error(`Failed to get perks: ${response.status}`);
       }
-
       const data = await response.json(); //parse response to JSON
-      // const choresArr = data.map((chore) => chore.task_name)
-      // console.log('Here are all the chores', data);
+      console.log("FETCHED PERKS: ", data);
       return data;
     } catch (err) {
       console.error("This is the getPerks error: ", err);
