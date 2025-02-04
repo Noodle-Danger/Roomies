@@ -1,39 +1,75 @@
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  tokens: number;
+  created_at: string;
+}
+
+interface UserPerk {
+  id: number;
+  user_id: number;
+  perk_id: number;
+  qty: number;
+  purchased_at: string;
+  perk_name: string;
+}
+
 interface Chore {
-    id: number;
-    task_name: string;
-    tokens: number;
-    user_id: number;
-    is_complete: boolean;
-    due_date: string | null;
-    created_at: string;
-  }
+  id: number;
+  task_name: string;
+  tokens: number;
+  user_id: number;
+  is_complete: boolean;
+  due_date: string | null;
+  created_at: string;
+}
 
-  
-  interface ChoreSubmitData {
-      user_id: number;
-      task_name: string;
-      tokens: number;
-    }
-    
-    interface Perk {
-      id: number;
-      perk_name: string;
-      tokens: number;
-      qty_initial: number;
-      qty_remaining: number
-      created_at: string;
-    }
+interface CreateChoreData {
+  user_id: number;
+  task_name: string;
+  tokens: number;
+}
 
-    interface PerkSubmitData {
-        perk_name: string;
-        tokens: number;
-        qty: number;
+interface CompleteChoreData {
+  user_id: number;
+  chore_id: number;
+}
 
-    }
+interface Perk {
+  id: number;
+  perk_name: string;
+  tokens: number;
+  qty_initial: number;
+  qty_remaining: number;
+  created_at: string;
+}
 
-  export type { Chore, ChoreSubmitData, Perk, PerkSubmitData };
+interface CreatePerkData {
+  perk_name: string;
+  tokens: number;
+  qty: number;
+}
+//! Does client have to send token info??
+interface PurchasePerkData {
+  perk_id: number;
+  user_id: number;
+  user_tokens: number;
+  perk_tokens: number;
+}
 
-  /* CHORE
+export type {
+  User,
+  UserPerk,
+  Chore,
+  CreateChoreData,
+  CompleteChoreData,
+  Perk,
+  CreatePerkData,
+  PurchasePerkData,
+};
+
+/* CHORE
 {
     "id": 10,
     "task_name": "Mow lawn",
