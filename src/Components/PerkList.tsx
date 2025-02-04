@@ -1,6 +1,7 @@
 import useGlobalContext from "../hooks/useGlobalContext";
 import PerkInput from "./PerkInput";
 import PerkRow from "./PerkRow";
+
 function PerkList() {
   const { state } = useGlobalContext();
   const { perks } = state;
@@ -19,7 +20,15 @@ function PerkList() {
 
       {perks &&
         perks.length > 0 &&
-        perks.map((perk) => <PerkRow id={perk.id} name={perk.perk_name} qty={perk.qty_remaining} tokens={perk.tokens} />)}
+        perks.map((perk) => (
+          <PerkRow
+            key={perk.id}
+            id={perk.id}
+            name={perk.perk_name}
+            qty={perk.qty_remaining}
+            tokens={perk.tokens}
+          />
+        ))}
     </div>
   );
 }

@@ -45,6 +45,7 @@ interface Perk {
   created_at: string;
 }
 
+//! server response is an array. can it be single object?
 interface CreatePerkData {
   perk_name: string;
   tokens: number;

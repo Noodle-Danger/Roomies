@@ -12,8 +12,9 @@ import CompletedChores from "./CompletedChores";
 
 const UserWrapper = () => {
   const { state } = useGlobalContext();
-  const { user, completedChores, userPerks } = state;
-  const { id, username, tokens } = user;
+  const { userInfo, userInventory } = state;
+  const { id, username, tokens } = userInfo;
+  const { userPerks, choreHistory } = userInventory;
 
 
   return (
@@ -23,7 +24,7 @@ const UserWrapper = () => {
       </h1>
       <UserInfo name={username} balance={tokens} />
       <UserPerks perkData={userPerks} />
-      <CompletedChores choreData={completedChores} />
+      <CompletedChores choreData={choreHistory} />
     </div>
   );
 };

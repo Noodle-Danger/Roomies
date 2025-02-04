@@ -1,3 +1,7 @@
+import useGlobalContext from "../hooks/useGlobalContext";
+import { markChoreComplete } from "../actions/choreActions";
+import { CompleteChoreData } from "../types";
+
 const viewItemStyle = {
   boxShadow: `
         0 10px 25px -3px rgba(0, 0, 0, 0.1),
@@ -8,14 +12,25 @@ const viewItemStyle = {
 };
 
 interface ChoreRowProps {
-  id: number;
-  name: string;
+  userId: number;
+  choreId: number;
+  choreName: string;
   tokens: number;
 }
 
-const ChoreRow = ({ id, name, tokens }: ChoreRowProps) => {
+const ChoreRow = ({ userId, choreId, choreName, tokens }: ChoreRowProps) => {
+  const { dispatch } = useGlobalContext();
+
+  const completeChore = () => {
+    const requestData: CompleteChoreData = {
+      user_id: userId,
+      chore_id: choreId,
+    };
+    markChoreComplete(requestData)(dispatch);
+  };
+
   return (
-    <div key={id}>
+    <div key={choreId}>
       <div className="flex">
         <input
           style={viewItemStyle}
@@ -26,10 +41,13 @@ const ChoreRow = ({ id, name, tokens }: ChoreRowProps) => {
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-          value={name}
+          value={choreName}
           readOnly
         />
         <button
+          onClick={() => {
+            completeChore();
+          }}
           className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center flex"
           style={{
             boxShadow: `

@@ -1,4 +1,7 @@
+// import context
 import useGlobalContext from "../hooks/useGlobalContext";
+
+// import display component
 import ChoreInput from "./ChoreInput";
 import ChoreRow from "./ChoreRow"; // display component for chore data
 import UserWrapper from "./UserWrapper";
@@ -10,7 +13,8 @@ function ChoreList() {
   }
 
   const { state } = useGlobalContext();
-  const { chores } = state;
+  const { userInfo, chores } = state;
+  const { id } = userInfo;
 
   return (
     <div className="p-2 m-4 h-fit" data-testid="chore-1">
@@ -20,7 +24,7 @@ function ChoreList() {
       --> CHORE ROW COMPONENT
       */}
 
-      <ChoreInput />
+      <ChoreInput userId={id}/>
 
       <div className="m-6"></div>
 
@@ -29,13 +33,14 @@ function ChoreList() {
         chores.map((chore) => (
           <ChoreRow
             key={chore.id}
-            id={chore.id}
-            name={chore.task_name}
+            userId={id}
+            choreId={chore.id}
+            choreName={chore.task_name}
             tokens={chore.tokens}
           />
         ))}
 
-        <UserWrapper />
+      <UserWrapper />
     </div>
   );
 }

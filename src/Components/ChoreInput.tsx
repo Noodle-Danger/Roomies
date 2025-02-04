@@ -1,11 +1,15 @@
 import useGlobalContext from "../hooks/useGlobalContext";
 import { createChore } from "../actions/choreActions";
+import { CreateChoreData } from "../types";
+
 import { useState } from "react"; // to manage local component state
 
-const ChoreInput = () => {
-  // destructure state from context
-  const { state, dispatch } = useGlobalContext();
-  const { user_id } = state;
+interface ChoreInputProps {
+  userId: number;
+}
+const ChoreInput = ({ userId }: ChoreInputProps) => {
+  // destructure dispatch from contextt
+  const { dispatch } = useGlobalContext();
 
   // manage chore name and token input state
   const [choreName, setChoreName] = useState("");
@@ -24,7 +28,11 @@ const ChoreInput = () => {
     //! trim whitespace
     //! ensure tokens is number
     // generate choreData object from user inputs
-    const choreData = { user_id, task_name: choreName, tokens: Number(tokens) };
+    const choreData: CreateChoreData = {
+      user_id: userId,
+      task_name: choreName,
+      tokens: Number(tokens),
+    };
     // send choreData to action creator
     createChore(choreData)(dispatch);
     // clear input boxes
