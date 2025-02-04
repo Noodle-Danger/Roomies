@@ -1,6 +1,6 @@
 import apiFetch from "../apiFetch";
 
-import { ChoreSubmitData } from "../types";
+import { CreateChoreData, CompleteChoreData } from "../types";
 import { ActionTypes } from "../context/GlobalContext";
 
 const getChores = () => {
@@ -15,7 +15,7 @@ const getChores = () => {
   };
 };
 
-const createChore = (choreData: ChoreSubmitData) => {
+const createChore = (choreData: CreateChoreData) => {
   return async (dispatch: React.Dispatch<any>) => {
     console.log("CHORE DATA", choreData);
     const newChore = await apiFetch.createChore(choreData);
@@ -28,6 +28,18 @@ const createChore = (choreData: ChoreSubmitData) => {
     }
   };
 };
-const markChoreComplete = () => {};
+
+const markChoreComplete = (choreData: CompleteChoreData) => {
+  return async (dispatch: React.Dispatch<any>) => {
+    const completedChore = await apiFetch.completeChore(choreData);
+    console.log("COMPLETED CHORE", completedChore);
+    if (completedChore) {
+      dispatch({
+        type: ActionTypes.COMPLETE_CHORE,
+        payload: completedChore,
+      });
+    }
+  };
+};
 
 export { getChores, createChore, markChoreComplete };
