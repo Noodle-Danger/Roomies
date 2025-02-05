@@ -29,6 +29,7 @@ const queryConnection = async () => {
     console.log("Database URL:", process.env.PG_URI);
   } catch (err) {
     console.error('ERROR IN CONNECTING TO DATABASE');
+    console.log("Database URL:", process.env.PG_URI);
   }
 };
 
