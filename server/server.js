@@ -15,6 +15,10 @@ const __dirname = path.dirname(__filename);
 import cors from 'cors';
 app.use(cors());
 
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running on port ${process.env.PORT || 3000}`);
+});
+
 //---------------------------------- Standard Routes ----------------------------------------------------//
 app.use(express.json()); // converts request object as json
 app.use(express.urlencoded({ extended: true })); // recognizes request object as strings or arrays
