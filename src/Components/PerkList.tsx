@@ -26,7 +26,7 @@ function PerkList() {
             perkId={perk.id}
             perkName={perk.perk_name}
             qty={perk.qty_remaining}
-            tokens={perk.tokens}
+            perkTokens={perk.tokens}
           />
         ))}
     </div>

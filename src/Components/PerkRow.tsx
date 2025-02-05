@@ -22,10 +22,10 @@ interface PerkRowProps {
   perkId: number;
   perkName: string;
   qty: number;
-  tokens: number;
+  perkTokens: number;
 }
 
-const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
+const PerkRow = ({ perkId, perkName, qty, perkTokens }: PerkRowProps) => {
   const { state, dispatch } = useGlobalContext();
   const { id: userId, tokens: userTokens } = state.userInfo;
   const [perkQty, setPerkQty] = useState(qty);
@@ -35,10 +35,10 @@ const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
       perk_id: perkId,
       user_id: userId,
       user_tokens: userTokens,
-      perk_tokens: tokens,
+      perk_tokens: perkTokens,
     };
     setPerkQty(perkQty - 1);
-    purchasePerk(requestData)(dispatch);
+    purchasePerk(requestData, perkTokens)(dispatch);
   };
 
   return (
@@ -53,7 +53,7 @@ const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-          value={tokens}
+          value={perkTokens}
           readOnly
         />
         <input
