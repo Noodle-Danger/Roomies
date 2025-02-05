@@ -8,6 +8,7 @@ interface apiRequests {
   // USERS
   createUser: (username: string, email: string) => Promise<any>;
   getUsers: () => Promise<any>;
+  // ! client sends id as param and server sends filtered perks
   getUserPerks: () => Promise<any>;
   // CHORES
   createChore: (choreData: CreateChoreData) => Promise<any>;
@@ -55,7 +56,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json(); //parse response to JSON
-      console.log("FETCHED USERS:", data);
+      // console.log("getUsers:", data);
 
       return data;
     } catch (err) {
@@ -64,13 +65,13 @@ const apiFetch: apiRequests = {
   },
   getUserPerks: async () => {
     try {
-      console.log("fetching user perks...");
       const response = await fetch(`${API_URL}/userPerks`);
       if (!response.ok) {
         throw new Error(`Failed to get users: ${response.status}`);
       }
-      const data = response.json();
-      console.log("FETCHED USER PERKS: ", data);
+      const data = await response.json();
+      console.log("getUserPerks: ", data);
+      return data;
     } catch (err) {
       console.log("ERROR: GETUSERPERKS API", err);
     }
@@ -90,7 +91,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("CREATED CHORE: ", data);
+      console.log("createChore: ", data);
       return data;
     } catch (err) {
       console.error("This is the error, ", err);
@@ -111,7 +112,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("COMPLETED CHORE: ", data);
+      console.log("completeChore: ", data);
       return data;
     } catch (err) {
       console.error("THIS IS THE ERROR: ", err);
@@ -126,7 +127,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json(); //parse response to JSON
-      console.log("FETCHED CHORES:", data);
+      // console.log("getChores:", data);
 
       return data;
     } catch (err) {
@@ -148,7 +149,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("CREATED PERK:", data);
+      console.log("createPerk:", data);
 
       return data;
     } catch (err) {
@@ -169,7 +170,7 @@ const apiFetch: apiRequests = {
       }
 
       const data = await response.json();
-      console.log("PURCHASED PERK:", data);
+      console.log("purchasePerk:", data);
       return data;
     } catch (err) {
       console.error("ERROR: PURCHASE PERK: ", err);
@@ -183,7 +184,7 @@ const apiFetch: apiRequests = {
         throw new Error(`Failed to get perks: ${response.status}`);
       }
       const data = await response.json(); //parse response to JSON
-      console.log("FETCHED PERKS: ", data);
+      // console.log("getPerks: ", data);
       return data;
     } catch (err) {
       console.error("This is the getPerks error: ", err);

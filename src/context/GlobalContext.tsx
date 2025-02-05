@@ -31,20 +31,22 @@ returns updated state;
  */
 interface GlobalContextActionTypes {
   GET_USER: string;
+  GET_USER_PERKS: string;
   GET_CHORES: string;
+  GET_PERKS: string;
+  UPDATE_USER_BALANCE: string;
   CREATE_CHORE: string;
   COMPLETE_CHORE: string;
-  GET_PERKS: string;
   CREATE_PERK: string;
   PURCHASE_PERK: string;
-  GET_USER_PERKS: string;
 }
 
 const ActionTypes: GlobalContextActionTypes = {
   GET_USER: "GET_USER",
-  GET_CHORES: "GET_CHORES",
   GET_USER_PERKS: "GET_USER_PERKS",
+  GET_CHORES: "GET_CHORES",
   GET_PERKS: "GET_PERKS",
+  UPDATE_USER_BALANCE: "UPDATE_USER_BALANCE",
   CREATE_CHORE: "CREATE_CHORE",
   COMPLETE_CHORE: "COMPLETE_CHORE",
   CREATE_PERK: "CREATE_PERK",
@@ -55,7 +57,7 @@ const ActionTypes: GlobalContextActionTypes = {
  * APPLICATION STATE
  */
 interface GlobalState {
-  userInfo: types.User;
+  userInfo: types.User | undefined;
   userInventory: { userPerks: types.UserPerk[]; choreHistory: types.Chore[] };
   chores: types.Chore[];
   perks: types.Perk[];
@@ -89,9 +91,7 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
   switch (action.type) {
     case ActionTypes.GET_USER:
       //   console.log("FETCHED USER:", action.payload);
-      const users: types.User[] = action.payload;
-      const user = users.find((obj) => obj.id === 2);
-
+      const user = action.payload;
       return { ...state, userInfo: user };
 
     case ActionTypes.GET_CHORES:
@@ -105,9 +105,16 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
       return { ...state, perks: fetchedPerks };
 
     case ActionTypes.GET_USER_PERKS:
+      console.log("FETCHED USERPERKS", action.payload);
       const fetchedUserPerks = action.payload;
-      console.log(fetchedUserPerks);
-      return { ...state };
+      const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
+        (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
+      );
+      console.log("FILTERED USERPERKS", userPerks);
+      return {
+        ...state,
+        userInventory: { ...state.userInventory, userPerks: userPerks },
+      };
 
     case ActionTypes.CREATE_CHORE:
       console.log("CREATED CHORE:", action.payload);
@@ -166,7 +173,6 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   // populate state on initial render
   useEffect(() => {
     getUser()(dispatch);
-    getUserPerks()(dispatch);
     getChores()(dispatch);
     getPerks()(dispatch);
   }, [dispatch]);
