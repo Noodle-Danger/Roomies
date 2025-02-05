@@ -1,8 +1,9 @@
 // import react hooks
 import React, { createContext, useReducer, useEffect } from "react";
+import { produce } from "immer";
 import * as types from "../types";
 // import custom hooks
-import { getUser, getUserPerks } from "../actions/userActions";
+import { getUser } from "../actions/userActions";
 import { getChores } from "../actions/choreActions";
 import { getPerks } from "../actions/perkActions";
 // define dispatch ACTION TYPES and type definitions
@@ -87,75 +88,89 @@ interface DispatchAction {
   payload: any;
 }
 
-const reducer = (state: GlobalState, action: DispatchAction) => {
-  switch (action.type) {
-    case ActionTypes.GET_USER:
-      //   console.log("FETCHED USER:", action.payload);
-      const user = action.payload;
-      return { ...state, userInfo: user };
+const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case ActionTypes.GET_USER:
+        //   console.log("FETCHED USER:", action.payload);
+        const user = action.payload;
+        //   return { ...state, userInfo: user };
+        draft.userInfo = user;
+        break;
+      case ActionTypes.GET_CHORES:
+        //   console.log("FETCHED CHORES", action.payload.chores);
+        const fetchedChores = action.payload;
+        //   return { ...state, chores: fetchedChores };
+        draft.chores = fetchedChores;
+        break;
+      case ActionTypes.GET_PERKS:
+        //   console.log("FETCHED PERKS:", action.payload.perks);
+        const fetchedPerks = action.payload;
+        //   return { ...state, perks: fetchedPerks };
+        draft.perks = fetchedPerks;
+        break;
+      case ActionTypes.GET_USER_PERKS:
+        //   console.log("FETCHED USERPERKS", action.payload);
+        const fetchedUserPerks = action.payload;
+        const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
+          (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
+        );
+        //   console.log("FILTERED USERPERKS", userPerks);
+        //   return {
+        //     ...state,
+        //     userInventory: { ...state.userInventory, userPerks: userPerks },
+        //   };
+        draft.userInventory.userPerks = userPerks;
+        break;
+      case ActionTypes.UPDATE_USER_BALANCE:
+        console.log("CHANGE BALANCE: ", action.payload);
+        const { operation, amount } = action.payload;
+        const newUserBalance =
+          operation === "add"
+            ? (draft.userInfo.tokens += amount)
+            : (draft.userInfo.tokens -= amount);
+        // ? (state.userInfo.tokens += amount)
+        // : (state.userInfo.tokens -= amount);
+        //   return { ...state, userInfo: {...state.userInfo,tokens:newUserBalance } };
+        break;
+      case ActionTypes.CREATE_CHORE:
+        console.log("CREATED CHORE:", action.payload);
+        const newChore = action.payload;
+        //   return { ...state, chores: [...state.chores, newChore] };
+        draft.chores.push(newChore);
+        break;
+      case ActionTypes.COMPLETE_CHORE:
+        console.log("COMPLETED CHORE:", action.payload);
+        const completedChore = action.payload;
+        //   const updatedChoreHistory = {
+        //     ...state.userInventory,
+        //     choreHistory: [...state.userInventory.choreHistory, completedChore],
+        //   };
+        //   return {
+        //     ...state,
+        //     userInventory: updatedChoreHistory,
+        //   };
+        draft.userInventory.choreHistory.push(completedChore);
+        break;
+      case ActionTypes.CREATE_PERK:
+        console.log("CREATED PERK:", action.payload);
+        const [newPerk] = action.payload;
+        //   return { ...state, perks: [...state.perks, newPerk] };
+        draft.perks.push(newPerk);
+        break;
+      //   case ActionTypes.PURCHASE_PERK:
+      //     console.log("PURCHASED PERK:", action.payload);
+      //     const purchasedPerk = action.payload;
+      //     const updatedUserPerks = {
+      //       ...state.userInventory,
+      //       userPerks: [...state.userInventory.userPerks, purchasedPerk],
+      //     };
+      //   return { ...state, userInventory: updatedUserPerks };
 
-    case ActionTypes.GET_CHORES:
-      //   console.log("FETCHED CHORES", action.payload.chores);
-      const fetchedChores = action.payload;
-      return { ...state, chores: fetchedChores };
-
-    case ActionTypes.GET_PERKS:
-      //   console.log("FETCHED PERKS:", action.payload.perks);
-      const fetchedPerks = action.payload;
-      return { ...state, perks: fetchedPerks };
-
-    case ActionTypes.GET_USER_PERKS:
-      //   console.log("FETCHED USERPERKS", action.payload);
-      const fetchedUserPerks = action.payload;
-      const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
-        (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
-      );
-      //   console.log("FILTERED USERPERKS", userPerks);
-      return {
-        ...state,
-        userInventory: { ...state.userInventory, userPerks: userPerks },
-      };
-
-    case ActionTypes.UPDATE_USER_BALANCE:
-      console.log("CHANGE BALANCE: ", action.payload);
-      const {operation, amount} = action.payload
-      const newUserBalance = operation === "add" ? state.userInfo.tokens += amount : state.userInfo.tokens -= amount
-      return { ...state, userInfo: {...state.userInfo,tokens:newUserBalance } };
-
-    case ActionTypes.CREATE_CHORE:
-      console.log("CREATED CHORE:", action.payload);
-      const newChore = action.payload;
-      return { ...state, chores: [...state.chores, newChore] };
-
-    case ActionTypes.COMPLETE_CHORE:
-      console.log("COMPLETED CHORE:", action.payload);
-      const completedChore = action.payload;
-      const updatedChoreHistory = {
-        ...state.userInventory,
-        choreHistory: [...state.userInventory.choreHistory, completedChore],
-      };
-      return {
-        ...state,
-        userInventory: updatedChoreHistory,
-      };
-
-    case ActionTypes.CREATE_PERK:
-      console.log("CREATED PERK:", action.payload);
-      const [newPerk] = action.payload;
-      return { ...state, perks: [...state.perks, newPerk] };
-
-    case ActionTypes.PURCHASE_PERK:
-      console.log("PURCHASED PERK:", action.payload);
-      const purchasedPerk = action.payload;
-      const updatedUserPerks = {
-        ...state.userInventory,
-        userPerks: [...state.userInventory.userPerks, purchasedPerk],
-      };
-      return { ...state, userInventory: updatedUserPerks };
-
-    default:
-      return state;
-  }
+      default:
+        break; //   return state;
+    }
+  });
 };
 
 /*
