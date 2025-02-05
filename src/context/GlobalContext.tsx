@@ -59,7 +59,7 @@ const ActionTypes: GlobalContextActionTypes = {
  */
 interface GlobalState {
   userInfo: types.User;
-  userInventory: { userPerks: types.UserPerk[]; choreHistory: types.Chore[] };
+  userInventory: { userPerks: any[]; choreHistory: types.Chore[] };
   chores: types.Chore[];
   perks: types.Perk[];
 }
@@ -108,11 +108,35 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
         break;
       case ActionTypes.GET_USER_PERKS:
         //   console.log("FETCHED USERPERKS", action.payload);
-        const fetchedUserPerks = action.payload;
+        const fetchedUserPerks: types.UserPerk[] = action.payload;
+
         const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
           (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
         );
-        draft.userInventory.userPerks = userPerks;
+
+        const perkMap = new Map();
+
+        fetchedUserPerks.forEach((perk) => {
+          const { perk_name, user_id, qty, perk_id } = perk;
+
+          // if user_id isn't current user --> skip
+          if (user_id !== draft.userInfo.id) return;
+
+          // else --> retrieve perk from map or if not in map, initialize object
+          const incomingPerk = perkMap.get(perk_name) || {
+            perkName: perk_name,
+            totalQty: 0,
+            perks: [],
+          };
+          // modify object values
+          incomingPerk.totalQty += qty;
+          incomingPerk.perks.push(perk);
+          // update map value
+          perkMap.set(perk_name, incomingPerk);
+        });
+
+        // console.log([...perkMap.entries()]);
+        draft.userInventory.userPerks = [...perkMap.values()];
         break;
       case ActionTypes.UPDATE_USER_BALANCE:
         console.log("CHANGE BALANCE: ", action.payload);
