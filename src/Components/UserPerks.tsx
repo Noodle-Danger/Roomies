@@ -19,13 +19,13 @@ function UserPerks({ perkData }: UserPerksProps) {
       </h1>
 
       {perkData &&
-        perkData.map((perk) => (
-          <div key={perk.id}>
+        perkData.map((perk, index) => (
+          <div key={`${perk.id}-${index}`}>
             <div className="flex">
               <input
                 style={viewItemStyle}
                 className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-                value={perk.qty}
+                value={`qty: ${perk.qty}`}
                 readOnly
               />
               <input

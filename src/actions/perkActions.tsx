@@ -31,12 +31,12 @@ const purchasePerk = (perkData: PurchasePerkData, tokens: number) => {
     const purchasedPerk = await apiFetch.purchasePerk(perkData);
     if (purchasedPerk) {
       dispatch({
-        type: ActionTypes.PURCHASE_PERK,
-        payload: purchasedPerk,
-      });
-      dispatch({
         type: ActionTypes.UPDATE_USER_BALANCE,
         payload: { operation: "subtract", amount: tokens },
+      });
+      dispatch({
+        type: ActionTypes.PURCHASE_PERK,
+        payload: purchasedPerk,
       });
     }
   };
