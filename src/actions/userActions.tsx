@@ -4,12 +4,12 @@ import apiFetch from "../apiFetch";
 // import actions types from global
 import { ActionTypes } from "../context/GlobalContext";
 // import type definitions
-
+import {User} from "../types";
 // define functions
 const getUser = () => {
   return async (dispatch: React.Dispatch<any>) => {
-    const users = await apiFetch.getUsers();
-    const user = users.find((obj) => obj.id === 2);
+    const users: User[] = await apiFetch.getUsers();
+    const user = users.find((user) => user.id === 2);
 
     if (user) {
       dispatch({

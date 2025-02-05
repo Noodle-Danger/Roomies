@@ -141,11 +141,12 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
         console.log("PURCHASED PERK:", action.payload);
         const { perk } = action.payload;
         const currentPerks = state.userInventory.userPerks;
-        console.log('current perks', currentPerks);
+        console.log("current perks", currentPerks);
         // if purchased perk id exists in inventory, update quant, otherwise add
         // if (perk.id)
 
         draft.userInventory.userPerks.push(perk);
+        break;
       default:
         break; //   return state;
     }
