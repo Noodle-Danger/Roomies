@@ -1,8 +1,7 @@
 
-import Household from './Household.tsx';
-import ChoreList from './ChoreList.tsx';
+import ChoreList from '../ChoreList.tsx';
 
-function Interface() {
+function MainLeft() {
 
     return (
         <>
@@ -11,12 +10,11 @@ function Interface() {
             id="Interface">
             <h1 
             className='text-2xl font-display font-semibold text-sky-900'
-            >Interface</h1>
-               <Household />
+            >#CHORE LIST#</h1>
                <ChoreList />
             </div>
         </>
     )
 }
 
-export default Interface
+export default MainLeft
