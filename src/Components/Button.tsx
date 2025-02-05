@@ -41,8 +41,8 @@ const Button= ({
       }}
       // ? clicking trigger - route back with props
       onClick={onClick}
-    >
       // ? button attributes
+    >
       {children}
     </button>
   );
