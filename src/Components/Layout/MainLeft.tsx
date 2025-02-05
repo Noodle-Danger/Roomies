@@ -1,6 +1,6 @@
-import ChoreList from "../ChoreList.tsx";
-import UserWrapper from "../UserWrapper";
+// import ChoreList from "../ChoreList.tsx";
 import ChoreList2 from "../ChoreList2.tsx";
+import UserWrapper from "../UserWrapper";
 
 function MainLeft() {
   return (
@@ -12,8 +12,8 @@ function MainLeft() {
         <h1 className="text-2xl font-display font-semibold text-sky-900">
           #CHORE LIST#
         </h1>
-        <ChoreList />
-        {/* <ChoreList2 /> */}
+        {/* <ChoreList /> */}
+        <ChoreList2 />
         <UserWrapper />
       </div>
     </>

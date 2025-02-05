@@ -25,6 +25,7 @@ interface Chore {
   created_at: string;
 }
 
+// ! does client have to send user_id?
 interface CreateChoreData {
   user_id: number;
   task_name: string;

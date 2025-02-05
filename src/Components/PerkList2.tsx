@@ -1,7 +1,7 @@
 import PerkInput from './PerkCreator';
 import PerkDisplay from './PerkDisplay';
 
-function PerkList() {
+function PerkList2() {
 
   return (
     <div className="p-2 m-4 h-fit">
@@ -20,4 +20,4 @@ function PerkList() {
   );
 }
 
-export default PerkList;
+export default PerkList2;

@@ -1,19 +1,8 @@
 // map over ChoreItem
-import ChoreItem from './ChoreItem';
-import useGlobalContext from '../hooks/useGlobalContext';
+import ChoreItem from "./ChoreItem";
+import useGlobalContext from "../hooks/useGlobalContext";
 
-interface Chore {
-  id: number;
-  task_name: string;
-  tokens: number;
-}
-
-interface ChoreDisplayProps {
-  chores: Chore[];
-  onComplete: (id: number) => void;
-}
-
-const ChoreDisplay = ({ onComplete }: ChoreDisplayProps) => {
+const ChoreDisplay = () => {
   const { state } = useGlobalContext();
   const { chores } = state;
 
@@ -22,14 +11,13 @@ const ChoreDisplay = ({ onComplete }: ChoreDisplayProps) => {
       {chores &&
         chores.length > 0 &&
         chores.map((chore) => (
-            <ChoreItem
-              key={chore.id}
-              id={chore.id}
-              // ! add the image props
-              name={chore.task_name}
-              tokens={chore.tokens}
-              onClick={() => onComplete(chore.id)}
-            />
+          <ChoreItem
+            key={chore.id}
+            choreId={chore.id}
+            // ! add the image props
+            choreName={chore.task_name}
+            tokens={chore.tokens}
+          />
         ))}
     </div>
   );

@@ -103,4 +103,4 @@ const ChoreRow = ({ userId, choreId, choreName, tokens }: ChoreRowProps) => {
   );
 };
 
-export default ChoreRow;
+// export default ChoreRow;

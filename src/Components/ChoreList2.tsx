@@ -1,5 +1,4 @@
-
-import ChoreInput from "./ChoreCreator";
+import ChoreCreator from "./ChoreCreator";
 import ChoreDisplay from "./ChoreDisplay";
 
 function ChoreList2() {
@@ -16,7 +15,7 @@ function ChoreList2() {
       --> CHORE ROW COMPONENT
       */}
 
-      <ChoreInput />
+      <ChoreCreator />
 
       <div className="m-6"></div>
 
