@@ -26,3 +26,9 @@
   border: 1px solid #0000;
   box-shadow: plainShadow;
 }
+
+.chore-info{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
