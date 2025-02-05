@@ -75,23 +75,23 @@ choresController.createChore = async (req, res, next) => {
 choresController.completeChore = async (req, res, next) => {
     const { user_id, chore_id } = req.body;
 
-    const completeChore = `
-        UPDATE chores 
-        SET is_complete = TRUE
-        WHERE user_id = $1 AND id = $2
+    const incrementTokens = `
+        UPDATE users
+        SET tokens = tokens + COALESCE((SELECT tokens FROM chores WHERE id = $2 AND is_complete = FALSE), 0)
+        WHERE id = $1
         RETURNING *;
     `;
 
-    const incrementTokens = `
-        UPDATE users
-        SET tokens = tokens + COALESCE((SELECT tokens FROM chores WHERE user_id = $1 AND id = $2 AND is_complete = FALSE), 0)
+    const completeChore = `
+        UPDATE chores 
+        SET is_complete = TRUE
         WHERE id = $1
         RETURNING *;
     `;
 
     try {
         const result2 = await pool.query(incrementTokens, [user_id, chore_id]);
-        const result = await pool.query(completeChore, [user_id, chore_id]);
+        const result = await pool.query(completeChore, [chore_id]);
         
         res.locals.completeChore = [result.rows[0], result2.rows[0]];
         console.log('completeChore returned', result.rows)
