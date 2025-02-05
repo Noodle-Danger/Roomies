@@ -57,7 +57,7 @@ const ActionTypes: GlobalContextActionTypes = {
  * APPLICATION STATE
  */
 interface GlobalState {
-  userInfo: types.User | undefined;
+  userInfo: types.User;
   userInventory: { userPerks: types.UserPerk[]; choreHistory: types.Chore[] };
   chores: types.Chore[];
   perks: types.Perk[];
@@ -105,16 +105,22 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
       return { ...state, perks: fetchedPerks };
 
     case ActionTypes.GET_USER_PERKS:
-      console.log("FETCHED USERPERKS", action.payload);
+      //   console.log("FETCHED USERPERKS", action.payload);
       const fetchedUserPerks = action.payload;
       const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
         (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
       );
-      console.log("FILTERED USERPERKS", userPerks);
+      //   console.log("FILTERED USERPERKS", userPerks);
       return {
         ...state,
         userInventory: { ...state.userInventory, userPerks: userPerks },
       };
+
+    case ActionTypes.UPDATE_USER_BALANCE:
+      console.log("CHANGE BALANCE: ", action.payload);
+      const {operation, amount} = action.payload
+      const newUserBalance = operation === "add" ? state.userInfo.tokens += amount : state.userInfo.tokens -= amount
+      return { ...state, userInfo: {...state.userInfo,tokens:newUserBalance } };
 
     case ActionTypes.CREATE_CHORE:
       console.log("CREATED CHORE:", action.payload);

@@ -70,7 +70,7 @@ const apiFetch: apiRequests = {
         throw new Error(`Failed to get users: ${response.status}`);
       }
       const data = await response.json();
-      console.log("getUserPerks: ", data);
+      // console.log("getUserPerks: ", data);
       return data;
     } catch (err) {
       console.log("ERROR: GETUSERPERKS API", err);

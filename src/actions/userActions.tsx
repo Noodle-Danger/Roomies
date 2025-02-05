@@ -25,7 +25,7 @@ const getUserPerks = () => {
   return async (dispatch: React.Dispatch<any>) => {
     // console.log('getUserPerks running')
     const userPerks = await apiFetch.getUserPerks();
-    console.log("getUserPerks: ", userPerks);
+    // console.log("getUserPerks: ", userPerks);
     if (userPerks) {
       dispatch({
         type: ActionTypes.GET_USER_PERKS,

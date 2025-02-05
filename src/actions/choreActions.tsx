@@ -30,7 +30,7 @@ const createChore = (choreData: CreateChoreData) => {
   };
 };
 
-const markChoreComplete = (choreData: CompleteChoreData) => {
+const markChoreComplete = (choreData: CompleteChoreData, tokens:number) => {
   return async (dispatch: React.Dispatch<any>) => {
     const completedChore = await apiFetch.completeChore(choreData);
     // console.log("COMPLETED CHORE", completedChore);
@@ -39,7 +39,12 @@ const markChoreComplete = (choreData: CompleteChoreData) => {
         type: ActionTypes.COMPLETE_CHORE,
         payload: completedChore,
       });
+      dispatch({
+        type: ActionTypes.UPDATE_USER_BALANCE,
+        payload: {operation: "add", amount: tokens}
+      })
     }
+    getChores()(dispatch)
   };
 };
 

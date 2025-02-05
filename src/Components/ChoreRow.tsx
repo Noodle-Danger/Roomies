@@ -26,7 +26,7 @@ const ChoreRow = ({ userId, choreId, choreName, tokens }: ChoreRowProps) => {
       user_id: userId,
       chore_id: choreId,
     };
-    markChoreComplete(requestData)(dispatch);
+    markChoreComplete(requestData, tokens)(dispatch);
   };
 
   return (
