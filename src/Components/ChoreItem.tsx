@@ -5,6 +5,7 @@ import { buttonStyle, viewItemStyle } from '../constants/constStyle';
 
 interface ChoreItemProps {
   id: number;
+  image: string,
   name: string;
   tokens: number;
   onClick:(id: number) => void;
@@ -12,22 +13,23 @@ interface ChoreItemProps {
 
 const ChoreItem = ({ id, name, tokens, onClick }: ChoreItemProps) => {
   return (
-    <div key={id}>
-      <div className="flex">
-        <input
-          style={viewItemStyle}
-          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-          value={tokens}
-          readOnly
-        />
+    <div key={id} className='chore-card'>
+      <div>
+        <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-7BVz9BBcqBroNjysSvLfWs6N/user-wMdyOa5rZGH6Qqle6y392ZbU/img-goGmPcg2B9ZEhszkxz9NOGTf.png?st=2025-02-05T01%3A04%3A29Z&se=2025-02-05T03%3A04%3A29Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-02-05T01%3A13%3A54Z&ske=2025-02-06T01%3A13%3A54Z&sks=b&skv=2024-08-04&sig=R8vaDJICYm1TRifrT91JunlPn3k%2ByPRk8OrIiLBeaww%3D" alt="wash dishes"/>   
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
           value={name}
           readOnly
         />
+        <input
+          style={viewItemStyle}
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          value={tokens}
+          readOnly
+        />
         <button
-          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center flex"
+          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center"
           style={buttonStyle}
           onClick={() => onClick(id)}
         >

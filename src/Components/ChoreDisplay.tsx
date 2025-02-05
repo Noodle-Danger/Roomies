@@ -18,24 +18,19 @@ const ChoreDisplay = ({ onComplete }: ChoreDisplayProps) => {
   const { chores } = state;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-      {chores.length > 0 ? (
+    <div className="chore-grid">
+      {chores &&
+        chores.length > 0 &&
         chores.map((chore) => (
-          <div
-            key={chore.id}
-            className="choreCard"
-          >
             <ChoreItem
+              key={chore.id}
               id={chore.id}
+              // ! add the image props
               name={chore.task_name}
               tokens={chore.tokens}
               onClick={() => onComplete(chore.id)}
             />
-          </div>
-        ))
-      ) : (
-        <p className="col-span-full text-center text-gray-500">No chores available</p>
-      )}
+        ))}
     </div>
   );
 };

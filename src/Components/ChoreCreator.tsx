@@ -46,7 +46,7 @@ const ChoreInput = () => {
           setChoreName(event.target.value);
         }}
       />
-      <Button
+      <button
         className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1"
         style={buttonStyle}
         onClick={() => {
@@ -54,7 +54,7 @@ const ChoreInput = () => {
         }}
       >
         Add Chore
-      </Button>
+      </button>
     </div>
   );
 };
