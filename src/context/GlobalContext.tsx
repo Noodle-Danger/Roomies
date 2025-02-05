@@ -89,7 +89,9 @@ const reducer = (state: GlobalState, action: DispatchAction) => {
   switch (action.type) {
     case ActionTypes.GET_USER:
       //   console.log("FETCHED USER:", action.payload);
-      const user = action.payload;
+      const users: types.User[] = action.payload;
+      const user = users.find((obj) => obj.id === 2);
+
       return { ...state, userInfo: user };
 
     case ActionTypes.GET_CHORES:

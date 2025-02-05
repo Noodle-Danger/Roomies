@@ -10,12 +10,12 @@ import { ActionTypes } from "../context/GlobalContext";
 const getUser = () => {
   return async (dispatch: React.Dispatch<any>) => {
     const users = await apiFetch.getUsers();
-    const user = users[0];
+    // const user = users[0];
     // console.log("USERS", users);
-    if (user) {
+    if (users) {
       dispatch({
         type: ActionTypes.GET_USER,
-        payload: user,
+        payload: users,
       });
     }
   };
