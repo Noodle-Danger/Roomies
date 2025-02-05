@@ -7,7 +7,7 @@ import useGlobalContext from "../hooks/useGlobalContext";
 
 const UserWrapper = () => {
   const { state } = useGlobalContext();
-  const { userPerks, choreHistory } = state.userInventory;
+  const { choreHistory } = state.userInventory;
 
   return (
     <div className="p-2 m-4 h-8/10 border-white rounded-[50px] border-5">
@@ -15,7 +15,7 @@ const UserWrapper = () => {
         #USER WRAPPER#
       </h1>
       <div className="flex">
-          <UserPerks perkData={userPerks} />
+          <UserPerks />
           <CompletedChores choreData={choreHistory} />
       </div>
     </div>

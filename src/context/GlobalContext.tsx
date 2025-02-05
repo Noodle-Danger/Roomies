@@ -110,17 +110,13 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
         //   console.log("FETCHED USERPERKS", action.payload);
         const fetchedUserPerks: types.UserPerk[] = action.payload;
 
-        const userPerks: types.UserPerk[] = fetchedUserPerks.filter(
-          (perk: types.UserPerk) => perk.user_id === state.userInfo?.id
-        );
-
         const perkMap = new Map();
 
         fetchedUserPerks.forEach((perk) => {
-          const { perk_name, user_id, qty, perk_id } = perk;
+          const { perk_name, user_id, qty } = perk;
 
           // if user_id isn't current user --> skip
-          if (user_id !== draft.userInfo.id) return;
+          if (user_id !== state.userInfo.id) return;
 
           // else --> retrieve perk from map or if not in map, initialize object
           const incomingPerk = perkMap.get(perk_name) || {
@@ -135,11 +131,13 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
           perkMap.set(perk_name, incomingPerk);
         });
 
-        // console.log([...perkMap.entries()]);
-        draft.userInventory.userPerks = [...perkMap.values()];
+        const sortedPerks = [...perkMap.values()].sort((a, b) =>
+          a.perkName.localeCompare(b.perkName)
+        );
+        draft.userInventory.userPerks = sortedPerks;
         break;
       case ActionTypes.UPDATE_USER_BALANCE:
-        console.log("CHANGE BALANCE: ", action.payload);
+        // console.log("CHANGE BALANCE: ", action.payload);
         const { operation, amount } = action.payload;
         operation === "add"
           ? (draft.userInfo.tokens += amount)
@@ -163,13 +161,85 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
         break;
       case ActionTypes.PURCHASE_PERK:
         console.log("PURCHASED PERK:", action.payload);
-        const { perk } = action.payload;
-        const currentPerks = state.userInventory.userPerks;
-        console.log("current perks", currentPerks);
-        // if purchased perk id exists in inventory, update quant, otherwise add
-        // if (perk.id)
+        const { perk: purchasedPerk } = action.payload;
+        const existingUserPerks = draft.userInventory.userPerks;
+        // make array of perk names and see if purchased perk name exists
+        const currentPerkNames = existingUserPerks.map((perk) => perk.perkName);
+        const targetIndex = currentPerkNames.indexOf(purchasedPerk.perk_name);
 
-        draft.userInventory.userPerks.push(perk);
+        if (targetIndex >= 0) {
+          const target = existingUserPerks[targetIndex];
+          target.totalQty++;
+          target.perks.push(purchasedPerk);
+        } else {
+          const newPerk = {
+            perkName: purchasedPerk.perk_name,
+            totalQty: 1,
+            perks: [purchasedPerk],
+          };
+          existingUserPerks.push(newPerk);
+          existingUserPerks.sort((a, b) =>
+            a.perkName.localeCompare(b.perkName)
+          );
+        }
+
+        /*
+        [
+    {
+        "perkName": "Extra Vacation Day",
+        "totalQty": 1,
+        "perks": [
+            {
+                "id": 9,
+                "user_id": 2,
+                "perk_id": 3,
+                "qty": 1,
+                "purchased_at": "2025-02-05T07:36:44.155Z",
+                "perk_name": "Extra Vacation Day"
+            }
+        ]
+    },
+    {
+        "perkName": "Banana",
+        "totalQty": 14,
+        "perks": [
+            {
+                "id": 10,
+                "user_id": 2,
+                "perk_id": 15,
+                "qty": 1,
+                "purchased_at": "2025-02-05T07:49:41.399Z",
+                "perk_name": "Banana"
+            },
+            {
+                "id": 8,
+                "user_id": 2,
+                "perk_id": 16,
+                "qty": 4,
+                "purchased_at": "2025-02-04T12:51:22.869Z",
+                "perk_name": "Banana"
+            },
+            {
+                "id": 31,
+                "user_id": 2,
+                "perk_id": 12,
+                "qty": 6,
+                "purchased_at": "2025-02-05T14:27:34.350Z",
+                "perk_name": "Banana"
+            },
+            {
+                "id": 34,
+                "user_id": 2,
+                "perk_id": 14,
+                "qty": 3,
+                "purchased_at": "2025-02-05T14:33:55.954Z",
+                "perk_name": "Banana"
+            }
+        ]
+    },
+   
+]
+        */
         break;
       default:
         break; //   return state;
