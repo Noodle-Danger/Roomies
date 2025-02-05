@@ -24,7 +24,7 @@ function ChoreList() {
       --> CHORE ROW COMPONENT
       */}
 
-      <ChoreInput userId={id}/>
+      <ChoreInput userId={id} />
 
       <div className="m-6"></div>
 
@@ -39,8 +39,6 @@ function ChoreList() {
             tokens={chore.tokens}
           />
         ))}
-
-      <UserWrapper />
     </div>
   );
 }

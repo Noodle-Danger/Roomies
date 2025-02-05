@@ -1,4 +1,5 @@
 import useGlobalContext from "../hooks/useGlobalContext";
+import { useState } from "react";
 import { purchasePerk } from "../actions/perkActions";
 import { PurchasePerkData } from "../types";
 
@@ -27,6 +28,7 @@ interface PerkRowProps {
 const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
   const { state, dispatch } = useGlobalContext();
   const { id: userId, tokens: userTokens } = state.userInfo;
+  const [perkQty, setPerkQty] = useState(qty);
 
   const buyPerk = () => {
     const requestData = {
@@ -35,6 +37,7 @@ const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
       user_tokens: userTokens,
       perk_tokens: tokens,
     };
+    setPerkQty(perkQty - 1);
     purchasePerk(requestData)(dispatch);
   };
 
@@ -44,7 +47,7 @@ const PerkRow = ({ perkId, perkName, qty, tokens }: PerkRowProps) => {
         <input
           style={viewItemStyle}
           className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-          value={qty}
+          value={perkQty}
           readOnly
         />
         <input
