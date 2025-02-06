@@ -10,14 +10,42 @@ const choresController = {};
  * @return
  */
 choresController.getChores = async (req, res, next) => {
-    const { completed } = req.body;
-
-  const getChoresQuery = "SELECT * FROM chores WHERE is_complete = $1";
-
+  const getChoresQuery = "SELECT * FROM chores WHERE is_complete = FALSE";
   try {
-    const result = await pool.query(getChoresQuery, [completed]);
+    const result = await pool.query(getChoresQuery);
 
     res.locals.chores = result.rows;
+    // console.log("getChores returns: ", result.rows);
+
+    next();
+  } catch (err) {
+    return next({
+      log: "An error occured in the getChores middleware function",
+      status: 400,
+      message: "An error occured.",
+    });
+  }
+};
+
+/**
+ *
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @return
+ */
+choresController.getCompletedChores = async (req, res, next) => {
+  const { user_id } = req.body; // Extract user_id from the request body
+
+  const getCompletedChoresQuery = `
+    SELECT * FROM chores 
+    WHERE is_complete = TRUE AND user_id = $1
+`;
+  try {
+    const result = await pool.query(getCompletedChoresQuery, [user_id]);
+
+    res.locals.completeChores = result.rows;
     // console.log("getChores returns: ", result.rows);
 
     next();

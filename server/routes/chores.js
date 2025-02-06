@@ -4,12 +4,17 @@ import choresController from '../controllers/choresController.js'
 const choresRouter = express.Router();
 
 // Get all chores
-choresRouter.post('/get', choresController.getChores, (req, res) => {
+choresRouter.get('/', choresController.getChores, (req, res) => {
     res.status(200).json(res.locals.chores);
 });
 
+// Get completed chores
+choresRouter.get('/completed', choresController.getCompletedChores, (req, res) => {
+    res.status(200).json(res.locals.completedChores);
+});
+
 // Create a chore
-choresRouter.post('/create', choresController.createChore, (req, res) => {
+choresRouter.post('/', choresController.createChore, (req, res) => {
     res.status(200).json(res.locals.newChore);
 });
 
