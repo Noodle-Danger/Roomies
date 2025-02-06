@@ -5,7 +5,7 @@ import apiRouter from './routes/api.js';
 import { fileURLToPath } from 'url'; //* build the dirname manually due to es6 restrictions
 
 const app = express();
-const PORT = process.env.PORT || 8080; // ✅ Use Railway's assigned port
+const PORT = process.env.PORT || 8081; // ✅ Use Railway's assigned port
 const __filename = fileURLToPath(import.meta.url); //*recreate dirname for ES6 modules
 const __dirname = path.dirname(__filename);
 
