@@ -10,10 +10,12 @@ const choresController = {};
  * @return
  */
 choresController.getChores = async (req, res, next) => {
-  const getChoresQuery = "SELECT * FROM chores WHERE is_complete = FALSE";
+    const { completed } = req.body;
+
+  const getChoresQuery = "SELECT * FROM chores WHERE is_complete = $1";
 
   try {
-    const result = await pool.query(getChoresQuery);
+    const result = await pool.query(getChoresQuery, [completed]);
 
     res.locals.chores = result.rows;
     // console.log("getChores returns: ", result.rows);
