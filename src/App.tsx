@@ -16,7 +16,7 @@ function App() {
   return (
     <div
       id="App"
-      className="p-2 m-4 w-auto border-white rounded-[50px] "
+      className="p-2 m-4 w-auto border-white rounded-[50px] dark:bg-neutral-900"
       style={{
         boxShadow: `
             0 10px 25px -3px rgba(0, 0, 0, 0.3),
