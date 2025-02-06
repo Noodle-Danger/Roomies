@@ -5,7 +5,7 @@ import { ActionTypes } from "../context/GlobalContext";
 
 const getChores = () => {
   return async (dispatch: React.Dispatch<any>) => {
-    const chores = await apiFetch.getChores();
+    const chores = await apiFetch.getChores(true);
     // console.log("CHORES", chores);
     if (chores) {
       dispatch({
