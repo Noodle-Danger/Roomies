@@ -48,3 +48,29 @@ app.use((err, req, res, _next) => {
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+// Function to check if the port is in use
+const checkPortInUse = (port) => {
+  return new Promise((resolve, reject) => {
+    const server = app.listen(port, () => {
+      server.close();
+      resolve();
+    });
+
+    server.on('error', () => reject('Port already in use'));
+  });
+};
+
+checkPortInUse(port)
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  })
+  .catch(() => {
+    const fallbackPort = 8081;
+    console.log(`Port ${port} in use, switching to ${fallbackPort}`);
+    app.listen(fallbackPort, () => {
+      console.log(`Server running on port ${fallbackPort}`);
+    });
+  });
