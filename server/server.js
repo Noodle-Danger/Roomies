@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 8081; // ✅ Use Railway's assigned port
 const __filename = fileURLToPath(import.meta.url); //*recreate dirname for ES6 modules
 const __dirname = path.dirname(__filename);
 
+const defaultPort = 8080;
+const port = process.env.PORT || defaultPort;
+
+
 //cors acceptance middleware???
 //?check if need to install cors, don't think so because react and express are running on the same port 3000??
 //! install CORS, make sure its saved
