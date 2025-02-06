@@ -1,30 +1,38 @@
 // ChoreInput function
-import useGlobalContext from '../hooks/useGlobalContext';
-import { createChore } from '../actions/choreActions';
-import { useState } from 'react'; // to manage local component state
-import { inputStyle, buttonStyle } from '../constants/constStyle';
-import Button from './Button';
-import InputField from './InputField';
 
-const ChoreInput = () => {
+// import hooks
+import { useState } from "react"; // to manage local component state
+
+// import styles
+import { inputStyle, buttonStyle } from "../constants/constStyle";
+
+// import components 
+import Button from "./Button";
+import InputField from "./InputField";
+
+// import context 
+import useGlobalContext from "../hooks/useGlobalContext";
+import { createChore } from "../actions/choreActions";
+
+
+const ChoreCreator = () => {
   // destructure state from context
-  const { state, dispatch } = useGlobalContext();
-  const { user_id } = state;
+  const { dispatch } = useGlobalContext();
 
   // manage chore name and token input state
-  const [choreName, setChoreName] = useState('');
-  const [tokens, setTokens] = useState('');
+  const [choreName, setChoreName] = useState("");
+  const [tokens, setTokens] = useState("");
 
   const addChore = () => {
     //! trim whitespace
     //! ensure tokens is number
     // generate choreData object from user inputs
-    const choreData = { user_id, task_name: choreName, tokens: Number(tokens) };
+    const choreData = { user_id: 1, task_name: choreName, tokens: Number(tokens) };
     // send choreData to action creator
     createChore(choreData)(dispatch);
     // clear input boxes
-    setChoreName('');
-    setTokens('');
+    setChoreName("");
+    setTokens("");
   };
   return (
     <div className="flex gap-2">
@@ -59,4 +67,4 @@ const ChoreInput = () => {
   );
 };
 
-export default ChoreInput;
+export default ChoreCreator;
