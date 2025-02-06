@@ -13,7 +13,7 @@ interface apiRequests {
   // CHORES
   createChore: (choreData: CreateChoreData) => Promise<any>;
   completeChore: (choreData: CompleteChoreData) => Promise<any>;
-  getChores: () => Promise<any>;
+  getChores: (completed: boolean) => Promise<any>;
   // PERKS
   createPerk: (perkData: CreatePerkData) => Promise<any>;
   purchasePerk: (perkData: PurchasePerkData) => Promise<any>;
@@ -78,7 +78,7 @@ const apiFetch: apiRequests = {
   },
   createChore: async (choreData) => {
     try {
-      const response = await fetch(`${API_URL}/chores`, {
+      const response = await fetch(`${API_URL}/chores/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,15 +118,22 @@ const apiFetch: apiRequests = {
       console.error("THIS IS THE ERROR: ", err);
     }
   },
-  getChores: async () => {
+  getChores: async (completed) => {
     try {
-      const response = await fetch(`${API_URL}/chores`); //url of endpoint
+
+      const response = await fetch(`${API_URL}/chores/get`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({completed}),
+      });
 
       if (!response.ok) {
-        throw new Error(`Failed to get chores: ${response.status}`);
+        throw new Error(`Error to get chores: ${response.status}`);
       }
 
-      const data = await response.json(); //parse response to JSON
+      const data = await response.json();
       // console.log("getChores:", data);
 
       return data;
