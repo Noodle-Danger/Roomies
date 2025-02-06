@@ -160,8 +160,17 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
         draft.perks.push(newPerk);
         break;
       case ActionTypes.PURCHASE_PERK:
-        console.log("PURCHASED PERK:", action.payload);
+        // console.log("PURCHASED PERK:", action.payload);
         const { perk: purchasedPerk } = action.payload;
+        console.log("purchased perk:", purchasedPerk);
+        // if perk quant is 1, delete from perks array
+        if (purchasedPerk.qty_remaining === 0) {
+          // find index of perk and delete it from perks array
+          const targetIndex = draft.perks.findIndex(
+            (perk) => perk.id === purchasedPerk.id
+          );
+          if (targetIndex !== -1) draft.perks.splice(targetIndex, 1);
+        }
         const existingUserPerks = draft.userInventory.userPerks;
         // make array of perk names and see if purchased perk name exists
         const currentPerkNames = existingUserPerks.map((perk) => perk.perkName);
