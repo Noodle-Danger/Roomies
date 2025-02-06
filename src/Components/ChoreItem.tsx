@@ -39,19 +39,19 @@ const ChoreItem = ({ choreId, choreName, tokens }: ChoreItemProps) => {
         <div className="chore-info">
           <input
             style={viewItemStyle}
-            className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+            className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-30 dark:bg-neutral-300"
             value={choreName}
             readOnly
           />
           <input
             style={viewItemStyle}
-            className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-10"
+            className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-15 dark:bg-neutral-300"
             value={`${tokens} coin`}
             readOnly
           />
         </div>
         <button
-          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center"
+          className="font-sans py-1 px-2 m-1 dark:bg-slate-700 dark:hover:bg-zinc-900 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center"
           style={buttonStyle}
           onClick={completeChore}
         >
