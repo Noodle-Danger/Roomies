@@ -45,25 +45,25 @@ const PerkItem = ({ perkId, perkName, qty, perkTokens }: PerkItemProps) => {
         />
         <input
           style={viewItemStyle}
-          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none dark:bg-neutral-300"
           value={perkName}
           readOnly
         />
         <input
           style={viewItemStyle}
-          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none dark:bg-neutral-300"
           value={`${perkTokens} coin`}
           readOnly
         />
         <input
           style={viewItemStyle}
-          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
+          className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none dark:bg-neutral-300"
           value={`${perkQty} remaining`}
           readOnly
         />
 
         <Button
-          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center"
+          className="font-sans py-1 px-2 m-1 dark:bg-slate-700 dark:hover:bg-zinc-900 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center"
           style={buttonStyle}
           onClick={() => buyPerk()}
         >
