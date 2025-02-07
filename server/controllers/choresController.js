@@ -1,4 +1,4 @@
-import pool from "../models/roomiesModels.js";
+import pool from '../models/roomiesModels.js';
 const choresController = {};
 
 /**
@@ -10,9 +10,9 @@ const choresController = {};
  * @return
  */
 choresController.getChores = async (req, res, next) => {
-    const { completed } = req.body;
+  const { completed } = req.body;
 
-  const getChoresQuery = "SELECT * FROM chores WHERE is_complete = $1";
+  const getChoresQuery = 'SELECT * FROM chores WHERE is_complete = $1';
 
   try {
     const result = await pool.query(getChoresQuery, [completed]);
@@ -23,9 +23,9 @@ choresController.getChores = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: "An error occured in the getChores middleware function",
+      log: 'An error occured in the getChores middleware function',
       status: 400,
-      message: "An error occured.",
+      message: 'An error occured.',
     });
   }
 };
@@ -39,34 +39,35 @@ choresController.getChores = async (req, res, next) => {
  * @return
  */
 choresController.createChore = async (req, res, next) => {
-  const { task_name, tokens, user_id } = req.body;
+  const { task_name, tokens, user_id, chore_img } = req.body;
 
   if (!task_name || !tokens || !user_id)
     return res
       .status(400)
-      .json({ error: "Missing task_name or tokens or user_id" });
+      .json({ error: 'Missing task_name or tokens or user_id' });
 
   const createChoreQuery =
-    "INSERT INTO chores (task_name, tokens, user_id) VALUES ($1, $2, $3) RETURNING *";
+    'INSERT INTO chores (task_name, tokens, user_id, chore_img) VALUES ($1, $2, $3, $4) RETURNING *';
 
   try {
     const result = await pool.query(createChoreQuery, [
       task_name,
       tokens,
       user_id,
+      chore_img || null,
     ]);
 
     res.locals.newChore = result.rows[0];
-    console.log("This is res.locals.newChore: ", res.locals.newChore);
+    console.log('This is res.locals.newChore: ', res.locals.newChore);
 
     next();
   } catch (err) {
-    console.error("This is the error: ", err);
+    console.error('This is the error: ', err);
 
     next({
-      log: "An error occured in the roomiesController.createChore middleware.",
+      log: 'An error occured in the roomiesController.createChore middleware.',
       status: 400,
-      message: "An error occured.",
+      message: 'An error occured.',
     });
   }
 };
@@ -101,16 +102,16 @@ choresController.completeChore = async (req, res, next) => {
     const result = await pool.query(completeChore, [chore_id]);
 
     res.locals.completeChore = [result.rows[0], result2.rows[0]];
-    console.log("completeChore returned", result.rows);
+    console.log('completeChore returned', result.rows);
 
     next();
   } catch (err) {
-    console.error("This is the error: ", err);
+    console.error('This is the error: ', err);
 
     next({
-      log: "Error in the choresController.completeChore middleware",
+      log: 'Error in the choresController.completeChore middleware',
       status: 400,
-      message: "An error occured.",
+      message: 'An error occured.',
     });
   }
 };

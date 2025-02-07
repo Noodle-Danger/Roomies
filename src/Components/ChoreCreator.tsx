@@ -16,22 +16,58 @@ const ChoreCreator = () => {
   // manage chore name and token input state
   const [choreName, setChoreName] = useState('');
   const [tokens, setTokens] = useState('');
+  const [choreImage, setChoreImage] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
-  const addChore = () => {
+  const addChore = async () => {
     //! trim whitespace
     //! ensure tokens is number
-    // generate choreData object from user inputs
-    const choreData = {
-      user_id: 1,
-      task_name: choreName,
-      tokens: Number(tokens),
-    };
-    // send choreData to action creator
-    createChore(choreData)(dispatch);
-    // clear input boxes
-    setChoreName('');
-    setTokens('');
+    // if (!choreName.trim() || !tokens) return;
+
+    setIsCreating(true);
+    try {
+      let imageUrl = choreImage;
+      if (!imageUrl && choreName.trim() && tokens.trim()) {
+        const imageResponse = await fetch(
+          'http://localhost:8080/api/ai/image',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'chore',
+              prompt: `Create an anime style picture of the chore: ${choreName}`,
+            }),
+          }
+        );
+        const imageData = await imageResponse.json();
+        if (imageData.aiImageResponse) {
+          imageUrl = imageData.aiImageResponse;
+        }
+      }
+
+      // generate choreData object from user inputs
+      const choreData = {
+        user_id: 1,
+        task_name: choreName,
+        tokens: Number(tokens),
+        chore_img: imageUrl,
+      };
+
+      console.log('Creating chore with data:', choreData); // ! delete after test
+
+      // send choreData to action creator
+      await createChore(choreData)(dispatch);
+      // clear input boxes
+      setChoreName('');
+      setTokens('');
+      setChoreImage(null);
+    } catch (error) {
+      console.error('Error creating chore:', error);
+    } finally {
+      setIsCreating(false);
+    }
   };
+
   return (
     <div className='flex gap-2'>
       <InputField
@@ -55,13 +91,19 @@ const ChoreCreator = () => {
       <Button
         className='font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1'
         style={buttonStyle}
-        onClick={() => {
-          addChore();
-        }}
+        // onClick={() => {
+        //   addChore();
+        // }}
+        onClick={addChore}
+        disabled={isCreating}
       >
-        Add Chore
+        {isCreating ? 'Creating..' : 'Add Chore'}
       </Button>
-      <AiGenerator type='chore' onGenerated={setChoreName} />
+      <AiGenerator
+        type='chore'
+        onGenerated={setChoreName}
+        onImageGenerated={setChoreImage}
+      />
     </div>
   );
 };
