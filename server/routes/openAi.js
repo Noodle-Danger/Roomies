@@ -3,8 +3,17 @@
 // -------------------------------------------------------------------------------
 import express from 'express';
 import OpenAI from 'openai';
+import { v4 as uuidv4 } from 'uuid'; // generate unique identifier for AI images
+import { createClient } from '@supabase/supabase-js'; // connect to db using Secret Key to authenticate for supabase storage
 
 const aiRouter = express.Router();
+
+// -------------------------------------------------------------------------------
+// > SUPABASE CONFIG < //
+// -------------------------------------------------------------------------------
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // -------------------------------------------------------------------------------
 // > HELPER FUNCTIONS < //
@@ -54,7 +63,7 @@ aiRouter.post('/image', async (req, res, next) => {
   const apiKeyError = validateApiKey(req, res);
   if (apiKeyError) return apiKeyError;
 
-  const { prompt: customPrompt } = req.body;
+  const { type, prompt: customPrompt } = req.body;
   const defaultImagePrompt =
     'Create an anime style picture of the chore, vacuuming';
   const imagePrompt =
@@ -73,11 +82,44 @@ aiRouter.post('/image', async (req, res, next) => {
       style: 'vivid', // or 'natural'
     });
 
-    const aiImageResponse = response.data[0].url;
-    console.log('2. AI Image generation URL:', aiImageResponse);
+    const aiImageUrl = response.data[0].url;
+    console.log('2. AI Image generation URL:', aiImageUrl);
+
+    // * Download image from image generation
+    // * Save as unique file using UUID in either chores or perks
+    const imageResponse = await fetch(aiImageUrl);
+    if (!imageResponse.ok) {
+      throw new Error(`Failed to download image of AI ${type}. 😟`);
+    }
+
+    const imageArrayBuffer = await imageResponse.arrayBuffer();
+    const imageBuffer = Buffer.from(imageArrayBuffer);
+
+    console.log('imageArrayBuffer', imageArrayBuffer);
+    console.log('imageBuffer', imageBuffer);
+
+    const folder = type ? type : 'chore';
+    const fileName = `${folder}/${uuidv4()}.png`;
+
+    console.log('Folder:', folder);
+    console.log('File Name:', fileName);
+
+    // * Upload image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('roomies')
+      .upload(fileName, imageBuffer);
+
+    if (uploadError) throw uploadError;
+
+    // * Get URL for the uploaded images
+    const { data } = supabase.storage.from('roomies').getPublicUrl(fileName);
+
+    const publicURL = data.publicUrl;
+
+    console.log('3. Supabase Public URL:', publicURL); // !!! INVESTIGATE AS THE PUBLIC URL NOT SHOWING EVEN WHEN BUCKET SET TO PUBLIC; LOOK INTO SIGNED URL?!
     console.groupEnd();
 
-    return res.status(200).json({ aiImageResponse });
+    return res.status(200).json({ aiImageResponse: publicURL });
   } catch (error) {
     handleError(error, res);
   }

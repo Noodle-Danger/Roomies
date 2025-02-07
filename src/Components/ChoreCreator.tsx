@@ -2,17 +2,11 @@
 
 // import hooks
 import { useState } from 'react'; // to manage local component state
-
-// import styles
-import { inputStyle, buttonStyle } from '../constants/constStyle';
-
-// import components
-import Button from './Button';
-import InputField from './InputField';
+import { inputStyle, buttonStyle } from '../constants/constStyle'; // import styles
+import Button from './Button'; // import components
+import InputField from './InputField'; // import components
 import AiGenerator from './AskJarvis';
-
-// import context
-import useGlobalContext from '../hooks/useGlobalContext';
+import useGlobalContext from '../hooks/useGlobalContext'; // import context
 import { createChore } from '../actions/choreActions';
 
 const ChoreCreator = () => {
