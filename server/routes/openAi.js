@@ -164,6 +164,7 @@ aiRouter.post('/', async (req, res, next) => {
       existingItems = result.rows.map((row) => row.task_name);
     } else if (type === 'perk') {
       const result = await pool.query('SELECT perk_name FROM perks');
+      existingItems = result.rows.map((row) => row.perk_name);
     }
 
     prompt = `Generate a new, creative ${type} suggestion that is unique (but something similar to ${
