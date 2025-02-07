@@ -32,7 +32,7 @@ const ChoreItem = ({
       user_id: userId,
       chore_id: choreId,
     };
-    markChoreComplete(requestData, tokens)(dispatch);
+    markChoreComplete(requestData, tokens, userId)(dispatch);
   };
 
   const imageUrl =

@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import { render, screen, cleanup } from '@testing-library/react';
 
-import ChoreList from '../ChoreList';
+import ChoreList from '../ChoreList2';
 
 // define mocked chore object
 interface Chore {

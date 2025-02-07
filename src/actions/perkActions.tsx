@@ -26,6 +26,7 @@ const createPerk = (perkData: CreatePerkData) => {
     }
   };
 };
+
 const purchasePerk = (perkData: PurchasePerkData, tokens: number) => {
   return async (dispatch: React.Dispatch<any>) => {
     const purchasedPerk = await apiFetch.purchasePerk(perkData);

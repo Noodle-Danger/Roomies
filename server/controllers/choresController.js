@@ -6,7 +6,6 @@ const choresController = {};
  * Returns only incomplete chores.
  */
 choresController.getChores = async (req, res, next) => {
-  // Using a fixed condition to only return incomplete chores.
   const getChoresQuery = 'SELECT * FROM chores WHERE is_complete = FALSE';
   try {
     const result = await pool.query(getChoresQuery);
@@ -15,9 +14,9 @@ choresController.getChores = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: 'An error occured in the getChores middleware function',
+      log: 'An error occurred in the getChores middleware function',
       status: 400,
-      message: 'An error occured.',
+      message: 'An error occurred.',
     });
   }
 };
@@ -25,7 +24,6 @@ choresController.getChores = async (req, res, next) => {
 /**
  * getCompletedChores
  * Returns completed chores for a given user.
- * (Included from the dev branch.)
  */
 choresController.getCompletedChores = async (req, res, next) => {
   const { user_id } = req.params;
@@ -42,19 +40,20 @@ choresController.getCompletedChores = async (req, res, next) => {
     next();
   } catch (err) {
     return next({
-      log: 'An error occured in the getCompletedChores middleware function',
+      log: 'An error occurred in the getCompletedChores middleware function',
       status: 400,
-      message: 'An error occured.',
+      message: 'An error occurred.',
     });
   }
 };
 
 /**
  * createChore
- * Creates a new chore. If a chore_img is provided, it is included; otherwise null.
+ * Creates a new chore. Optionally includes a chore image.
  */
 choresController.createChore = async (req, res, next) => {
   const { task_name, tokens, user_id, chore_img } = req.body;
+
   if (!task_name || !tokens || !user_id)
     return res
       .status(400)
@@ -70,49 +69,50 @@ choresController.createChore = async (req, res, next) => {
       user_id,
       chore_img || null,
     ]);
+
     res.locals.newChore = result.rows[0];
     console.log('This is res.locals.newChore: ', res.locals.newChore);
     next();
   } catch (err) {
     console.error('This is the error: ', err);
     next({
-      log: 'An error occured in the roomiesController.createChore middleware.',
+      log: 'An error occurred in the choresController.createChore middleware.',
       status: 400,
-      message: 'An error occured.',
+      message: 'An error occurred.',
     });
   }
 };
 
 /**
  * completeChore
- * Marks a chore as complete and updates the user's tokens.
- * Also, updates the chore record with the user_id of the completer.
+ * Marks a chore as complete, updates the user's tokens,
+ * and records the user who completed the chore.
  */
 choresController.completeChore = async (req, res, next) => {
   const { user_id, chore_id } = req.body;
   console.log('user_id in completeChore', user_id);
 
   const incrementTokens = `
-        UPDATE users
-        SET tokens = tokens + COALESCE(
-            (SELECT tokens FROM chores WHERE id = $2 AND is_complete = FALSE),
-            0
-        )
-        WHERE id = $1
-        RETURNING *;
+    UPDATE users
+    SET tokens = tokens + COALESCE(
+        (SELECT tokens FROM chores WHERE id = $2 AND is_complete = FALSE),
+        0
+    )
+    WHERE id = $1
+    RETURNING *;
   `;
 
   const completeChore = `
-        UPDATE chores 
-        SET is_complete = TRUE, user_id = $1
-        WHERE id = $2
-        RETURNING *;
+    UPDATE chores 
+    SET is_complete = TRUE, user_id = $1
+    WHERE id = $2
+    RETURNING *;
   `;
 
   try {
     const result2 = await pool.query(incrementTokens, [user_id, chore_id]);
     const result = await pool.query(completeChore, [user_id, chore_id]);
-    // We are returning the updated chore record.
+
     res.locals.completeChore = result.rows[0];
     console.log('completeChore returned', result.rows);
     next();
@@ -121,7 +121,7 @@ choresController.completeChore = async (req, res, next) => {
     next({
       log: 'Error in the choresController.completeChore middleware',
       status: 400,
-      message: 'An error occured.',
+      message: 'An error occurred.',
     });
   }
 };

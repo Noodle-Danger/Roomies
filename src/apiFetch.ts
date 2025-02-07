@@ -4,6 +4,7 @@ import {
   CreatePerkData,
   PurchasePerkData,
 } from './types';
+
 interface apiRequests {
   // USERS
   createUser: (username: string, email: string) => Promise<any>;
@@ -13,7 +14,7 @@ interface apiRequests {
   // CHORES
   createChore: (choreData: CreateChoreData) => Promise<any>;
   completeChore: (choreData: CompleteChoreData) => Promise<any>;
-  getChores: (completed: boolean) => Promise<any>;
+  getChores: (user_id: number) => Promise<any>;
   // PERKS
   createPerk: (perkData: CreatePerkData) => Promise<any>;
   purchasePerk: (perkData: PurchasePerkData) => Promise<any>;
@@ -30,16 +31,11 @@ const apiFetch: apiRequests = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username,
-          email,
-        }),
+        body: JSON.stringify({ username, email }),
       });
-
       if (!response.ok) {
         throw new Error(`Error in creating user: ${response.status}`);
       }
-
       const data = await response.json();
       console.log('Here is the created user: ', data);
       return data;
@@ -49,15 +45,11 @@ const apiFetch: apiRequests = {
   },
   getUsers: async () => {
     try {
-      const response = await fetch(`${API_URL}/users`); //url of endpoint
-
+      const response = await fetch(`${API_URL}/users`);
       if (!response.ok) {
         throw new Error(`Failed to get users: ${response.status}`);
       }
-
-      const data = await response.json(); //parse response to JSON
-      // console.log("getUsers:", data);
-
+      const data = await response.json();
       return data;
     } catch (err) {
       console.error('This is the getUser error: ', err);
@@ -70,7 +62,6 @@ const apiFetch: apiRequests = {
         throw new Error(`Failed to get users: ${response.status}`);
       }
       const data = await response.json();
-      // console.log("getUserPerks: ", data);
       return data;
     } catch (err) {
       console.log('ERROR: GETUSERPERKS API', err);
@@ -85,11 +76,9 @@ const apiFetch: apiRequests = {
         },
         body: JSON.stringify(choreData),
       });
-
       if (!response.ok) {
         throw new Error(`Error in creating a chore: ${response.status}`);
       }
-
       const data = await response.json();
       console.log('createChore: ', data);
       return data;
@@ -106,11 +95,9 @@ const apiFetch: apiRequests = {
         },
         body: JSON.stringify(choreData),
       });
-
       if (!response.ok) {
         throw new Error(`Error in completing chore: ${response.status}`);
       }
-
       const data = await response.json();
       console.log('completeChore: ', data);
       return data;
@@ -118,24 +105,15 @@ const apiFetch: apiRequests = {
       console.error('THIS IS THE ERROR: ', err);
     }
   },
-  getChores: async (completed) => {
+  getChores: async (user_id: number) => {
     try {
-      const response = await fetch(`${API_URL}/chores/get`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ completed }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error to get chores: ${response.status}`);
-      }
-
-      const data = await response.json();
-      // console.log("getChores:", data);
-
-      return data;
+      const responseIncompleteChores = await fetch(`${API_URL}/chores`);
+      const responseCompleteChores = await fetch(
+        `${API_URL}/chores/completed/${user_id}`
+      );
+      const incompleteChores = await responseIncompleteChores.json();
+      const completeChores = await responseCompleteChores.json();
+      return { incompleteChores, completeChores };
     } catch (err) {
       console.error('This is the getChore error: ', err);
     }
@@ -149,14 +127,11 @@ const apiFetch: apiRequests = {
         },
         body: JSON.stringify(perkData),
       });
-
       if (!response.ok) {
         throw new Error(`Error in creating a chore: ${response.status}`);
       }
-
       const data = await response.json();
       console.log('createPerk:', data);
-
       return data;
     } catch (err) {
       console.error('ERROR: createPerk', err);
@@ -174,7 +149,6 @@ const apiFetch: apiRequests = {
       if (!response.ok) {
         throw new Error(`Failed to get perks: ${response.status}`);
       }
-
       const data = await response.json();
       console.log('purchasePerk:', data);
       return data;
@@ -184,13 +158,11 @@ const apiFetch: apiRequests = {
   },
   getPerks: async () => {
     try {
-      const response = await fetch(`${API_URL}/perks`); //url of endpoint
-
+      const response = await fetch(`${API_URL}/perks`);
       if (!response.ok) {
         throw new Error(`Failed to get perks: ${response.status}`);
       }
-      const data = await response.json(); //parse response to JSON
-      // console.log("getPerks: ", data);
+      const data = await response.json();
       return data;
     } catch (err) {
       console.error('This is the getPerks error: ', err);
