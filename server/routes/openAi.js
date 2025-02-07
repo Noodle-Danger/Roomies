@@ -3,8 +3,18 @@
 // -------------------------------------------------------------------------------
 import express from 'express';
 import OpenAI from 'openai';
+import pool from '../models/roomiesModels.js';
+import { v4 as uuidv4 } from 'uuid'; // generate unique identifier for AI images
+import { createClient } from '@supabase/supabase-js'; // connect to db using Secret Key to authenticate for supabase storage
 
 const aiRouter = express.Router();
+
+// -------------------------------------------------------------------------------
+// > SUPABASE CONFIG < //
+// -------------------------------------------------------------------------------
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // -------------------------------------------------------------------------------
 // > HELPER FUNCTIONS < //
@@ -54,7 +64,7 @@ aiRouter.post('/image', async (req, res, next) => {
   const apiKeyError = validateApiKey(req, res);
   if (apiKeyError) return apiKeyError;
 
-  const { prompt: customPrompt } = req.body;
+  const { type, prompt: customPrompt } = req.body;
   const defaultImagePrompt =
     'Create an anime style picture of the chore, vacuuming';
   const imagePrompt =
@@ -73,11 +83,44 @@ aiRouter.post('/image', async (req, res, next) => {
       style: 'vivid', // or 'natural'
     });
 
-    const aiImageResponse = response.data[0].url;
-    console.log('2. AI Image generation URL:', aiImageResponse);
+    const aiImageUrl = response.data[0].url;
+    console.log('2. AI Image generation URL:', aiImageUrl);
+
+    // * Download image from image generation
+    // * Save as unique file using UUID in either chores or perks
+    const imageResponse = await fetch(aiImageUrl);
+    if (!imageResponse.ok) {
+      throw new Error(`Failed to download image of AI ${type}. 😟`);
+    }
+
+    const imageArrayBuffer = await imageResponse.arrayBuffer();
+    const imageBuffer = Buffer.from(imageArrayBuffer);
+
+    console.log('imageArrayBuffer', imageArrayBuffer);
+    console.log('imageBuffer', imageBuffer);
+
+    const folder = type ? type : 'chore';
+    const fileName = `${folder}/${uuidv4()}.png`;
+
+    console.log('Folder:', folder);
+    console.log('File Name:', fileName);
+
+    // * Upload image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('roomies')
+      .upload(fileName, imageBuffer);
+
+    if (uploadError) throw uploadError;
+
+    // * Get URL for the uploaded images
+    const { data } = supabase.storage.from('roomies').getPublicUrl(fileName);
+
+    const publicURL = data.publicUrl;
+
+    console.log('3. Supabase Public URL:', publicURL); // !!! INVESTIGATE AS THE PUBLIC URL NOT SHOWING EVEN WHEN BUCKET SET TO PUBLIC; LOOK INTO SIGNED URL?!
     console.groupEnd();
 
-    return res.status(200).json({ aiImageResponse });
+    return res.status(200).json({ aiImageResponse: publicURL });
   } catch (error) {
     handleError(error, res);
   }
@@ -103,14 +146,42 @@ aiRouter.post('/', async (req, res, next) => {
   const { type, prompt: customPrompt } = req.body;
 
   const defaultPrompts = {
-    chore: 'Provide a random chore suggestion. Only provide name of the chore.',
+    chore:
+      'Provide a random chore such as vacuuming. Only provide name of the chore.',
     perk: 'Provide a random perk such as a Pizza Party. Just provide the name of the perk and nothing else',
   };
 
-  const prompt = customPrompt || defaultPrompts[type] || defaultPrompts.perk;
+  let prompt = customPrompt || defaultPrompts[type] || defaultPrompts.perk;
+
+  // -------------------------------------------------------------------------------
+  // * Query the DB for existing names based on the type
+  // -------------------------------------------------------------------------------
+  let existingItems = [];
+
+  try {
+    if (type === 'chore') {
+      const result = await pool.query('SELECT task_name FROM chores');
+      existingItems = result.rows.map((row) => row.task_name);
+    } else if (type === 'perk') {
+      const result = await pool.query('SELECT perk_name FROM perks');
+      existingItems = result.rows.map((row) => row.perk_name);
+    }
+
+    prompt = `Generate a new, creative ${type} suggestion that is unique (but something similar to ${
+      defaultPrompts[type]
+    }) and not similar to any of the following: ${existingItems.join(
+      ', '
+    )}. Only provide the name of the ${type}. Don't add a period at the end of the ${type}.`;
+  } catch (error) {
+    console.error(
+      'Error fetching existing items for uniqueness prompt:',
+      error
+    );
+  }
 
   console.log('1. Prompt type:', type);
   console.log('2. customPrompt:', customPrompt);
+  console.log('3. Final prompt for AI:', prompt);
 
   try {
     const openai = createOpenAIClient();
@@ -131,7 +202,7 @@ aiRouter.post('/', async (req, res, next) => {
 
     // res.locals.aiTextResponse = aiTextResponse;
     // next();
-    console.log(`3. AI ${type} Response: ${aiTextResponse}`);
+    console.log(`4. AI ${type} Response: ${aiTextResponse}`);
     console.groupEnd();
 
     res.status(200).json({ aiTextResponse });

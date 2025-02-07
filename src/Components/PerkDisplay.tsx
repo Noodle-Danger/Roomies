@@ -1,12 +1,12 @@
-import PerkItem from "./PerkItem";
-import useGlobalContext from "../hooks/useGlobalContext";
+import PerkItem from './PerkItem';
+import useGlobalContext from '../hooks/useGlobalContext';
 
 const PerkDisplay = () => {
   const { state } = useGlobalContext();
   const { perks } = state;
 
   return (
-    <div className="chore-grid">
+    <div className='chore-grid'>
       {perks &&
         perks.length > 0 &&
         perks.map((perk) => (
@@ -17,6 +17,7 @@ const PerkDisplay = () => {
             perkName={perk.perk_name}
             qty={perk.qty_remaining}
             perkTokens={perk.tokens}
+            perkImg={perk.perk_img}
           />
         ))}
     </div>

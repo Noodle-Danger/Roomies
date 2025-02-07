@@ -23,6 +23,7 @@ interface Chore {
   is_complete: boolean;
   due_date: string | null;
   created_at: string;
+  chore_img: string | null;
 }
 
 // ! does client have to send user_id?
@@ -30,6 +31,7 @@ interface CreateChoreData {
   user_id: number;
   task_name: string;
   tokens: number;
+  chore_img?: string | null;
 }
 
 interface CompleteChoreData {
@@ -44,6 +46,7 @@ interface Perk {
   qty_initial: number;
   qty_remaining: number;
   created_at: string;
+  perk_img: string | null;
 }
 
 //! server response is an array. can it be single object?
@@ -51,6 +54,7 @@ interface CreatePerkData {
   perk_name: string;
   tokens: number;
   qty: number;
+  perk_img?: string | null;
 }
 //! Does client have to send token info??
 interface PurchasePerkData {
