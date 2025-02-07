@@ -2,24 +2,16 @@ import pool from '../models/roomiesModels.js';
 const choresController = {};
 
 /**
- *
- *
- * @param req
- * @param res
- * @param next
- * @return
+ * getChores
+ * Returns only incomplete chores.
  */
 choresController.getChores = async (req, res, next) => {
-  const { completed } = req.body;
-
-  const getChoresQuery = 'SELECT * FROM chores WHERE is_complete = $1';
-
+  // Using a fixed condition to only return incomplete chores.
+  const getChoresQuery = 'SELECT * FROM chores WHERE is_complete = FALSE';
   try {
-    const result = await pool.query(getChoresQuery, [completed]);
-
+    const result = await pool.query(getChoresQuery);
     res.locals.chores = result.rows;
-    // console.log("getChores returns: ", result.rows);
-
+    console.log('getChores returns: ', result.rows);
     next();
   } catch (err) {
     return next({
@@ -31,16 +23,38 @@ choresController.getChores = async (req, res, next) => {
 };
 
 /**
- *
- *
- * @param req
- * @param res
- * @param next
- * @return
+ * getCompletedChores
+ * Returns completed chores for a given user.
+ * (Included from the dev branch.)
+ */
+choresController.getCompletedChores = async (req, res, next) => {
+  const { user_id } = req.params;
+  console.log('user_id from getCompletedChores', user_id);
+  console.log('req.params from getCompletedChores', req.params);
+  const getCompletedChoresQuery = `
+    SELECT * FROM chores 
+    WHERE is_complete = TRUE AND user_id = $1
+  `;
+  try {
+    const result = await pool.query(getCompletedChoresQuery, [user_id]);
+    res.locals.completeChores = result.rows;
+    console.log('getCompletedChores returns: ', result.rows);
+    next();
+  } catch (err) {
+    return next({
+      log: 'An error occured in the getCompletedChores middleware function',
+      status: 400,
+      message: 'An error occured.',
+    });
+  }
+};
+
+/**
+ * createChore
+ * Creates a new chore. If a chore_img is provided, it is included; otherwise null.
  */
 choresController.createChore = async (req, res, next) => {
   const { task_name, tokens, user_id, chore_img } = req.body;
-
   if (!task_name || !tokens || !user_id)
     return res
       .status(400)
@@ -56,14 +70,11 @@ choresController.createChore = async (req, res, next) => {
       user_id,
       chore_img || null,
     ]);
-
     res.locals.newChore = result.rows[0];
     console.log('This is res.locals.newChore: ', res.locals.newChore);
-
     next();
   } catch (err) {
     console.error('This is the error: ', err);
-
     next({
       log: 'An error occured in the roomiesController.createChore middleware.',
       status: 400,
@@ -73,41 +84,40 @@ choresController.createChore = async (req, res, next) => {
 };
 
 /**
- *
- *
- * @param req
- * @param res
- * @param next
- * @return
+ * completeChore
+ * Marks a chore as complete and updates the user's tokens.
+ * Also, updates the chore record with the user_id of the completer.
  */
 choresController.completeChore = async (req, res, next) => {
   const { user_id, chore_id } = req.body;
+  console.log('user_id in completeChore', user_id);
 
   const incrementTokens = `
         UPDATE users
-        SET tokens = tokens + COALESCE((SELECT tokens FROM chores WHERE id = $2 AND is_complete = FALSE), 0)
+        SET tokens = tokens + COALESCE(
+            (SELECT tokens FROM chores WHERE id = $2 AND is_complete = FALSE),
+            0
+        )
         WHERE id = $1
         RETURNING *;
-    `;
+  `;
 
   const completeChore = `
         UPDATE chores 
-        SET is_complete = TRUE
-        WHERE id = $1
+        SET is_complete = TRUE, user_id = $1
+        WHERE id = $2
         RETURNING *;
-    `;
+  `;
 
   try {
     const result2 = await pool.query(incrementTokens, [user_id, chore_id]);
-    const result = await pool.query(completeChore, [chore_id]);
-
-    res.locals.completeChore = [result.rows[0], result2.rows[0]];
+    const result = await pool.query(completeChore, [user_id, chore_id]);
+    // We are returning the updated chore record.
+    res.locals.completeChore = result.rows[0];
     console.log('completeChore returned', result.rows);
-
     next();
   } catch (err) {
     console.error('This is the error: ', err);
-
     next({
       log: 'Error in the choresController.completeChore middleware',
       status: 400,
@@ -115,38 +125,5 @@ choresController.completeChore = async (req, res, next) => {
     });
   }
 };
-
-/**
- *
- *
- * @param req
- * @param res
- * @param next
- * @return
- */
-// choresController.deleteChore = async (req, res, next) => {
-//     const { id } = req.params;
-
-//     if (!id) return res.status(400).json({error: 'Chore ID is not defined.'});
-
-//     const deleteChoreQuery = 'DELETE FROM chores WHERE id = $1 RETURNING *';
-
-//     try {
-//         const result = await pool.query(deleteChoreQuery, [id]);
-
-//         res.locals.deletedChore = result.rows[0];
-//         console.log("This is result.rows[0] ", result.rows[0]);
-
-//         next();
-//     } catch(err){
-//         console.error("This is the error: ", err);
-
-//         next({
-//             log: 'An error occured in deleteChore middleware in roomiesController.',
-//             status: 400,
-//             message: 'An error occured.'
-//         });
-//     };
-// };
 
 export default choresController;
