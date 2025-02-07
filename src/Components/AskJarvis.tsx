@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { buttonStyle } from '../constants/constStyle';
+import { PuffLoader, HashLoader } from 'react-spinners';
 
 interface AiProps {
   type: 'chore' | 'perk';
@@ -64,12 +65,17 @@ const AiGenerator = ({ type, onGenerated, onImageGenerated }: AiProps) => {
 
   return (
     <button
-      className='font-sans py-1 px-5 min-w-5 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1'
-      style={buttonStyle}
+      className='py-2 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-full grow-1'
+      style={{
+        ...buttonStyle,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
       onClick={generateAIContent}
       disabled={isGenerating}
     >
-      {isGenerating ? '...' : 'J.A.R.V.I.S.'}
+      {isGenerating ? <HashLoader color='#ffcff3' size={25} /> : '✨'}
     </button>
   );
 };

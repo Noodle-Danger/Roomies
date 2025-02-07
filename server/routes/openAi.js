@@ -3,6 +3,7 @@
 // -------------------------------------------------------------------------------
 import express from 'express';
 import OpenAI from 'openai';
+import pool from '../models/roomiesModels.js';
 import { v4 as uuidv4 } from 'uuid'; // generate unique identifier for AI images
 import { createClient } from '@supabase/supabase-js'; // connect to db using Secret Key to authenticate for supabase storage
 
@@ -149,10 +150,32 @@ aiRouter.post('/', async (req, res, next) => {
     perk: 'Provide a random perk such as a Pizza Party. Just provide the name of the perk and nothing else',
   };
 
-  const prompt = customPrompt || defaultPrompts[type] || defaultPrompts.perk;
+  let prompt = customPrompt || defaultPrompts[type] || defaultPrompts.perk;
+
+  // -------------------------------------------------------------------------------
+  // * Query the DB for existing names based on the type
+  // -------------------------------------------------------------------------------
+  let existingItems = [];
+
+  try {
+    if (type === 'chore') {
+      const result = await pool.query('SELECT task_name FROM chores');
+      existingItems = result.rows.map((row) => row.task_name);
+    } else if (type === 'perk') {
+      const result = await pool.query('SELECT perk_name FROM perks');
+    }
+
+    prompt = `Generate a new, creative ${type} suggestion that is unique and not similar to any of the following: ${existingItems}. Only provide the name of the ${type}. Don't add a period at the end of the ${type}.`;
+  } catch (error) {
+    console.error(
+      'Error fetching existing items for uniqueness prompt:',
+      error
+    );
+  }
 
   console.log('1. Prompt type:', type);
   console.log('2. customPrompt:', customPrompt);
+  console.log('3. Final prompt for AI:', prompt);
 
   try {
     const openai = createOpenAIClient();
@@ -173,7 +196,7 @@ aiRouter.post('/', async (req, res, next) => {
 
     // res.locals.aiTextResponse = aiTextResponse;
     // next();
-    console.log(`3. AI ${type} Response: ${aiTextResponse}`);
+    console.log(`4. AI ${type} Response: ${aiTextResponse}`);
     console.groupEnd();
 
     res.status(200).json({ aiTextResponse });

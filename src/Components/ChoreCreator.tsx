@@ -8,6 +8,7 @@ import InputField from './InputField'; // import components
 import AiGenerator from './AskJarvis';
 import useGlobalContext from '../hooks/useGlobalContext'; // import context
 import { createChore } from '../actions/choreActions';
+import { SyncLoader } from 'react-spinners';
 
 const ChoreCreator = () => {
   // destructure state from context
@@ -18,6 +19,7 @@ const ChoreCreator = () => {
   const [tokens, setTokens] = useState('');
   const [choreImage, setChoreImage] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [aiUsed, setAiUsed] = useState(false);
 
   const addChore = async () => {
     //! trim whitespace
@@ -61,12 +63,18 @@ const ChoreCreator = () => {
       setChoreName('');
       setTokens('');
       setChoreImage(null);
+      setAiUsed(false);
     } catch (error) {
       console.error('Error creating chore:', error);
     } finally {
       setIsCreating(false);
     }
   };
+
+  // Add a conditional to Add Chore button to only show AFTER AI tasks are complete OR if both input fields are populated
+  const isAddChoreVisible = aiUsed
+    ? choreName.trim() !== '' && tokens.trim() !== '' && choreImage !== null
+    : choreName.trim() !== '' && tokens.trim() !== '';
 
   return (
     <div className='flex gap-2'>
@@ -88,21 +96,27 @@ const ChoreCreator = () => {
           setChoreName(event.target.value);
         }}
       />
-      <Button
-        className='font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1'
-        style={buttonStyle}
-        // onClick={() => {
-        //   addChore();
-        // }}
-        onClick={addChore}
-        disabled={isCreating}
-      >
-        {isCreating ? 'Creating..' : 'Add Chore'}
-      </Button>
+      {/* Conditionally render the Add Chore button */}
+      {isAddChoreVisible && (
+        <Button
+          className='font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1'
+          style={buttonStyle}
+          onClick={addChore}
+          disabled={isCreating}
+        >
+          {isCreating ? <SyncLoader color='#ffffff' size={7} /> : 'Add Chore'}
+        </Button>
+      )}
       <AiGenerator
         type='chore'
-        onGenerated={setChoreName}
-        onImageGenerated={setChoreImage}
+        onGenerated={(generatedText) => {
+          setChoreName(generatedText);
+          setAiUsed(true); // Mark that the AI was used
+        }}
+        onImageGenerated={(generatedImage) => {
+          setChoreImage(generatedImage);
+          setAiUsed(true); // Mark that the AI was used
+        }}
       />
     </div>
   );
