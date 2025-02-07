@@ -9,8 +9,12 @@ choresRouter.get('/', choresController.getChores, (req, res) => {
 });
 
 // Get completed chores
-choresRouter.get('/completed', choresController.getCompletedChores, (req, res) => {
-    res.status(200).json(res.locals.completedChores);
+choresRouter.get('/completed/:user_id', choresController.getCompletedChores, (req, res) => {
+    if (res.locals.completeChores.length > 0) {
+        res.status(200).json(res.locals.completeChores);
+    } else {
+        res.status(200).json([]);
+    }
 });
 
 // Create a chore

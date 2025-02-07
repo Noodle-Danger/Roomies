@@ -15,7 +15,7 @@ choresController.getChores = async (req, res, next) => {
     const result = await pool.query(getChoresQuery);
 
     res.locals.chores = result.rows;
-    // console.log("getChores returns: ", result.rows);
+    console.log("getChores returns: ", result.rows);
 
     next();
   } catch (err) {
@@ -36,8 +36,9 @@ choresController.getChores = async (req, res, next) => {
  * @return
  */
 choresController.getCompletedChores = async (req, res, next) => {
-  const { user_id } = req.body; // Extract user_id from the request body
-
+  const { user_id } = req.params; // Extract user_id from the request body
+  console.log("user_id from getCompletedChores", user_id);
+  console.log("req.params from getCompletedChores", req.params);
   const getCompletedChoresQuery = `
     SELECT * FROM chores 
     WHERE is_complete = TRUE AND user_id = $1
@@ -46,12 +47,12 @@ choresController.getCompletedChores = async (req, res, next) => {
     const result = await pool.query(getCompletedChoresQuery, [user_id]);
 
     res.locals.completeChores = result.rows;
-    // console.log("getChores returns: ", result.rows);
+    console.log("getCompletedChores returns: ", result.rows);
 
     next();
   } catch (err) {
     return next({
-      log: "An error occured in the getChores middleware function",
+      log: "An error occured in the getCompletedChores middleware function", err,
       status: 400,
       message: "An error occured.",
     });
@@ -109,6 +110,7 @@ choresController.createChore = async (req, res, next) => {
  */
 choresController.completeChore = async (req, res, next) => {
   const { user_id, chore_id } = req.body;
+  console.log("user_id in completeChore", user_id);
 
   const incrementTokens = `
         UPDATE users
@@ -119,16 +121,17 @@ choresController.completeChore = async (req, res, next) => {
 
   const completeChore = `
         UPDATE chores 
-        SET is_complete = TRUE
-        WHERE id = $1
+        SET is_complete = TRUE, user_id = $1
+        WHERE id = $2
         RETURNING *;
     `;
 
   try {
     const result2 = await pool.query(incrementTokens, [user_id, chore_id]);
-    const result = await pool.query(completeChore, [chore_id]);
+    const result = await pool.query(completeChore, [user_id, chore_id]); // Pass both user_id and chore_id
 
-    res.locals.completeChore = [result.rows[0], result2.rows[0]];
+    // res.locals.completeChore = [result.rows[0], result2.rows[0]];
+    res.locals.completeChore = result.rows[0];
     console.log("completeChore returned", result.rows);
 
     next();

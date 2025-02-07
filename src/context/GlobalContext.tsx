@@ -33,6 +33,7 @@ returns updated state;
 interface GlobalContextActionTypes {
   GET_USER: string;
   GET_USER_PERKS: string;
+  GET_COMPLETED_CHORES: string;
   GET_CHORES: string;
   GET_PERKS: string;
   UPDATE_USER_BALANCE: string;
@@ -46,6 +47,7 @@ const ActionTypes: GlobalContextActionTypes = {
   GET_USER: "GET_USER",
   GET_USER_PERKS: "GET_USER_PERKS",
   GET_CHORES: "GET_CHORES",
+  GET_COMPLETED_CHORES: "GET_COMPLETED_CHORES",
   GET_PERKS: "GET_PERKS",
   UPDATE_USER_BALANCE: "UPDATE_USER_BALANCE",
   CREATE_CHORE: "CREATE_CHORE",
@@ -92,14 +94,32 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
   return produce(state, (draft) => {
     switch (action.type) {
       case ActionTypes.GET_USER:
-        //   console.log("FETCHED USER:", action.payload);
+        // console.log("FETCHED USER:", action.payload);
         const user = action.payload;
+
         draft.userInfo = user;
         break;
       case ActionTypes.GET_CHORES:
-        //   console.log("FETCHED CHORES", action.payload.chores);
+        // console.log("FETCHED CHORES", action.payload);
         const fetchedChores = action.payload;
         draft.chores = fetchedChores;
+        break;
+      case ActionTypes.GET_COMPLETED_CHORES:
+        // console.log("FETCHED COMPLETED CHORES", action.payload);
+        const fetchedCompletedChores = action.payload;
+        const completeChoreMap = new Map();
+        fetchedCompletedChores.forEach((chore: types.Chore) => {
+          const { task_name, tokens, id } = chore;
+          const incomingChore = completeChoreMap.get(task_name) || {
+            task_name,
+            tokens,
+            id: [id],
+          };
+          incomingChore.tokens += tokens;
+          incomingChore.id.push(id);
+          completeChoreMap.set(task_name, incomingChore);
+        });
+        draft.userInventory.choreHistory = [...completeChoreMap.values()];
         break;
       case ActionTypes.GET_PERKS:
         //   console.log("FETCHED PERKS:", action.payload.perks);
@@ -144,14 +164,36 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
           : (draft.userInfo.tokens -= amount);
         break;
       case ActionTypes.CREATE_CHORE:
-        console.log("CREATED CHORE:", action.payload);
+        // console.log("CREATED CHORE:", action.payload);
         const newChore = action.payload;
         draft.chores.push(newChore);
         break;
       case ActionTypes.COMPLETE_CHORE:
-        console.log("COMPLETED CHORE:", action.payload);
         const completedChore = action.payload;
-        draft.userInventory.choreHistory.push(completedChore);
+        const existingChores = draft.userInventory.choreHistory;
+        console.log("COMPLETED CHORE:", action.payload);
+        console.log("EXISTING CHORES", existingChores);
+        // make array of perk names and see if purchased perk name exists
+        const currentChores = existingChores.map((chore) => chore.task_name);
+        const targetChoreIndex = currentChores.indexOf(
+          completedChore.task_name
+        );
+        if (targetChoreIndex >= 0) {
+          const target = existingChores[targetChoreIndex];
+          console.log("TARGET", target);
+          target.tokens += completedChore.tokens;
+          target.id.push(completedChore.id);
+        } else {
+          const newChore = {
+            task_name: completedChore.task_name,
+            tokens: completedChore.tokens,
+            id: [completedChore.id],
+          };
+          console.log("NEW CHORE", newChore);
+          existingChores.push(newChore);
+          existingChores.sort((a, b) => a.task_name.localeCompare(b.task_name));
+        }
+
         break;
       case ActionTypes.CREATE_PERK:
         console.log("CREATED PERK:", action.payload);
@@ -182,64 +224,6 @@ const reducer = (state: GlobalState, action: DispatchAction): GlobalState => {
             a.perkName.localeCompare(b.perkName)
           );
         }
-
-        /*
-        [
-    {
-        "perkName": "Extra Vacation Day",
-        "totalQty": 1,
-        "perks": [
-            {
-                "id": 9,
-                "user_id": 2,
-                "perk_id": 3,
-                "qty": 1,
-                "purchased_at": "2025-02-05T07:36:44.155Z",
-                "perk_name": "Extra Vacation Day"
-            }
-        ]
-    },
-    {
-        "perkName": "Banana",
-        "totalQty": 14,
-        "perks": [
-            {
-                "id": 10,
-                "user_id": 2,
-                "perk_id": 15,
-                "qty": 1,
-                "purchased_at": "2025-02-05T07:49:41.399Z",
-                "perk_name": "Banana"
-            },
-            {
-                "id": 8,
-                "user_id": 2,
-                "perk_id": 16,
-                "qty": 4,
-                "purchased_at": "2025-02-04T12:51:22.869Z",
-                "perk_name": "Banana"
-            },
-            {
-                "id": 31,
-                "user_id": 2,
-                "perk_id": 12,
-                "qty": 6,
-                "purchased_at": "2025-02-05T14:27:34.350Z",
-                "perk_name": "Banana"
-            },
-            {
-                "id": 34,
-                "user_id": 2,
-                "perk_id": 14,
-                "qty": 3,
-                "purchased_at": "2025-02-05T14:33:55.954Z",
-                "perk_name": "Banana"
-            }
-        ]
-    },
-   
-]
-        */
         break;
       default:
         break; //   return state;
@@ -268,9 +252,14 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   // populate state on initial render
   useEffect(() => {
     getUser()(dispatch);
-    getChores()(dispatch);
     getPerks()(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (state.userInfo.id) {
+      getChores(state.userInfo.id)(dispatch);
+    }
+  }, [state.userInfo.id]);
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
