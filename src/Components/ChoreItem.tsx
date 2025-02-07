@@ -39,9 +39,12 @@ const ChoreItem = ({
     choreImg || 'https://cdn-icons-png.flaticon.com/512/2797/2797899.png';
 
   return (
-    <div key={choreId} className='chore-card'>
-      <div>
-        <img src={imageUrl} alt='chore' />
+    <div
+      key={choreId}
+      className='border-4 rounded-4xl border-fuchsia-200 pt-0 pb-2 m-4'
+    >
+      <div className='flex flex-col items-center'>
+        <img className='rounded-t-3xl mt-0 m-2' src={imageUrl} alt='chore' />
         <div className='chore-info'>
           <input
             style={viewItemStyle}

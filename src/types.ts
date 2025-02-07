@@ -54,7 +54,7 @@ interface CreatePerkData {
   perk_name: string;
   tokens: number;
   qty: number;
-  perk_img: string | null;
+  perk_img?: string | null;
 }
 //! Does client have to send token info??
 interface PurchasePerkData {

@@ -10,7 +10,7 @@ choresController.getChores = async (req, res, next) => {
   try {
     const result = await pool.query(getChoresQuery);
     res.locals.chores = result.rows;
-    console.log('getChores returns: ', result.rows);
+    // console.log('getChores returns: ', result.rows);
     next();
   } catch (err) {
     return next({
@@ -27,8 +27,8 @@ choresController.getChores = async (req, res, next) => {
  */
 choresController.getCompletedChores = async (req, res, next) => {
   const { user_id } = req.params;
-  console.log('user_id from getCompletedChores', user_id);
-  console.log('req.params from getCompletedChores', req.params);
+  // console.log('user_id from getCompletedChores', user_id);
+  // console.log('req.params from getCompletedChores', req.params);
   const getCompletedChoresQuery = `
     SELECT * FROM chores 
     WHERE is_complete = TRUE AND user_id = $1
@@ -36,7 +36,7 @@ choresController.getCompletedChores = async (req, res, next) => {
   try {
     const result = await pool.query(getCompletedChoresQuery, [user_id]);
     res.locals.completeChores = result.rows;
-    console.log('getCompletedChores returns: ', result.rows);
+    // console.log('getCompletedChores returns: ', result.rows);
     next();
   } catch (err) {
     return next({
