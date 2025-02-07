@@ -13,7 +13,7 @@ interface apiRequests {
   // CHORES
   createChore: (choreData: CreateChoreData) => Promise<any>;
   completeChore: (choreData: CompleteChoreData) => Promise<any>;
-  getChores: (completed: boolean) => Promise<any>;
+  getChores: (user_id: number) => Promise<any>;
   // PERKS
   createPerk: (perkData: CreatePerkData) => Promise<any>;
   purchasePerk: (perkData: PurchasePerkData) => Promise<any>;
@@ -118,25 +118,19 @@ const apiFetch: apiRequests = {
       console.error("THIS IS THE ERROR: ", err);
     }
   },
-  getChores: async (completed) => {
+  getChores: async (user_id: number) => {
     try {
+      const responseIncompleteChores = await fetch(`${API_URL}/chores`); //url of endpoint
+      const responseCompleteChores = await fetch(`${API_URL}/chores/completed/${user_id}`); //url of endpoint
+      // if (!response.ok) {
+      //   throw new Error(`Failed to get chores: ${response.status}`);
+      // }
 
-      const response = await fetch(`${API_URL}/chores/get`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({completed}),
-      });
+      const incompleteChores = await responseIncompleteChores.json(); //parse response to JSON
+      const completeChores = await responseCompleteChores.json(); //parse response to JSON
+      // console.log("getChores:", { incompleteChores, completeChores });
 
-      if (!response.ok) {
-        throw new Error(`Error to get chores: ${response.status}`);
-      }
-
-      const data = await response.json();
-      // console.log("getChores:", data);
-
-      return data;
+      return { incompleteChores, completeChores };
     } catch (err) {
       console.error("This is the getChore error: ", err);
     }
