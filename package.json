@@ -12,7 +12,7 @@
     "start": "concurrently \"npm install\" \"npm run serve\" \"npm run dev\"",
     "test": "jest",
     "db": "dotenv -e .env -- psql $PG_URI",
-    "kill_server": "kill -9 $(lsof -t -i :3000)"
+    "kill_server": "kill -9 $(lsof -t -i :8080)"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",

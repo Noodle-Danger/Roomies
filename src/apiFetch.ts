@@ -78,7 +78,7 @@ const apiFetch: apiRequests = {
   },
   createChore: async (choreData) => {
     try {
-      const response = await fetch(`${API_URL}/chores`, {
+      const response = await fetch(`${API_URL}/chores/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
