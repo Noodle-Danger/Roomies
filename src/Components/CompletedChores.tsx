@@ -17,8 +17,8 @@ const CompletedChores = () => {
   const { state } = useGlobalContext();
   const { choreHistory } = state.userInventory;
   return (
-    <div className="p-2 m-4 min-h-80 w-1/2 border-white rounded-[30px] border-5">
-      <h1 className="text-2xl header-text">#COMPLETED CHORES#</h1>
+    <div className="p-2 m-4 min-h-80 w-1/2 border-rose-400 rounded-[30px] border-5">
+      <h1 className="text-2xl header-text">#CHORE JOURNAL#</h1>
       {choreHistory &&
         choreHistory.map((chore, index) => (
           <div key={index}>

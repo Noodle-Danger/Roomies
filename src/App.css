@@ -16,7 +16,7 @@ html, body {
 }
 
 .header-text {
-  @apply font-display font-semibold text-sky-900 dark:text-white;
+  @apply font-display font-semibold text-sky-900 text-3xl tracking-wide dark:text-white;
 }
 
 .custom-input {
@@ -28,7 +28,7 @@ html, body {
 
 
 .custom-chore-wrapper {
-  @apply border-4 rounded-4xl border-yellow-300 pt-0 pb-3 m-3 w-55;
+  @apply border-4 rounded-4xl border-rose-300 pt-0 pb-3 m-3 w-55;
   @apply flex flex-col items-center justify-between gap-2;
   @apply dark:border-white;
 }
@@ -50,7 +50,7 @@ html, body {
 .chore-complete-button {
   @apply font-sans text-base text-center text-white;
   @apply py-1 px-2 m-1 shadow-2xl;
-  @apply bg-yellow-500 hover:bg-yellow-600 border-white rounded-[50px] justify-center;
+  @apply bg-rose-500 hover:bg-rose-600 border-white rounded-[50px] justify-center;
   @apply dark:bg-slate-700 dark:hover:bg-zinc-900;
   min-width: 200px;
 }
