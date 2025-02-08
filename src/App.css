@@ -2,38 +2,74 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: "Fredoka", "serif"; 
+  --font-display: "Fredoka", "serif";
 }
 
-*{
-  @apply transition-colors duration-100
+* {
+  @apply transition-colors duration-100;
+  /* margin: 0; */
+  /*padding: 0; */
+}
+
+html, body {
+  height: 100%;
+}
+
+.header-text {
+  @apply font-display font-semibold text-sky-900 dark:text-white;
+}
+
+.custom-input {
+  @apply font-sans text-sky-900;
+  @apply py-1 px-2 m-1 shadow-2xl;
+  @apply bg-white border-white rounded-[50px] outline-amber-200;
+  @apply dark:bg-neutral-300 dark:border-white;
+}
+
+
+.custom-chore-wrapper {
+  @apply border-4 rounded-4xl border-yellow-500 pt-0 pb-3 m-3 w-55;
+  @apply flex flex-col items-center justify-between gap-2;
+  @apply dark:border-white;
+}
+.custom-image-wrapper {
+  @apply p-1 flex justify-center bg-yellow-500 rounded-3xl;
+  @apply dark:bg-white;
+}
+.chore-info {
+  /* @apply font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-30 dark:bg-neutral-300; */
+  @apply font-sans text-base text-center text-sky-900;
+  @apply m-1 py-2 px-2 shadow-2xl;
+  @apply bg-white border-white rounded-[20px] dark:bg-neutral-300;
+  text-transform: capitalize;
+  vertical-align: middle;
+  min-width: 200px;
+  /* @apply shadow-custom-shadow; Use the custom box shadow class */
+}
+
+.chore-complete-button {
+  @apply font-sans text-base text-center text-white;
+  @apply py-1 px-2 m-1 shadow-2xl;
+  @apply bg-yellow-500 hover:bg-yellow-600 border-white rounded-[50px] justify-center;
+  @apply dark:bg-slate-700 dark:hover:bg-zinc-900;
+  min-width: 200px;
 }
 
 #root {
   width: auto;
-  margin: 0.5 em;
-  padding: 2rem;
+  margin: 0.5em;
+  /* padding: 2rem; */
   text-align: center;
   border: 5px solid white;
-  border-radius: 50px
+  border-radius: 50px;
 }
 
-.chore-grid{
+.chore-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.chore-card{
-  align-items: center;
-  padding: 16px;
-  margin: 5px;
-  font-size: .8em;
-  border: 1px solid #0000;
-  box-shadow: plainShadow;
-}
-
-.chore-info{
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+  grid-template-columns: repeat(4, 1fr); /* Set exactly 6 items in each row */
+  max-height: 500px;
+  justify-items: center; /* Center items horizontally */
+  overflow-y: auto;
+  gap: 10px;
 }
