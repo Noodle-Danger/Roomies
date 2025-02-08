@@ -41,7 +41,7 @@ const ChoreItem = ({
     choreImg || "https://cdn-icons-png.flaticon.com/512/2797/2797899.png";
 
   return (
-    <div key={choreId} className="custom-chore-wrapper">
+    <div key={choreId} className="custom-chore-wrapper" data-testid="chore-1">
       {/* image wrapper */}
       <div className="custom-image-wrapper">
         <img
