@@ -48,11 +48,12 @@ html, body {
 }
 
 .chore-complete-button {
-  @apply font-sans text-base text-center text-white;
+  @apply font-display text-base text-center text-white tracking-widest;
   @apply py-1 px-2 m-1 shadow-2xl;
   @apply bg-rose-500 hover:bg-rose-600 border-white rounded-[50px] justify-center;
   @apply dark:bg-slate-700 dark:hover:bg-zinc-900;
   min-width: 200px;
+  font-weight: 600;
 }
 
 #root {

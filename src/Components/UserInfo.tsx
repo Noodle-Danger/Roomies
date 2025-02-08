@@ -29,7 +29,7 @@ const UserInfo = () => {
     setCurrentBalance(tokens);
     setTimeout(() => {
       setBalanceColor("");
-    }, 1000);
+    }, 3000);
   }, [tokens]);
 
   return (

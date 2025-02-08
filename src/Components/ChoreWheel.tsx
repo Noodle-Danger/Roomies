@@ -10,8 +10,9 @@ function ChoreWheel() {
   const lavendar = "#EDE7F6";
   const mintGreen = "#E0F2F1";
   const lightRose = "#FFEBEE";
+  const lightBlue = "#E1F5FE";
 
-  const backgroundColors = [lavendar, mintGreen, lightRose];
+  const backgroundColors = [lavendar, mintGreen, lightRose, lightBlue];
 
   const handleWheelClick = () => {
     console.log("Wheel clicked");
