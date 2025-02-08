@@ -47,7 +47,11 @@ function App() {
       >
         {darkMode ? 'LHT' : 'DRK'}
       </button>
-      <h1 className="m-1 p-2 text-4xl header-text ">ROOMIES</h1>
+      <h1
+        className="m-1 p-2 !text-6xl header-text tracking-widest !text-rose-500"
+      >
+        R.O.S.I.E.
+      </h1>
       <UserInfo />
       <div id="Sub" className="flex h-full">
         <MainLeft />

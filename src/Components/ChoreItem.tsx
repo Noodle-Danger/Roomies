@@ -59,18 +59,19 @@ const ChoreItem = ({
           {choreName}
         </div>
         <div style={viewItemStyle} className="chore-info flex items-center justify-center">
-          {/* {`${tokens}`} <img src={coinIcon} alt="coin" className="w-8" /> */}
-          {`${tokens} c`}
+          <img src={coinIcon} alt="coin" className="w-8" />
+          {`${tokens}`} 
+          {/* {`${tokens} c`} */}
         </div>
       </div>
 
       {/* complete button */}
       <Button
-        className="chore-complete-button"
-        style={buttonStyle}
+          className="chore-complete-button uppercase "
+          style={buttonStyle}
         onClick={completeChore}
       >
-        Mark Complete
+        Complete
       </Button>
     </div>
   );

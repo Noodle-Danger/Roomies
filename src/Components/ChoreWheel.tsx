@@ -4,11 +4,30 @@ import useGlobalContext from "../hooks/useGlobalContext";
 function ChoreWheel() {
   const containerRef = useRef(null);
   const [rotation, setRotation] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
   const { dispatch } = useGlobalContext();
+
+  const lavendar = "#EDE7F6";
+  const mintGreen = "#E0F2F1";
+  const lightRose = "#FFEBEE";
+  const lightBlue = "#E1F5FE";
+
+  const backgroundColors = [lavendar, mintGreen, lightRose, lightBlue];
 
   const handleWheelClick = () => {
     console.log("Wheel clicked");
     getUser()(dispatch);
+
+    const rootDiv = document.getElementById("root");
+    if (rootDiv) {
+      console.log("colorIndex", colorIndex);
+      console.log("backgroundColors", backgroundColors[colorIndex]);
+      setColorIndex(colorIndex + 1);
+      if (colorIndex === backgroundColors.length-1) {
+        setColorIndex(0);
+      }
+      rootDiv.style.backgroundColor = backgroundColors[colorIndex]; // Change to your desired color
+    }
     let startTime: number;
     const duration = 1000; // 5 seconds
 
@@ -33,14 +52,7 @@ function ChoreWheel() {
     "Aditi Clean Bathroom",
     "Jeremy Clean Floors",
   ];
-  const choreWheelContainerStyle = {
-    boxShadow: `
-        10px 10px 25px -3px rgba(0, 0, 0, 0.3),
-        10px 4px 6px -2px rgba(0, 0, 0, 0.3),
-        10px 20px 25px -5px rgba(0, 0, 0, 0.2),
-        inset 0 2px 2px rgba(255, 255, 255, 0.95)
-        `,
-  };
+
   const choreWheelStyle = {
     transform: `rotate(${rotation}deg)`,
     transition: "transform 0s linear",

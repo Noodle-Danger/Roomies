@@ -66,7 +66,7 @@ const AiGenerator = ({ type, onGenerated, onImageGenerated }: AiProps) => {
 
   return (
     <button
-      className='py-2 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-full grow-1'
+      className='py-2 px-2 m-1 text-white shadow-2xl bg-rose-500 hover:bg-rose-700 border-white rounded-full grow-1'
       style={{
         ...buttonStyle,
         display: 'flex',

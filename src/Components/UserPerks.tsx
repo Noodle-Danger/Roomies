@@ -16,8 +16,8 @@ function UserPerks() {
 
   const { userPerks } = state.userInventory;
   return (
-    <div className="p-2 m-4 min-h-80 w-1/2 border-white rounded-[30px] border-5">
-      <h1 className="text-2xl header-text">#USER PERKS#</h1>
+    <div className="p-2 m-4 min-h-80 w-1/2 border-rose-400 rounded-[30px] border-5">
+      <h1 className="text-2xl header-text">#VICTORY VAULT#</h1>
 
       {userPerks &&
         userPerks.map((perk, index) => (

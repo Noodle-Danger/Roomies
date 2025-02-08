@@ -12,7 +12,7 @@ const getUser = () => {
     const users: User[] = await apiFetch.getUsers();
     console.log("users: ", users);
     targetUserId = targetUserId + 1;
-    if (targetUserId === 4) {
+    if (targetUserId === 5) {
       targetUserId = 1;
     }
     console.log("targetUserId: ", targetUserId);

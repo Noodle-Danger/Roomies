@@ -1,52 +1,67 @@
-# React + TypeScript + Vite
+# R.O.S.I.E. – Routine Optimization & Scheduling Intelligent Engine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About
+R.O.S.I.E. is a web application that leverages AI to help roommates manage chores in a shared living space. Traditional methods of chore assignment often result in mutiny or resentment, creating a negative atmosphere among roommates. 
 
-Currently, two official plugins are available:
+R.O.S.I.E. addresses this common problem by introducing a light-hearted, gamified approach to chore management. By allowing users to outsource chore assignments to AI, we transform completing mundane tasks into a fun and engaging community effort. Completing chores is rewarded with a token economy that can be used to redeem perks. Now the challenge becomes claiming the perks before your roommates do!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Overview](#overview)
+- [Future Enhancements](#future-enhancements)
+- [Environment Variables](#environment-variables)
+- [Installation](#installation)
+- [Deployment](#deployment)
+- [Deployment](#deployment)
 
-## Expanding the ESLint configuration
+## Features
+- AI-generated suggestions for chores and perks
+- Dark and light mode toggle
+- Responsive design with Tailwind CSS
+- Real-time updates with Vite's Hot Module Replacement (HMR)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS
+- **Backend**: Node.js, Express, PostgreSQL
+- **AI Integration**: OpenAI API
+- **Database**: PostgreSQL with Supabase
 
-- Configure the top-level `parserOptions` property like this:
+## Overview
+The challenge with managing chores in a shared living environment is that it can be difficult to get everyone to do their fair share.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+This app takes a light-hearted and friendly approach to this problem by gamifying the process:
+Each roommate in a shared household can:
+- query AI to generate a random chore and store its custom image in a shared database
+- create a chore that need to be done and assign that chore a reward token value
+- see all the chores that are available to be done/claimed
+- complete chores to claim tokens
+- spend tokens to claim prized perks 
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- create perks that can be claimed and assign the perk a redeem value
+- see all the perks that are available to be claimed
+- claim a perk with available tokens
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+## Future Enhancements
+- leverage AI to randomly assign chores to roommates and generate required sub-tasks for each chore to ensure consistency & completion
+- user can auction off assigned chores for greater token value to other roommates
+- other roommates can bid on the chores and accept the due date terms and the original assignee can accept the lowest bidder
+- user can forfeit a perk to refill balance 
+- leverage AI to generate rare bonus chores/perks for bonus tokens 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+## Environment Variables
+- PG_URI=your_postgres_connection_string
+- SUPABASE_URL=your_supabase_url
+- SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+- OPENAI_API_KEY=your_openai_api_key
 
-github test
+## Installation
+
+## Deployment
+
+## Known Issues
+
+### Prerequisites
+- Node.js (version >= 14)
+- PostgreSQL (for local development)
+

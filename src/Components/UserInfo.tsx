@@ -29,14 +29,14 @@ const UserInfo = () => {
     setCurrentBalance(tokens);
     setTimeout(() => {
       setBalanceColor("");
-    }, 1000);
+    }, 3000);
   }, [tokens]);
 
   return (
     <div>
-      <div className="flex align-center pl-8 m-4 p-4 border-white rounded-[30px] border-5 justify-start text-xl gap-5">
+      <div className="flex align-center pl-8 m-4 p-4 border-rose-400 rounded-[30px] border-5 justify-start text-xl gap-5">
         <ChoreWheel />
-        <div className="text-2xl header-text">
+        <div className="!text-2xl header-text">
           <div className="flex gap-2">
             <div>Username:</div>
             <div>{username}</div>

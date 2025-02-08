@@ -6,6 +6,7 @@ import { useState } from "react";
 
 // import components
 import Button from "./Button";
+import coinIcon from "../assets/coin-no-bg.png";
 
 // import actions
 import { purchasePerk } from "../actions/perkActions";
@@ -60,19 +61,21 @@ const PerkItem = ({
         >
           {perkName}
         </div>
-        <div style={viewItemStyle} className="chore-info">
-          {`${perkTokens} c`}
+        <div style={viewItemStyle} className="chore-info flex items-center justify-center">
+        <img src={coinIcon} alt="coin" className="w-8" />
+
+          {`${perkTokens}`}
         </div>
         <div style={viewItemStyle} className="lowercase chore-info">
           {`qty: ${perkQty}`}
         </div>
 
         <Button
-          className="chore-complete-button"
+          className="chore-complete-button uppercase "
           style={buttonStyle}
           onClick={() => buyPerk()}
         >
-          Purchase Perk
+          Claim
         </Button>
       </div>
     </div>

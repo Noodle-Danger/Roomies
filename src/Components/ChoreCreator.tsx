@@ -103,7 +103,7 @@ const ChoreCreator = () => {
       {/* Conditionally render the Add Chore button */}
       {isAddChoreVisible && (
         <Button
-          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1"
+          className="font-display tracking-widest font-semibold uppercase py-1 px-2 m-1 text-white shadow-2xl bg-rose-500 hover:bg-rose-700 border-white rounded-[50px] grow-1"
           style={buttonStyle}
           onClick={addChore}
           disabled={isCreating}
