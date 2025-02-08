@@ -75,7 +75,7 @@ const PerkInput = () => {
     <div className='flex'>
       <InputField
         style={inputStyle}
-        className='font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200'
+        className='custom-input max-w-30'
         placeholder='Perk qty...'
         value={perkQty}
         onChange={(event) => {
@@ -84,7 +84,7 @@ const PerkInput = () => {
       />
       <InputField
         style={inputStyle}
-        className='font-sans text-sky-900 py-1 px-1 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200'
+        className='custom-input max-w-30'
         placeholder='Token amount...'
         value={tokens}
         onChange={(event) => {
@@ -93,7 +93,7 @@ const PerkInput = () => {
       />
       <InputField
         style={inputStyle}
-        className='font-sans text-sky-900 py-1 px-2 m-1 bg-white border-white rounded-[50px] grow-3 outline-amber-200 w-36'
+        className='custom-input grow-2'
         placeholder='Perk name...'
         value={perkName}
         onChange={(event) => {

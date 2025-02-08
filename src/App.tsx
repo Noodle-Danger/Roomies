@@ -2,17 +2,17 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 
+// import context
+import useGlobalContext from './hooks/useGlobalContext';
+
 // import components
 import UserInfo from './Components/UserInfo';
 import MainLeft from './Components/Layout/MainLeft.tsx';
 import MainRight from './Components/Layout/MainRight.tsx';
-
-// import context
-import useGlobalContext from './hooks/useGlobalContext';
+import UserWrapper from './Components/UserWrapper';
 
 function App() {
   const { state } = useGlobalContext();
-  const { username, tokens } = state.userInfo;
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -47,12 +47,14 @@ function App() {
       >
         {darkMode ? 'LHT' : 'DRK'}
       </button>
-      <h1 className="text-4xl font-bold font-display text-sky-900 ">ROOMIES</h1>
-      <UserInfo name={username} balance={tokens} />
+      <h1 className="text-4xl header-text ">ROOMIES</h1>
+      <UserInfo />
       <div id="Sub" className="flex h-full">
         <MainLeft />
         <MainRight />
       </div>
+      <UserWrapper />
+
     </div>
   );
 }

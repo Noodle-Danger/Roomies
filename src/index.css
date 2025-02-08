@@ -1,5 +1,10 @@
 :root {
   color: rgba(255, 255, 255, 0.87);
   background-color: #ffffff;
-  padding:1.5em
+  /* padding:1.5em */
+}
+
+* {
+  box-sizing: border-box;
+
 }

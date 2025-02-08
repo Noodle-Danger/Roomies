@@ -80,7 +80,7 @@ const ChoreCreator = () => {
     <div className='flex gap-2'>
       <InputField
         style={inputStyle}
-        className='font-sans text-sky-900 py-1 px-2 m-1  bg-white border-white rounded-[50px] grow-2 outline-amber-200'
+        className='custom-input max-w-40 grow-2'
         placeholder='Token amount...'
         value={tokens}
         onChange={(event) => {
@@ -89,7 +89,7 @@ const ChoreCreator = () => {
       />
       <InputField
         style={inputStyle}
-        className='font-sans text-sky-900 py-1 px-2 m-1  bg-white border-white rounded-[50px] grow-2 outline-amber-200'
+        className='custom-input grow-2'
         placeholder='Chore name...'
         value={choreName}
         onChange={(event) => {

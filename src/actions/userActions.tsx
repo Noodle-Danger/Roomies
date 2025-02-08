@@ -6,10 +6,17 @@ import { ActionTypes } from "../context/GlobalContext";
 // import type definitions
 import {User} from "../types";
 // define functions
+let targetUserId = 0;
 const getUser = () => {
   return async (dispatch: React.Dispatch<any>) => {
     const users: User[] = await apiFetch.getUsers();
-    const user = users.find((user) => user.id === 2);
+    console.log("users: ", users);
+    targetUserId = targetUserId + 1;
+    if (targetUserId === 4) {
+      targetUserId = 1;
+    }
+    console.log("targetUserId: ", targetUserId);
+    const user = users.find((user) => user.id === targetUserId); // set 
 
     if (user) {
       dispatch({

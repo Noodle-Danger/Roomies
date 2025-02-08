@@ -27,7 +27,7 @@ const createPerk = (perkData: CreatePerkData) => {
   };
 };
 
-const purchasePerk = (perkData: PurchasePerkData, tokens: number) => {
+const purchasePerk = (perkData: PurchasePerkData, tokens: number, qty: number) => {
   return async (dispatch: React.Dispatch<any>) => {
     const purchasedPerk = await apiFetch.purchasePerk(perkData);
     if (purchasedPerk) {
@@ -39,6 +39,9 @@ const purchasePerk = (perkData: PurchasePerkData, tokens: number) => {
         type: ActionTypes.PURCHASE_PERK,
         payload: purchasedPerk,
       });
+      if (qty === 1) {
+        getPerks()(dispatch);
+      }
     }
   };
 };

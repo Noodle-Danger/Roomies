@@ -1,11 +1,12 @@
 // ChoreRow: div image placeholder, qty, completed button
 // import styles
-import { buttonStyle, viewItemStyle } from '../constants/constStyle';
-
+import { buttonStyle, viewItemStyle } from "../constants/constStyle";
+import Button from "./Button";
+import coinIcon from "../assets/coin-no-bg.png";
 //import hooks
-import useGlobalContext from '../hooks/useGlobalContext';
-import { markChoreComplete } from '../actions/choreActions';
-import { CompleteChoreData } from '../types';
+import useGlobalContext from "../hooks/useGlobalContext";
+import { markChoreComplete } from "../actions/choreActions";
+import { CompleteChoreData } from "../types";
 
 // import components
 // import Button from './Button';
@@ -36,37 +37,40 @@ const ChoreItem = ({
   };
 
   const imageUrl =
-    choreImg || 'https://cdn-icons-png.flaticon.com/512/2797/2797899.png';
+    choreImg || "https://cdn-icons-png.flaticon.com/512/2797/2797899.png";
 
   return (
-    <div
-      key={choreId}
-      className='border-4 rounded-4xl border-fuchsia-200 pt-0 pb-2 m-4'
-    >
-      <div className='flex flex-col items-center'>
-        <img className='rounded-t-3xl mt-0 m-2' src={imageUrl} alt='chore' />
-        <div className='chore-info'>
-          <input
-            style={viewItemStyle}
-            className='font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-30 dark:bg-neutral-300'
-            value={choreName}
-            readOnly
-          />
-          <input
-            style={viewItemStyle}
-            className='font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none w-15 dark:bg-neutral-300'
-            value={`${tokens} coin`}
-            readOnly
-          />
-        </div>
-        <button
-          className='font-sans py-1 px-2 m-1 dark:bg-slate-700 dark:hover:bg-zinc-900 text-white shadow-2xl bg-red-400 hover:bg-red-500 border-white rounded-[50px] grow-1 justify-center'
-          style={buttonStyle}
-          onClick={completeChore}
-        >
-          Mark Complete
-        </button>
+    <div key={choreId} className="custom-chore-wrapper">
+      {/* image wrapper */}
+      <div className="custom-image-wrapper">
+        <img
+          className="rounded-3xl m-0 dark:bg-white"
+          src={imageUrl}
+          alt="chore"
+        />
       </div>
+      {/* chore name and tokens wrapper */}
+      <div className="flex flex-col items-between">
+        <div
+          style={viewItemStyle}
+          className="chore-info min-h-[80px] flex items-center justify-center"
+        >
+          {choreName}
+        </div>
+        <div style={viewItemStyle} className="chore-info flex items-center justify-center">
+          {/* {`${tokens}`} <img src={coinIcon} alt="coin" className="w-8" /> */}
+          {`${tokens} c`}
+        </div>
+      </div>
+
+      {/* complete button */}
+      <Button
+        className="chore-complete-button"
+        style={buttonStyle}
+        onClick={completeChore}
+      >
+        Mark Complete
+      </Button>
     </div>
   );
 };
