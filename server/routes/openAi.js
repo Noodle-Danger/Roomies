@@ -146,9 +146,8 @@ aiRouter.post('/', async (req, res, next) => {
   const { type, prompt: customPrompt } = req.body;
 
   const defaultPrompts = {
-    chore:
-      'Provide a random chore such as vacuuming. Only provide name of the chore.',
-    perk: 'Provide a random perk such as a Pizza Party. Just provide the name of the perk and nothing else',
+    chore: 'vacuuming, cleaning the garage, watering plants, doing homework',
+    perk: 'Pizza Party, Bowling Party, Videogames, Concert tickets, celebrity autographs, fancy lunch',
   };
 
   let prompt = customPrompt || defaultPrompts[type] || defaultPrompts.perk;
@@ -167,11 +166,15 @@ aiRouter.post('/', async (req, res, next) => {
       existingItems = result.rows.map((row) => row.perk_name);
     }
 
-    prompt = `Generate a new, creative ${type} suggestion that is unique (but something similar to ${
+    prompt = `
+    Generate exactly one new ${type} idea similar to these examples: ${
       defaultPrompts[type]
-    }) and not similar to any of the following: ${existingItems.join(
+    }.
+    It must be unique and not match (or be extremely close to) any existing items: ${existingItems.join(
       ', '
-    )}. Only provide the name of the ${type}. Don't add a period at the end of the ${type}.`;
+    )}.
+    Return only the name of the ${type} with no period or additional text.
+  `.trim();
   } catch (error) {
     console.error(
       'Error fetching existing items for uniqueness prompt:',
