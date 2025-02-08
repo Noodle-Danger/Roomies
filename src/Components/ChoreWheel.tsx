@@ -33,14 +33,7 @@ function ChoreWheel() {
     "Aditi Clean Bathroom",
     "Jeremy Clean Floors",
   ];
-  const choreWheelContainerStyle = {
-    boxShadow: `
-        10px 10px 25px -3px rgba(0, 0, 0, 0.3),
-        10px 4px 6px -2px rgba(0, 0, 0, 0.3),
-        10px 20px 25px -5px rgba(0, 0, 0, 0.2),
-        inset 0 2px 2px rgba(255, 255, 255, 0.95)
-        `,
-  };
+
   const choreWheelStyle = {
     transform: `rotate(${rotation}deg)`,
     transition: "transform 0s linear",
