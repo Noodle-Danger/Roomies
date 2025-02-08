@@ -279,3 +279,4 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 // export custom types for use in other components
 
 export { GlobalProvider, GlobalContext, ActionTypes };
+// export default reducer;

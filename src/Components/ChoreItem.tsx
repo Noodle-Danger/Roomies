@@ -1,5 +1,6 @@
 // ChoreRow: div image placeholder, qty, completed button
 // import styles
+import React from 'react';
 import { buttonStyle, viewItemStyle } from "../constants/constStyle";
 import Button from "./Button";
 import coinIcon from "../assets/coin-no-bg.png";
@@ -40,11 +41,11 @@ const ChoreItem = ({
     choreImg || "https://cdn-icons-png.flaticon.com/512/2797/2797899.png";
 
   return (
-    <div key={choreId} className="custom-chore-wrapper">
+    <div key={choreId} className="custom-chore-wrapper" data-testid="chore-1">
       {/* image wrapper */}
       <div className="custom-image-wrapper">
         <img
-          className="rounded-3xl m-0 dark:bg-white"
+          className="rounded-3xl dark:bg-white"
           src={imageUrl}
           alt="chore"
         />

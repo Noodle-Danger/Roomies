@@ -1,4 +1,5 @@
 // map over ChoreItem
+import React from 'react';
 import ChoreItem from './ChoreItem';
 import useGlobalContext from '../hooks/useGlobalContext';
 

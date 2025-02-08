@@ -4,6 +4,7 @@
 //  * aka AI
 // -------------------------------------------------------------------------------
 
+import React from 'react';
 import { useState } from 'react';
 import { buttonStyle } from '../constants/constStyle';
 import { PuffLoader, HashLoader } from 'react-spinners';

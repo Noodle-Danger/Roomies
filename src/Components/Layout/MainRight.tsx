@@ -1,4 +1,4 @@
-import PerkList2 from "../PerkList2.tsx";
+import PerkList from "../PerkList.tsx";
 
 function MainRight() {
   return (
@@ -10,7 +10,7 @@ function MainRight() {
         <h1 className="text-2xl header-text">
           #PERKS LIST#
         </h1>
-        <PerkList2 />
+        <PerkList />
       </div>
     </>
   );
