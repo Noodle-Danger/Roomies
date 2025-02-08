@@ -1,28 +1,51 @@
 /*
 component for rending user info like username and token balance 
 */
+import { useEffect, useState } from "react";
+// import context
+import useGlobalContext from "../hooks/useGlobalContext";
 
-interface UserInfoProps {
-  name: string;
-  balance: number;
-}
+import ChoreWheel from "./ChoreWheel";
 
-const UserInfo = ({ name, balance }: UserInfoProps) => {
+const UserInfo = () => {
+  const { state } = useGlobalContext();
+  const { username, tokens } = state.userInfo;
+
+  const [currentBalance, setCurrentBalance] = useState(tokens);
+  const [balanceColor, setBalanceColor] = useState("");
+
+  const balanceIncrease = "text-green-500";
+  const balanceDecrease = "text-red-500";
+
+  useEffect(() => {
+    console.log("TOKENS: ", tokens);
+    // Reset the flag after 1 second
+
+    if (tokens > currentBalance) {
+      setBalanceColor(balanceIncrease);
+    } else {
+      setBalanceColor(balanceDecrease);
+    }
+    setCurrentBalance(tokens);
+    setTimeout(() => {
+      setBalanceColor("");
+    }, 1000);
+  }, [tokens]);
+
   return (
     <div>
-      <div className="flex p-2 m-4 h-8/10 border-white rounded-[50px] border-5">
-        {/* <h1 className="text-2xl font-display font-semibold text-sky-900">
-          #USER INFO#
-        </h1> */}
-        <div>
-          <div className="font-display font-semibold text-sky-900">
-            Username: {name}
+      <div className="flex align-center p-2 m-4 border-white rounded-[30px] border-5 justify-start text-xl gap-5">
+        <ChoreWheel />
+        <div className="text-2xl header-text">
+          <div className="flex gap-2">
+            <div>Username:</div>
+            <div>{username}</div>
           </div>
-          <div className="font-display font-semibold text-sky-900">
-            Balance: {balance}
+          <div className="flex gap-2">
+            <div>Balance:</div>
+            <div className={`${balanceColor}`}>{tokens}</div>
           </div>
         </div>
-        <div className="font-display font-semibold text-sky-900">#AVATAR# </div>
       </div>
     </div>
   );
