@@ -1,5 +1,5 @@
 // import react hooks
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useRef } from "react";
 import { produce } from "immer";
 import * as types from "../types";
 // import custom hooks
@@ -248,15 +248,20 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // extract state and dispatch from useReducer
   const [state, dispatch] = useReducer(reducer, initialState);
+  const hasFetchedUser = useRef(false); // Ref to track if user has been fetched
+
 
   // populate state on initial render
   useEffect(() => {
-    getUser()(dispatch);
-    getPerks()(dispatch);
-  }, [dispatch]);
-
+    if (!hasFetchedUser.current) {
+      getUser()(dispatch);
+      hasFetchedUser.current = true; // Set to true after fetching
+    }
+  }, []);
+  
   useEffect(() => {
     if (state.userInfo.id) {
+      getPerks()(dispatch);
       getChores(state.userInfo.id)(dispatch);
     }
   }, [state.userInfo.id]);

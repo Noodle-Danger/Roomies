@@ -17,28 +17,22 @@ const CompletedChores = () => {
   const { state } = useGlobalContext();
   const { choreHistory } = state.userInventory;
   return (
-    <div className="p-2 m-4 h-8/10 w-1/2 border-white rounded-[50px] border-5">
-      <h1 className="text-2xl font-display font-semibold text-sky-900">
-        #COMPLETED CHORES#
-      </h1>
+    <div className="p-2 m-4 min-h-80 w-1/2 border-white rounded-[30px] border-5">
+      <h1 className="text-2xl header-text">#COMPLETED CHORES#</h1>
       {choreHistory &&
         choreHistory.map((chore, index) => (
           <div key={index}>
-          <div className="flex">
-            <input
-              style={viewItemStyle}
-              className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-              value={`${chore.tokens} coin`}
-              readOnly
-            />
-            <input
-              style={viewItemStyle}
-              className="font-sans text-sky-900 py-1 px-2 m-1 shadow-2xl bg-white border-white rounded-[50px] grow-9 outline-none"
-              value={chore.task_name}
-              readOnly
-            />
+            <div className="flex flex-wrap">
+              <div className="flex">
+                <div style={viewItemStyle} className="chore-info">
+                  {chore.tokens} C
+                </div>
+                <div style={viewItemStyle} className="chore-info">
+                  {chore.task_name}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
         ))}
     </div>
   );
