@@ -4,11 +4,29 @@ import useGlobalContext from "../hooks/useGlobalContext";
 function ChoreWheel() {
   const containerRef = useRef(null);
   const [rotation, setRotation] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
   const { dispatch } = useGlobalContext();
+
+  const lavendar = "#EDE7F6";
+  const mintGreen = "#E0F2F1";
+  const lightRose = "#FFEBEE";
+
+  const backgroundColors = [lavendar, mintGreen, lightRose];
 
   const handleWheelClick = () => {
     console.log("Wheel clicked");
     getUser()(dispatch);
+
+    const rootDiv = document.getElementById("root");
+    if (rootDiv) {
+      console.log("colorIndex", colorIndex);
+      console.log("backgroundColors", backgroundColors[colorIndex]);
+      setColorIndex(colorIndex + 1);
+      if (colorIndex === backgroundColors.length-1) {
+        setColorIndex(0);
+      }
+      rootDiv.style.backgroundColor = backgroundColors[colorIndex]; // Change to your desired color
+    }
     let startTime: number;
     const duration = 1000; // 5 seconds
 
