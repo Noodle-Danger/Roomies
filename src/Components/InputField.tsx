@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface InputProps {
   className?: string;
   style?: React.CSSProperties;

@@ -1,6 +1,7 @@
 // ChoreInput function
 
 // import hooks
+import React from 'react';
 import { useState } from 'react'; // to manage local component state
 import { inputStyle, buttonStyle } from '../constants/constStyle'; // import styles
 import Button from './Button'; // import components
@@ -77,7 +78,7 @@ const ChoreCreator = () => {
     : choreName.trim() !== '' && tokens.trim() !== '';
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex'>
       <InputField
         style={inputStyle}
         className='custom-input max-w-40 grow-2'

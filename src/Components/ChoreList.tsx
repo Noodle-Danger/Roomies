@@ -2,7 +2,7 @@ import React from "react";
 import ChoreCreator from "./ChoreCreator";
 import ChoreDisplay from "./ChoreDisplay";
 
-function ChoreList2() {
+function ChoreList() {
   let error;
   if (error) {
     return <div data-testid="error-message">{error}</div>;
@@ -25,4 +25,4 @@ function ChoreList2() {
   );
 }
 
-export default ChoreList2;
+export default ChoreList;

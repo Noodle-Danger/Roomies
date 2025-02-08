@@ -1,4 +1,5 @@
 // ! TO BE DELETED NOT WORKING
+import React from 'react';
 interface ButtonProps {
   className?: string;
   style?: React.CSSProperties;

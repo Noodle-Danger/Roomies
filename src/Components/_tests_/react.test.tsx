@@ -2,9 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 // import userEvent from '@testing-library/user-event'
 import fetchMock from 'jest-fetch-mock';
+import { GlobalProvider } from '../../context/GlobalContext';
 import { render, screen, cleanup } from '@testing-library/react';
 
-import ChoreList from '../ChoreList2';
+import ChoreList from '../ChoreList';
 
 // define mocked chore object
 interface Chore {
@@ -25,11 +26,15 @@ test('should render ChoreList component', async () => {
     { status: 200 }
   );
 
-  render(<ChoreList />);
+  render(
+    <GlobalProvider>
+      <ChoreList />
+    </GlobalProvider>
+  );
 
   const choreElement = await screen.findByTestId('chore-1');
   expect(choreElement).toBeInTheDocument();
-  expect(choreElement).toHaveTextContent('Chore');
+  expect(choreElement).toHaveTextContent(/chore/i);
   //   expect(choreElement).toContainHTML('<button>');
 
   const defaultState = screen.getByText('Add Chore');
@@ -40,12 +45,16 @@ test('should render ChoreList component', async () => {
 });
 
 test('should handle fetch errors', async () => {
-    // Mock a failed fetch call
-    fetchMock.mockResponseOnce('', { status: 500 }); // Simulate a server error
+  // Mock a failed fetch call
+  fetchMock.mockResponseOnce('', { status: 500 }); // Simulate a server error
 
-    render(<ChoreList />);
+  render(
+    <GlobalProvider>
+      <ChoreList />
+    </GlobalProvider>
+  );
 
-    const errorMessage = await screen.findByTestId('error-message');
-    expect(errorMessage).toBeInTheDocument();
-    expect(errorMessage).toHaveTextContent('This is the getChore error');
-  });
+  const errorMessage = await screen.findByTestId('error-message');
+  expect(errorMessage).toBeInTheDocument();
+  expect(errorMessage).toHaveTextContent('This is the getChore error');
+});

@@ -1,5 +1,6 @@
 // ChoreRow: div image placeholder, qty, completed button
 // import styles
+import React from 'react';
 import { buttonStyle, viewItemStyle } from "../constants/constStyle";
 import Button from "./Button";
 import coinIcon from "../assets/coin-no-bg.png";
@@ -44,7 +45,7 @@ const ChoreItem = ({
       {/* image wrapper */}
       <div className="custom-image-wrapper">
         <img
-          className="rounded-3xl m-0 dark:bg-white"
+          className="rounded-3xl dark:bg-white"
           src={imageUrl}
           alt="chore"
         />
