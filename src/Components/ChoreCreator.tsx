@@ -1,6 +1,7 @@
 // ChoreInput function
 
 // import hooks
+import React from 'react';
 import { useState } from 'react'; // to manage local component state
 import { inputStyle, buttonStyle } from '../constants/constStyle'; // import styles
 import Button from './Button'; // import components
@@ -20,6 +21,7 @@ const ChoreCreator = () => {
   const [choreImage, setChoreImage] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [aiUsed, setAiUsed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const addChore = async () => {
     //! trim whitespace
@@ -66,6 +68,7 @@ const ChoreCreator = () => {
       setAiUsed(false);
     } catch (error) {
       console.error('Error creating chore:', error);
+      setError('Failed to create chore');
     } finally {
       setIsCreating(false);
     }
@@ -77,11 +80,12 @@ const ChoreCreator = () => {
     : choreName.trim() !== '' && tokens.trim() !== '';
 
   return (
-    <div className='flex gap-2'>
+    <div className="flex">
+      {error && <div data-testid="error-message">{error}</div>}
       <InputField
         style={inputStyle}
-        className='custom-input max-w-40 grow-2'
-        placeholder='Token amount...'
+        className="custom-input max-w-40 grow-2"
+        placeholder="Token amount..."
         value={tokens}
         onChange={(event) => {
           setTokens(event.target.value);
@@ -89,8 +93,8 @@ const ChoreCreator = () => {
       />
       <InputField
         style={inputStyle}
-        className='custom-input grow-2'
-        placeholder='Chore name...'
+        className="custom-input grow-2"
+        placeholder="Chore name..."
         value={choreName}
         onChange={(event) => {
           setChoreName(event.target.value);
@@ -99,16 +103,16 @@ const ChoreCreator = () => {
       {/* Conditionally render the Add Chore button */}
       {isAddChoreVisible && (
         <Button
-          className='font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1'
+          className="font-sans py-1 px-2 m-1 text-white shadow-2xl bg-fuchsia-400 hover:bg-fuchsia-500 border-white rounded-[50px] grow-1"
           style={buttonStyle}
           onClick={addChore}
           disabled={isCreating}
         >
-          {isCreating ? <SyncLoader color='#ffffff' size={7} /> : 'Add Chore'}
+          {isCreating ? <SyncLoader color="#ffffff" size={7} /> : 'Add Chore'}
         </Button>
       )}
       <AiGenerator
-        type='chore'
+        type="chore"
         onGenerated={(generatedText) => {
           setChoreName(generatedText);
           setAiUsed(true); // Mark that the AI was used

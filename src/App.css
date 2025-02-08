@@ -28,12 +28,12 @@ html, body {
 
 
 .custom-chore-wrapper {
-  @apply border-4 rounded-4xl border-yellow-500 pt-0 pb-3 m-3 w-55;
+  @apply border-4 rounded-4xl border-yellow-300 pt-0 pb-3 m-3 w-55;
   @apply flex flex-col items-center justify-between gap-2;
   @apply dark:border-white;
 }
 .custom-image-wrapper {
-  @apply p-1 flex justify-center bg-yellow-500 rounded-3xl;
+  @apply m-1 p-1 flex justify-center bg-neutral-100 rounded-3xl;
   @apply dark:bg-white;
 }
 .chore-info {
