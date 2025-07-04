@@ -1,15 +1,12 @@
-import useGlobalContext from "../hooks/useGlobalContext";
-import ChoreInput from "./ChoreInput";
-import ChoreRow from "./ChoreRow"; // display component for chore data
+import React from "react";
+import ChoreCreator from "./ChoreCreator";
+import ChoreDisplay from "./ChoreDisplay";
 
 function ChoreList() {
   let error;
   if (error) {
     return <div data-testid="error-message">{error}</div>;
   }
-
-  const { state } = useGlobalContext();
-  const { chores } = state;
 
   return (
     <div className="p-2 m-4 h-fit" data-testid="chore-1">
@@ -19,20 +16,11 @@ function ChoreList() {
       --> CHORE ROW COMPONENT
       */}
 
-      <ChoreInput />
+      <ChoreCreator />
 
       <div className="m-6"></div>
 
-      {chores &&
-        chores.length > 0 &&
-        chores.map((chore) => (
-          <ChoreRow
-            key={chore.id}
-            id={chore.id}
-            name={chore.task_name}
-            tokens={chore.tokens}
-          />
-        ))}
+      <ChoreDisplay />
     </div>
   );
 }

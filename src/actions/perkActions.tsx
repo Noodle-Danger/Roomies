@@ -1,6 +1,6 @@
 import apiFetch from "../apiFetch";
 
-import { PerkSubmitData } from "../types";
+import { CreatePerkData, PurchasePerkData } from "../types";
 import { ActionTypes } from "../context/GlobalContext";
 
 const getPerks = () => {
@@ -9,13 +9,13 @@ const getPerks = () => {
     if (perks) {
       dispatch({
         type: ActionTypes.GET_PERKS,
-        payload: { perks },
+        payload: perks,
       });
     }
   };
 };
 
-const createPerk = (perkData: PerkSubmitData) => {
+const createPerk = (perkData: CreatePerkData) => {
   return async (dispatch: React.Dispatch<any>) => {
     const newPerk = await apiFetch.createPerk(perkData);
     if (newPerk) {
@@ -26,6 +26,24 @@ const createPerk = (perkData: PerkSubmitData) => {
     }
   };
 };
-const markChoreComplete = () => {};
 
-export { getPerks, createPerk, markChoreComplete };
+const purchasePerk = (perkData: PurchasePerkData, tokens: number, qty: number) => {
+  return async (dispatch: React.Dispatch<any>) => {
+    const purchasedPerk = await apiFetch.purchasePerk(perkData);
+    if (purchasedPerk) {
+      dispatch({
+        type: ActionTypes.UPDATE_USER_BALANCE,
+        payload: { operation: "subtract", amount: tokens },
+      });
+      dispatch({
+        type: ActionTypes.PURCHASE_PERK,
+        payload: purchasedPerk,
+      });
+      if (qty === 1) {
+        getPerks()(dispatch);
+      }
+    }
+  };
+};
+
+export { getPerks, createPerk, purchasePerk };
