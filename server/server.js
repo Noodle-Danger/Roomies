@@ -5,7 +5,7 @@ import apiRouter from './routes/api.js';
 import { fileURLToPath } from 'url'; //* build the dirname manually due to es6 restrictions
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080; // ✅ Use Railway's assigned port
 const __filename = fileURLToPath(import.meta.url); //*recreate dirname for ES6 modules
 const __dirname = path.dirname(__filename);
 
@@ -14,6 +14,10 @@ const __dirname = path.dirname(__filename);
 //! install CORS, make sure its saved
 import cors from 'cors';
 app.use(cors());
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running on port ${process.env.PORT || 3000}`);
+});
 
 //---------------------------------- Standard Routes ----------------------------------------------------//
 app.use(express.json()); // converts request object as json

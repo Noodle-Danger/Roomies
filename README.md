@@ -64,4 +64,3 @@ Each roommate in a shared household can:
 ### Prerequisites
 - Node.js (version >= 14)
 - PostgreSQL (for local development)
-
